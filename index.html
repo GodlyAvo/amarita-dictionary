@@ -48,6 +48,12 @@
             cursor: url('pointer.png') 8 8, auto; 
         }
 
+
+        footer {
+            transition: all 0.3s ease;
+        }
+
+        
         a {
             cursor: url('pointer.png') 8 8, pointer;
         }
@@ -400,14 +406,20 @@
             transition: all 0.3s ease;
         }
 
-        /* Blur the header, toggle button, and version text */
+        /* Blur the header, toggle button, version text, and footer */
         body.is-playing .header-container,
         body.is-playing .toggle-btn,
-        body.is-playing #version-control {
+        body.is-playing #version-control,
+        body.is-playing footer {
             opacity: 0.2; /* Extra dim so they melt into the background */
             filter: blur(5px) grayscale(50%);
             transition: all 0.3s ease;
             pointer-events: none; /* Prevents clicking them while blurred */
+        }
+
+        /* Base transition for the footer so it fades smoothly */
+        footer {
+            transition: all 0.3s ease;
         }
 
         /* Keep the active item sharp, bright, and popped out */
