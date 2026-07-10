@@ -22,7 +22,24 @@
             color: #000000; /* Deep black text for contrast */
         }
 
-        /* 1. BASE STYLES & SCROLLBAR */
+        /* 1. Base styles for the text (moved from your HTML) */
+        #version-control {
+            font-size: 0.75em; 
+            color: #666; 
+            font-weight: 600; 
+            text-transform: uppercase; 
+            letter-spacing: 1px; 
+            margin-bottom: 30px;
+            transition: all 0.3s ease; /* This makes the blur smooth instead of instant */
+        }
+
+        /* 2. If ANY card is active, blur the version text */
+        body:has(.card.active) #version-control {
+            filter: blur(4px);
+            opacity: 0.3; 
+        }
+
+        /* 1. BASE STYLES AND SCROLLBAR */
         body {
             background-color: #000000;
             background-size: 200% 200%;
@@ -59,7 +76,7 @@
             background: #ff55d2;
         }
 
-        /* 2. HEADER & TWITCH STATUS */
+        /* 2. HEADER AND TWITCH STATUS */
         .header-container {
             display: flex;
             align-items: center;
@@ -102,21 +119,21 @@
         #status-container { 
             display: flex;
             align-items: center; 
-            font-size: 0.75em; /* Smaller, cleaner font size */
+            font-size: 0.75em; 
             font-weight: 600; 
-            color: #555; /* Muted dark grey for offline */
+            color: #555; 
             text-transform: uppercase;
             letter-spacing: 1px;
             margin-top: 5px;
         }
 
-        /* The offline dot */
+        /* offline dot */
         .status-dot { 
             height: 8px;
             width: 8px; 
             border-radius: 50%; 
             margin-right: 6px; 
-            background-color: #333; /* Darker grey for offline */
+            background-color: #333; 
             transition: all 0.3s ease;
         }
 
@@ -166,7 +183,7 @@
             transform: translateY(-2px);
         }
 
-        /* 4. FLASHCARD GRID & TYPOGRAPHY */
+        /* 4. FLASHCARD GRID AND TYPOGRAPHY */
         .container {
             width: 100%;
             max-width: 1000px;
@@ -178,12 +195,12 @@
             gap: 20px;
             width: 100%; 
             max-width: 1000px;
-            align-items: start; /* Fixes the stretching bug! */
+            align-items: start; 
         }
 
         .card {
             background-color: #22123f;
-            border: 1px solid rgba(255, 85, 210, 0.15); /* Faint pink outline */
+            border: 1px solid rgba(255, 85, 210, 0.15); 
             backdrop-filter: blur(10px);
             border-radius: 12px;
             padding: 20px;
@@ -223,13 +240,13 @@
 
         .card.active .expand-icon {
             transform: rotate(180deg);
-            color: #5ce1e6; /* Cyan accent when active! */
+            color: #5ce1e6; 
         }
         
         .literal {
             text-align: center;
             font-size: 0.9em;
-            color: #b3b3b3; /* Brightened for better contrast */
+            color: #b3b3b3; 
             margin-bottom: 5px;
             font-style: italic;
         }
@@ -271,7 +288,7 @@
             display: none;
         }
 
-        /* 5. CLICK-TO-REVEAL ACCORDION LOGIC */
+        /* 5. CLICK TO-REVEAL ACCORDION LOGIC */
         .details {
             max-height: 0;
             overflow: hidden;
@@ -498,8 +515,8 @@
         <i class="fas fa-list" style="margin-right: 8px;"></i> Switch to Cheat Sheet Mode
     </button>
 
-    <div id="version-control" style="font-size: 0.75em; color: #666; font-weight: 600; text-transform: uppercase; letter-spacing: 1px; margin-bottom: 30px;">
-        Database Updated: <span id="update-date">Loading...</span>
+    <div id="version-control">
+        Last Updated: <span id="update-date">Loading...</span>
     </div>
         
     <div id="flashcard-view">
@@ -941,7 +958,7 @@
     </footer>
 
     <script>
-        // 1. AUDIO & FOCUS RESET FUNCTION
+        // 1. AUDIO AND FOCUS RESET FUNCTION
         function resetAllAudio() {
             document.querySelectorAll('audio').forEach(a => {
                 a.pause();
@@ -996,7 +1013,7 @@
             // Reset any other playing audio before starting this one
             resetAllAudio();
 
-            // Force the card to stay open IMMEDIATELY (protects against missing audio files!)
+            // Force the card to stay open IMMEDIATELY (protects against missing audio files)
             card.classList.add('active'); 
             card.classList.add('active-play');
             document.body.classList.add('is-playing');
@@ -1025,7 +1042,7 @@
             }
         });
 
-        // 5. TWITCH LIVE STATUS TRACKER
+        // 5. TWITCH TREAMER LIVE STATUS TRACKER
         async function checkTwitchLive() {
             const username = 'okieamara';
             const container = document.getElementById('status-container');
@@ -1051,7 +1068,7 @@
         checkTwitchLive();
         setInterval(checkTwitchLive, 60000);
 
-        // 6. CLICK TO FOCUS (CARDS & CHEAT SHEET)
+        // 6. CLICK TO FOCUS (CARDS AND CHEAT SHEET)
         document.querySelectorAll('.card, .list-item').forEach(element => {
             element.addEventListener('click', function(event) {
                 // If the play button is clicked, let playClip() handle it
@@ -1063,7 +1080,7 @@
                 // Clear everything (closes all cards and removes dimming)
                 resetAllAudio();
                 
-                // If it wasn't already active, open and highlight it
+                // If it wasnt already active, open and highlight it
                 if (!isAlreadyActive) {
                     if (this.classList.contains('card')) {
                         this.classList.add('active'); // Opens the accordion
@@ -1074,7 +1091,7 @@
             });
         });
 
-        // AUTO-FETCH RELATIVE UPDATE TIME
+        // AUTO FETCH RELATIVE UPDATE TIME
         const updateSpan = document.getElementById('update-date');
         if (updateSpan) {
             const now = new Date();
@@ -1089,13 +1106,13 @@
             let timeText = "";
             
             if (diffHours < 1) {
-                // If it's been less than an hour
+                // If its been less than an hour
                 timeText = "Just now"; 
             } else if (diffHours < 24) {
-                // If it's under 24 hours, show hours
+                // If its under 24 hours, show hours
                 timeText = diffHours === 1 ? "1 hour ago" : `${diffHours} hours ago`;
             } else {
-                // If it's 24 hours or more, convert to days
+                // If its 24 hours or more, convert to days
                 const diffDays = Math.floor(diffHours / 24);
                 timeText = diffDays === 1 ? "1 day ago" : `${diffDays} days ago`;
             }
