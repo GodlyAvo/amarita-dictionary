@@ -22,24 +22,33 @@
             color: #000000; /* Deep black text for contrast */
         }
 
-        /* 1. Base styles for the text (moved from your HTML) */
+        /* 1. Base styles for the text (DO NOT DELETE THIS) */
         #version-control {
-            font-size: 0.75em; 
-            color: #666; 
-            font-weight: 600; 
-            text-transform: uppercase; 
-            letter-spacing: 1px; 
+            font-size: 0.75em;
+            color: #666;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 1px;
             margin-bottom: 30px;
-            transition: all 0.3s ease; /* This makes the blur smooth instead of instant */
+            transition: all 0.3s ease; 
         }
 
-        /* 2. If ANY card is active, blur the version text */
+        /* 2. The Global Blur Trigger (Applies the blur when active) */
+        body:has(.card.active) .card:not(.active),
+        body:has(.card.active) .header-container,
+        body:has(.card.active) .toggle-btn,
+        body:has(.card.active) #version-control {
+            filter: blur(5px);
+            opacity: 0.25; 
+        }
+
+        /* 3. If ANY card is active, blur the version text */
         body:has(.card.active) #version-control {
             filter: blur(4px);
             opacity: 0.3; 
         }
 
-        /* 1. BASE STYLES AND SCROLLBAR */
+        /* 4. BASE STYLES AND SCROLLBAR */
         body {
             background-color: #000000;
             background-size: 200% 200%;
@@ -76,8 +85,9 @@
             background: #ff55d2;
         }
 
-        /* 2. HEADER AND TWITCH STATUS */
+        /* 5. HEADER AND TWITCH STATUS */
         .header-container {
+            transition: all 0.3s ease;
             display: flex;
             align-items: center;
             justify-content: center;
@@ -152,7 +162,7 @@
             animation: pulseRed 1.5s infinite; 
         }
 
-        /* 3. MAIN TOGGLE BUTTON */
+        /* 6. MAIN TOGGLE BUTTON */
         .toggle-btn {
             background: rgba(23, 11, 41, 0.8);
             backdrop-filter: blur(5px);
@@ -183,7 +193,7 @@
             transform: translateY(-2px);
         }
 
-        /* 4. FLASHCARD GRID AND TYPOGRAPHY */
+        /* 7. FLASHCARD GRID AND TYPOGRAPHY */
         .container {
             width: 100%;
             max-width: 1000px;
@@ -241,6 +251,7 @@
         .card.active .expand-icon {
             transform: rotate(180deg);
             color: #5ce1e6; 
+            z-index: 100;
         }
         
         .literal {
@@ -288,7 +299,7 @@
             display: none;
         }
 
-        /* 5. CLICK TO-REVEAL ACCORDION LOGIC */
+        /* 8. CLICK TO-REVEAL ACCORDION LOGIC */
         .details {
             max-height: 0;
             overflow: hidden;
@@ -391,7 +402,7 @@
             50% { transform: scale(1.2); opacity: 0.7; }
         }
 
-        /* 7. FOCUS MODE (DIMMING) */
+        /* 9. FOCUS MODE (DIMMING) */
         .card, .list-item {
             cursor: url('pointer.png') 8 8, pointer;
         }
@@ -418,7 +429,7 @@
             z-index: 10;
         }
 
-        /* 8. CHEAT SHEET VIEW */
+        /* 10. CHEAT SHEET VIEW */
         #cheatsheet-view {
             display: flex;
             flex-direction: column;
@@ -464,7 +475,7 @@
             margin-right: 5px;
         }
 
-        /* 9. MOBILE RESPONSIVENESS  */
+        /* 11. MOBILE RESPONSIVENESS  */
         @media (max-width: 600px) {
             .list-item {
                 grid-template-columns: 1fr;
@@ -476,7 +487,7 @@
             }
         }
 
-        /* 10. STOOPID AHH MOBILE BUG FIXES */
+        /* 12. STOOPID AHH MOBILE BUG FIXES */
         * {
             -webkit-tap-highlight-color: transparent !important;
         }
