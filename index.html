@@ -282,16 +282,17 @@
         }
 
         .example-quote {
-            color: #efeff1; /* Crisp white for zero eye strain */
+            color: #efeff1; 
             font-weight: 400;
             font-style: italic;
             display: block;
-            margin-top: 10px;
-            padding-left: 10px;
-            border-left: 2px solid #5ce1e6; /* Subtle cyan accent line */
-            background: rgba(92, 225, 230, 0.05); /* Very faint cyan background tint */
-            padding: 8px 10px;
-            border-radius: 0 4px 4px 0;
+            margin-top: 12px;
+            
+            /* The Clean-Up: */
+            border-left: none; /* Removes the clashing cyan line */
+            background: rgba(255, 255, 255, 0.05); /* Faint, neutral highlight */
+            padding: 10px 12px;
+            border-radius: 6px; /* Smooth rounded corners all the way around */
         }
 
         audio {
