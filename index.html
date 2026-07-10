@@ -273,19 +273,25 @@
 
         .stream-context {
             background-color: #170b29;
-            padding: 10px;
+            padding: 12px 15px; /* Added breathing room here! */
             border-radius: 6px;
-            border-left: 3px solid #ff55d2;
+            border-left: 3px solid #ff55d2; /* Amara Pink */
             font-size: 0.9em;
             margin-bottom: 15px;
+            color: #efeff1; /* Crisp white body text */
         }
 
         .example-quote {
-            color: #5ce1e6;
-            font-weight: normal;
+            color: #efeff1; /* Crisp white for zero eye strain */
+            font-weight: 400;
             font-style: italic;
             display: block;
-            margin-top: 8px;
+            margin-top: 10px;
+            padding-left: 10px;
+            border-left: 2px solid #5ce1e6; /* Subtle cyan accent line */
+            background: rgba(92, 225, 230, 0.05); /* Very faint cyan background tint */
+            padding: 8px 10px;
+            border-radius: 0 4px 4px 0;
         }
 
         audio {
@@ -480,8 +486,13 @@
         }
         
         .list-content .example-quote {
-            margin-top: 0;
-            font-size: 0.9em;
+            color: #efeff1;
+            font-weight: 400;
+            font-style: italic;
+            display: inline-block;
+            margin-top: 5px;
+            padding-left: 8px;
+            border-left: 2px solid #5ce1e6;
         }
 
         .label {
@@ -1149,6 +1160,14 @@
             
             updateSpan.innerText = timeText;
         }
+
+        // ESC KEY TO CLOSE CARDS
+        document.addEventListener('keydown', function(event) {
+            if (event.key === "Escape" && document.body.classList.contains('is-playing')) {
+                resetAllAudio(); // This runs your existing reset function!
+            }
+        });
+
     </script>
 </body>
 </html>
