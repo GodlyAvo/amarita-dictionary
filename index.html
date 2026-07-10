@@ -264,42 +264,42 @@
         }
 
         .card p {
-            color: #efeff1;
+            color: #b9b9c6; 
             margin: 0 0 10px 0;
             font-size: 0.95em;
             font-weight: 400;
             line-height: 1.4;
         }
 
+        /* 2. Soften the context description text */
         .stream-context {
             background-color: #170b29;
-            padding: 12px 15px; /* Added breathing room here! */
+            padding: 12px 15px;
             border-radius: 6px;
-            border-left: 3px solid #ff55d2; /* Amara Pink */
+            border-left: 3px solid #ff55d2;
             font-size: 0.9em;
             margin-bottom: 15px;
-            color: #efeff1; /* Crisp white body text */
+            color: #b9b9c6; /* Soft silver to match the main text */
         }
 
+        /* 3. Make the quote POP to the front layer */
         .example-quote {
-            color: #efeff1; 
-            font-weight: 400;
+            color: #ffffff; /* Pure, bright white */
+            font-weight: 500; /* Bumps the thickness just a tiny bit */
             font-style: italic;
             display: block;
             margin-top: 12px;
-            
-            /* The Clean-Up: */
-            border-left: none; /* Removes the clashing cyan line */
-            background: rgba(255, 255, 255, 0.05); /* Faint, neutral highlight */
+            border-left: none; 
+            background: rgba(255, 85, 210, 0.08); /* A very faint Amara Pink background tint */
             padding: 10px 12px;
-            border-radius: 6px; /* Smooth rounded corners all the way around */
+            border-radius: 6px;
         }
 
         audio {
             display: none;
         }
 
-        /* 6. CLICK TO-REVEAL ACCORDION LOGIC */
+        /* 6. CLICK TO REVEAL ACCORDION LOGIC */
         .details {
             max-height: 0;
             overflow: hidden;
@@ -480,10 +480,11 @@
         }
 
         .list-content p {
-            color: #efeff1;
-            margin: 0 0 5px 0;
+            color: #b9b9c6; 
+            margin: 0 0 10px 0;
             font-size: 0.95em;
             font-weight: 400;
+            line-height: 1.4;
         }
         
         .list-content .example-quote {
