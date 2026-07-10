@@ -387,12 +387,12 @@
         @keyframes neon-pulse {
             0% {
                 background-color: #ff55d2;
-                box-shadow: 0 0 15px rgba(255, 85, 210, 0.5);
+                box-shadow: 0 0 10px rgba(255, 85, 210, 0.4);
                 color: #000000;
             }
             100% {
                 background-color: #ff7ce0;
-                box-shadow: 0 0 30px rgba(255, 85, 210, 1), 0 0 50px rgba(255, 85, 210, 0.6);
+                box-shadow: 0 0 15px rgba(255, 85, 210, 0.9), 0 0 20px rgba(255, 85, 210, 0.4);
                 color: #000000;
             }
         }
@@ -528,6 +528,18 @@
         footer a:hover {
             transform: scale(1.5) !important;
             color: #ff00ff !important;
+        }
+        
+        /* Mango hover effect */
+        .mango-btn {
+            transition: all 0.3s ease;
+            display: inline-block;
+        }
+
+        .mango-btn:hover {
+            transform: scale(1.2); 
+            filter: drop-shadow(0 0 8px rgba(255, 179, 71, 0.8)); 
+            cursor: pointer;
         }
 
     </style>
@@ -985,7 +997,12 @@
     </div>
     
     <footer style="margin-top: 50px; padding: 20px; text-align: center; border-top: 1px solid #361d63; width: 100%; max-width: 1000px;">
-        <p style="color: #ffb347; font-size: 0.9em; margin-bottom: 15px; font-weight: bold;">🥭 Official Amarita Hub</p>
+        <p class="mango-btn" style="color: #ffb347; font-size: 0.9em; margin-bottom: 15px; font-weight: bold; cursor: pointer;" onclick="playRandomMango()">
+            🥭 Official Amarita Hub
+        </p>
+    </footer>
+    <!-- Add this hidden audio element for the random clips -->
+    <audio id="mango-audio" preload="none"></audio>
         <div style="display: flex; justify-content: center; gap: 25px; font-size: 24px;">
             <a href="https://www.twitch.tv/okieamara" target="_blank" style="color: #5ce1e6;"><i class="fab fa-twitch"></i></a>
             <a href="https://x.com/okieamara" target="_blank" style="color: #5ce1e6;"><i class="fab fa-x-twitter"></i></a>
@@ -1169,6 +1186,26 @@
                 resetAllAudio(); // This runs your existing reset function!
             }
         });
+
+        function playRandomMango() {
+            const audio = document.getElementById('mango-audio');
+            
+            // Add all your mango audio file paths here
+            const clips = [
+                'audio/I DID IT.m4a',
+                'audio/LIFE CHANGING QUOTE.m4a',
+                'audio/VAZZINGTON.m4a',
+                'audio/YEYEYE.m4a',
+                'audio/WHAT THE FLUFFER AMARA.m4a'
+            ];
+            
+            // Pick a random index
+            const randomClip = clips[Math.floor(Math.random() * clips.length)];
+            
+            // Set the source and play
+            audio.src = randomClip;
+            audio.play().catch(e => console.log("Mango playback failed:", e));
+        }
 
     </script>
 </body>
