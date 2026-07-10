@@ -33,11 +33,12 @@
             transition: all 0.3s ease; 
         }
 
-        /* 2. The Global Blur Trigger (Applies the blur when active) */
-        body:has(.card.active) .card:not(.active),
-        body:has(.card.active) .header-container,
-        body:has(.card.active) .toggle-btn,
-        body:has(.card.active) #version-control {
+        /* 2. GLOBAL MODAL FOCUS (BOTH views) */
+        body:has(.active) .card:not(.active),
+        body:has(.active) .list-item:not(.active),
+        body:has(.active) .header-container,
+        body:has(.active) .toggle-btn,
+        body:has(.active) #version-control {
             filter: blur(5px);
             opacity: 0.25; 
         }
@@ -452,6 +453,12 @@
             background-color: #2a164d;
             border-left-color: #5ce1e6;
             transform: translateX(8px);
+        }
+
+        .list-item.active {
+            z-index: 100;
+            position: relative; /* This ensures z-index works */
+            border-left-color: #5ce1e6; /* Keeps the neon border lit while active */
         }
 
         .list-item h3 {
