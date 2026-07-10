@@ -33,23 +33,7 @@
             transition: all 0.3s ease; 
         }
 
-        /* 2. GLOBAL MODAL FOCUS (BOTH views) */
-        body:has(.active) .card:not(.active),
-        body:has(.active) .list-item:not(.active),
-        body:has(.active) .header-container,
-        body:has(.active) .toggle-btn,
-        body:has(.active) #version-control {
-            filter: blur(5px);
-            opacity: 0.25; 
-        }
-
-        /* 3. If ANY card is active, blur the version text */
-        body:has(.card.active) #version-control {
-            filter: blur(4px);
-            opacity: 0.3; 
-        }
-
-        /* 4. BASE STYLES AND SCROLLBAR */
+        /* 2. BASE STYLES AND SCROLLBAR */
         body {
             background-color: #000000;
             background-size: 200% 200%;
@@ -86,7 +70,7 @@
             background: #ff55d2;
         }
 
-        /* 5. HEADER AND TWITCH STATUS */
+        /* 3. HEADER AND TWITCH STATUS */
         .header-container {
             transition: all 0.3s ease;
             display: flex;
@@ -163,7 +147,7 @@
             animation: pulseRed 1.5s infinite; 
         }
 
-        /* 6. MAIN TOGGLE BUTTON */
+        /* 4. MAIN TOGGLE BUTTON */
         .toggle-btn {
             background: rgba(23, 11, 41, 0.8);
             backdrop-filter: blur(5px);
@@ -194,7 +178,7 @@
             transform: translateY(-2px);
         }
 
-        /* 7. FLASHCARD GRID AND TYPOGRAPHY */
+        /* 5. FLASHCARD GRID AND TYPOGRAPHY */
         .container {
             width: 100%;
             max-width: 1000px;
@@ -300,7 +284,7 @@
             display: none;
         }
 
-        /* 8. CLICK TO-REVEAL ACCORDION LOGIC */
+        /* 6. CLICK TO-REVEAL ACCORDION LOGIC */
         .details {
             max-height: 0;
             overflow: hidden;
@@ -314,7 +298,7 @@
             transition: max-height 0.6s ease-in, opacity 0.5s ease 0.1s;
         }
 
-        /* 6. PLAY BUTTON AND ANIMATIONS  */
+        /* 7. PLAY BUTTON AND ANIMATIONS  */
         .cute-play-btn {
             background-color: transparent;
             color: #ff55d2;
@@ -403,34 +387,41 @@
             50% { transform: scale(1.2); opacity: 0.7; }
         }
 
-        /* 9. FOCUS MODE (DIMMING) */
+        /* 8. FOCUS MODE (DIMMING & BLUR) */
         .card, .list-item {
             cursor: url('pointer.png') 8 8, pointer;
         }
 
-        body.is-playing .card,
-        body.is-playing .list-item {
-            opacity: 0.35;
-            filter: grayscale(40%);
+        /* Blur everything that is NOT the active card/row */
+        body.is-playing .card:not(.active-play),
+        body.is-playing .list-item:not(.active-play) {
+            opacity: 0.25;
+            filter: blur(5px) grayscale(40%);
             transition: all 0.3s ease;
         }
 
-        body.is-playing .toggle-btn {
-            filter: brightness(40%) grayscale(50%);
+        /* Blur the header, toggle button, and version text */
+        body.is-playing .header-container,
+        body.is-playing .toggle-btn,
+        body.is-playing #version-control {
+            opacity: 0.2; /* Extra dim so they melt into the background */
+            filter: blur(5px) grayscale(50%);
             transition: all 0.3s ease;
+            pointer-events: none; /* Prevents clicking them while blurred */
         }
 
+        /* Keep the active item sharp, bright, and popped out */
         body.is-playing .card.active-play,
         body.is-playing .list-item.active-play {
             opacity: 1;
-            filter: grayscale(0%);
+            filter: blur(0px) grayscale(0%);
             transform: scale(1.03);
-            border-color: #ff55d2;
-            box-shadow: 0 10px 40px rgba(255, 85, 210, 0.4);
-            z-index: 10;
+            border-color: #5ce1e6; /* Swaps border to Cyan when active */
+            box-shadow: 0 10px 40px rgba(92, 225, 230, 0.4);
+            z-index: 100;
         }
 
-        /* 10. CHEAT SHEET VIEW */
+        /* 9. CHEAT SHEET VIEW */
         #cheatsheet-view {
             display: flex;
             flex-direction: column;
@@ -482,7 +473,7 @@
             margin-right: 5px;
         }
 
-        /* 11. MOBILE RESPONSIVENESS  */
+        /* 10. MOBILE RESPONSIVENESS  */
         @media (max-width: 600px) {
             .list-item {
                 grid-template-columns: 1fr;
@@ -494,7 +485,7 @@
             }
         }
 
-        /* 12. STOOPID AHH MOBILE BUG FIXES */
+        /* 11. STOOPID AHH MOBILE BUG FIXES */
         * {
             -webkit-tap-highlight-color: transparent !important;
         }
@@ -1118,19 +1109,23 @@
             // Get the difference in milliseconds
             const diffMs = now - lastModified;
             
-            // Convert milliseconds to total hours
+            // Calculate minutes and hours
+            const diffMinutes = Math.floor(diffMs / (1000 * 60));
             const diffHours = Math.floor(diffMs / (1000 * 60 * 60));
             
             let timeText = "";
             
-            if (diffHours < 1) {
-                // If its been less than an hour
-                timeText = "Just now"; 
+            if (diffMinutes < 5) {
+                // Less than 5 minutes
+                timeText = "Just now";
+            } else if (diffMinutes < 60) {
+                // Between 5 and 59 minutes
+                timeText = `${diffMinutes} minutes ago`;
             } else if (diffHours < 24) {
-                // If its under 24 hours, show hours
+                // Between 1 and 23 hours
                 timeText = diffHours === 1 ? "1 hour ago" : `${diffHours} hours ago`;
             } else {
-                // If its 24 hours or more, convert to days
+                // 24 hours or more
                 const diffDays = Math.floor(diffHours / 24);
                 timeText = diffDays === 1 ? "1 day ago" : `${diffDays} days ago`;
             }
