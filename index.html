@@ -497,6 +497,10 @@
     <button class="toggle-btn" id="toggleBtn" onclick="toggleView()">
         <i class="fas fa-list" style="margin-right: 8px;"></i> Switch to Cheat Sheet Mode
     </button>
+
+    <div id="version-control" style="font-size: 0.75em; color: #666; font-weight: 600; text-transform: uppercase; letter-spacing: 1px; margin-bottom: 30px;">
+        Database Updated: <span id="update-date">Loading...</span>
+    </div>
         
     <div id="flashcard-view">
         <div class="card">
@@ -1069,6 +1073,35 @@
                 }
             });
         });
+
+        // AUTO-FETCH RELATIVE UPDATE TIME
+        const updateSpan = document.getElementById('update-date');
+        if (updateSpan) {
+            const now = new Date();
+            const lastModified = new Date(document.lastModified);
+            
+            // Get the difference in milliseconds
+            const diffMs = now - lastModified;
+            
+            // Convert milliseconds to total hours
+            const diffHours = Math.floor(diffMs / (1000 * 60 * 60));
+            
+            let timeText = "";
+            
+            if (diffHours < 1) {
+                // If it's been less than an hour
+                timeText = "Just now"; 
+            } else if (diffHours < 24) {
+                // If it's under 24 hours, show hours
+                timeText = diffHours === 1 ? "1 hour ago" : `${diffHours} hours ago`;
+            } else {
+                // If it's 24 hours or more, convert to days
+                const diffDays = Math.floor(diffHours / 24);
+                timeText = diffDays === 1 ? "1 day ago" : `${diffDays} days ago`;
+            }
+            
+            updateSpan.innerText = timeText;
+        }
     </script>
 </body>
 </html>
