@@ -520,15 +520,27 @@
             -webkit-tap-highlight-color: transparent !important;
         }
 
-        footer a {
-            color: #5ce1e6 !important; /* This sets the base color */
-            transition: transform 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275) !important;
-            display: inline-block !important;
+        /* Ensure the link container handles the layout */
+        footer .social-links {
+            display: flex;
+            justify-content: center;
+            gap: 25px;
+            font-size: 24px;
+            margin-top: 20px;
         }
 
-        footer a:hover {
+        /* Style the links and icons directly */
+        footer .social-links a {
+            color: #5ce1e6 !important; /* Base cyan color */
+            transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275) !important;
+            display: inline-block !important;
+            text-decoration: none;
+        }
+
+        /* Trigger the hover effect on the icon */
+        footer .social-links a:hover {
             transform: scale(1.5) !important;
-            color: #ff00ff !important; /* This triggers on hover */
+            color: #ff55d2 !important; 
         }
         
         /* Mango hover effect */
@@ -1001,10 +1013,9 @@
         <p class="mango-btn" style="color: #ffb347; font-size: 0.9em; margin-bottom: 15px; font-weight: bold; cursor: pointer;" onclick="playRandomMango()">
             🥭 Official Amarita Hub
         </p>
-    </footer>
-    <!-- Add this hidden audio element for the random clips -->
-    <audio id="mango-audio" preload="none"></audio>
-        <div style="display: flex; justify-content: center; gap: 25px; font-size: 24px;">
+        <audio id="mango-audio" preload="none"></audio>
+        
+        <div class="social-links">
             <a href="https://www.twitch.tv/okieamara" target="_blank"><i class="fab fa-twitch"></i></a>
             <a href="https://x.com/okieamara" target="_blank"><i class="fab fa-x-twitter"></i></a>
             <a href="https://www.instagram.com/okieamara" target="_blank"><i class="fab fa-instagram"></i></a>
