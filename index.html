@@ -527,7 +527,7 @@
 
         footer a:hover {
             transform: scale(1.5) !important;
-            color: #ff00ff !important;
+            color: #ff00ff !important; 
         }
         
         /* Mango hover effect */
@@ -1187,10 +1187,10 @@
             }
         });
 
+        let playedClips = [];
+
         function playRandomMango() {
             const audio = document.getElementById('mango-audio');
-            
-            // Add all your mango audio file paths here
             const clips = [
                 'audio/I DID IT.m4a',
                 'audio/LIFE CHANGING QUOTE.m4a',
@@ -1198,13 +1198,22 @@
                 'audio/YEYEYE.m4a',
                 'audio/WHAT THE FLUFFER AMARA.m4a'
             ];
+
+            // If all clips have played, reset the tracker
+            if (playedClips.length === clips.length) {
+                playedClips = [];
+            }
+
+            // Filter out already played clips
+            let availableClips = clips.filter(clip => !playedClips.includes(clip));
             
-            // Pick a random index
-            const randomClip = clips[Math.floor(Math.random() * clips.length)];
+            // Pick a random one from the available list
+            const randomClip = availableClips[Math.floor(Math.random() * availableClips.length)];
             
-            // Set the source and play
+            // Play it and track it
             audio.src = randomClip;
             audio.play().catch(e => console.log("Mango playback failed:", e));
+            playedClips.push(randomClip);
         }
 
     </script>
