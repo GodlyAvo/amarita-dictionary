@@ -516,7 +516,7 @@
             margin-right: 5px;
         }
 
-        /* 10. MOBILE RESPONSIVENESS (OPTIMIZED) */
+        /* 10. MOBILE RESPONSIVENESS */
         @media (max-width: 600px) {
             body {
                 padding: 20px 15px; 
@@ -595,7 +595,7 @@
             transition: all 0.3s ease;
         }
 
-        /* 12. CUTE SEARCH BAR & EXPLICIT BADGES */
+        /* 12. SEARCH BAR AND EXPLICIT BADGES */
         .search-container {
             display: flex;
             gap: 15px;
@@ -643,7 +643,7 @@
             background: rgba(26, 13, 46, 1);
         }
 
-        /* NEW CLEAR ICON STYLES */
+        /* ICON STYLES */
         .clear-icon {
             position: absolute;
             right: 18px;
@@ -785,10 +785,10 @@
         </div>
         <div class="select-wrapper">
             <select id="categoryFilter">
-                <option value="All">🌸 All Categories</option>
-                <option value="Tactical">⚔️ Tactical</option>
-                <option value="Insults">🤬 Insults</option>
-                <option value="Vibe">✨ Vibe</option>
+                <option value="All">All Categories</option>
+                <option value="Tactical">Tactical</option>
+                <option value="Insults">Insults</option>
+                <option value="Vibe">Vibe</option>
             </select>
             <i class="fas fa-chevron-down select-icon"></i>
         </div>
@@ -847,12 +847,11 @@
             let flashcardsHTML = '';
             let cheatsheetHTML = '';
 
-            // Handle empty search results (OPTIMIZED UI)
+            // Handle empty search results 
             if (data.length === 0) {
                 const emptyStateHTML = `
                     <div class="empty-state">
                         No terms found. Ni modo. <br>
-                        <a href="#suggestion-anchor">Click here to suggest it!</a>
                     </div>
                 `;
                 flashcardContainer.innerHTML = emptyStateHTML;
@@ -908,11 +907,11 @@
             flashcardContainer.innerHTML = flashcardsHTML;
             cheatsheetContainer.innerHTML = cheatsheetHTML;
 
-            // Re-bind click event listeners
+            // Re bind click event listeners
             bindGlobalClickListeners();
         }
 
-        // --- FILTER LOGIC (WITH DEBOUNCE FIX) ---
+        // --- FILTER LOGIC ---
         let debounceTimer;
         
         function filterDictionary() {
