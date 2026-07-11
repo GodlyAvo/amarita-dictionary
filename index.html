@@ -831,12 +831,11 @@
             let flashcardsHTML = '';
             let cheatsheetHTML = '';
 
-            // Handle empty search results (OPTIMIZED UI)
+            // Handle empty search results 
             if (data.length === 0) {
                 const emptyStateHTML = `
                     <div class="empty-state">
                         No terms found. Ni modo. <br>
-                        <a href="#suggestion-anchor">Click here to suggest it!</a>
                     </div>
                 `;
                 flashcardContainer.innerHTML = emptyStateHTML;
@@ -892,11 +891,11 @@
             flashcardContainer.innerHTML = flashcardsHTML;
             cheatsheetContainer.innerHTML = cheatsheetHTML;
 
-            // Re-bind click event listeners
+            // Re bind click event listeners
             bindGlobalClickListeners();
         }
 
-        // --- FILTER LOGIC (WITH DEBOUNCE FIX) ---
+        // --- FILTER LOGIC ---
         let debounceTimer;
         
         function filterDictionary() {
@@ -916,7 +915,7 @@
         }
 
         function handleSearchInput() {
-            // Clears the timer if user is still typing, preventing UI lag
+            // Clears the timer if user is still typing
             clearTimeout(debounceTimer);
             // Waits 150ms after user stops typing to render the new DOM
             debounceTimer = setTimeout(filterDictionary, 150); 
@@ -1045,7 +1044,7 @@
             // Render all items dynamically out of data structure
             generateDictionaryDOM();
 
-            // Attach Search Bar Listeners (Using Debounce for input!)
+            // Attach Search Bar Listeners 
             document.getElementById('searchInput').addEventListener('input', handleSearchInput);
             document.getElementById('categoryFilter').addEventListener('change', filterDictionary);
 
