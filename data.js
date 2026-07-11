@@ -569,20 +569,20 @@
                 audio: "audio/pegateunbano.m4a"
             },
             {
-                term: "Ira",
-                literal: "Short for 'mira' (look).",
-                meaning: "Look / Check this out.",
-                context: "A super quick, regional way to get someone's attention to look at an enemy or an item on screen.",
-                quote: "Ira, ahí hay uno campeando en la ventana.",
-                audio: "audio/ira.m4a"
-            },
-            {
                 term: "A la verga (Alv)",
                 literal: "To the...",
                 meaning: "Holy shit / Damn / Fuck off / Screw it.",
                 context: "The universal Swiss Army knife of Mexican slang. Can express intense surprise, anger, or total dismissal. [WARNING: EXPLICIT]",
                 quote: "¡ALV! ¿Viste ese snipe?",
                 audio: "audio/alv.m4a"
+            },
+            {
+                term: "Ira",
+                literal: "Short for 'mira' (look).",
+                meaning: "Look / Check this out.",
+                context: "A super quick, regional way to get someone's attention to look at an enemy or an item on screen.",
+                quote: "Ira, ahí hay uno campeando en la ventana.",
+                audio: "audio/ira.m4a"
             },
             {
                 term: "Ira nomás",
