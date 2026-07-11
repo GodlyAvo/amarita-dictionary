@@ -207,6 +207,7 @@
             backface-visibility: hidden;
             -webkit-font-smoothing: antialiased;
             transform: translateZ(0);
+            position: relative; /* Added to position the NSFW badge correctly */
             cursor: url('pointer.png') 8 8, pointer; 
         }
 
@@ -575,55 +576,115 @@
             transition: all 0.3s ease;
         }
 
-        /* 12. SEARCH BAR AND EXPLICIT BADGE */
+        /* 12. CUTE SEARCH BAR & EXPLICIT BADGES */
         .search-container {
             display: flex;
             gap: 15px;
             width: 100%;
-            max-width: 1000px;
-            margin-bottom: 30px;
+            max-width: 800px;
+            margin-bottom: 35px;
             flex-wrap: wrap;
             justify-content: center;
         }
 
-        .search-container input, .search-container select {
-            background: #1a0d2e;
-            border: 1px solid #ff55d2;
-            color: #efeff1;
-            padding: 12px 20px;
-            border-radius: 8px;
-            font-family: 'Poppins', sans-serif;
-            font-size: 0.95em;
-            outline: none;
-            box-shadow: 0 0 10px rgba(255, 85, 210, 0.1);
-            transition: all 0.3s ease;
-        }
-        
-        .search-container input:focus, .search-container select:focus {
-            border-color: #5ce1e6;
-            box-shadow: 0 0 15px rgba(92, 225, 230, 0.4);
-        }
-
-        .search-container input {
+        .search-input-wrapper {
+            position: relative;
             flex: 1;
             min-width: 250px;
         }
 
-        .search-container select {
+        .search-icon {
+            position: absolute;
+            left: 18px;
+            top: 50%;
+            transform: translateY(-50%);
+            color: #ff55d2;
+            font-size: 1.1em;
+            pointer-events: none;
+        }
+
+        .search-input-wrapper input {
+            width: 100%;
+            background: rgba(26, 13, 46, 0.8);
+            border: 2px solid #ff55d2;
+            color: #efeff1;
+            padding: 14px 20px 14px 45px;
+            border-radius: 30px; 
+            font-family: 'Poppins', sans-serif;
+            font-size: 0.95em;
+            outline: none;
+            box-shadow: 0 5px 15px rgba(255, 85, 210, 0.15);
+            transition: all 0.3s ease;
+            box-sizing: border-box;
+        }
+
+        .search-input-wrapper input:focus {
+            border-color: #5ce1e6;
+            box-shadow: 0 5px 20px rgba(92, 225, 230, 0.4);
+            background: rgba(26, 13, 46, 1);
+        }
+
+        .select-wrapper {
+            position: relative;
+            min-width: 180px;
+        }
+
+        .select-wrapper select {
+            width: 100%;
+            appearance: none; 
+            background: rgba(26, 13, 46, 0.8);
+            border: 2px solid #ff55d2;
+            color: #efeff1;
+            padding: 14px 40px 14px 20px;
+            border-radius: 30px; 
+            font-family: 'Poppins', sans-serif;
+            font-size: 0.95em;
+            font-weight: 600;
+            outline: none;
+            box-shadow: 0 5px 15px rgba(255, 85, 210, 0.15);
+            transition: all 0.3s ease;
             cursor: pointer;
+        }
+
+        .select-wrapper select:focus {
+            border-color: #5ce1e6;
+            box-shadow: 0 5px 20px rgba(92, 225, 230, 0.4);
+            background: rgba(26, 13, 46, 1);
+        }
+
+        .select-icon {
+            position: absolute;
+            right: 18px;
+            top: 50%;
+            transform: translateY(-50%);
+            color: #ff55d2;
+            pointer-events: none;
         }
 
         .explicit-badge {
             background-color: #ff4d4d;
             color: #000;
-            font-size: 0.5em;
-            padding: 3px 6px;
-            border-radius: 4px;
-            margin-left: 10px;
-            vertical-align: middle;
+            font-size: 0.55em;
+            padding: 4px 8px;
+            border-radius: 12px;
             font-weight: 900;
             text-transform: uppercase;
             letter-spacing: 1px;
+            box-shadow: 0 0 8px rgba(255, 77, 77, 0.5);
+        }
+
+        /* Pin the badge to the corner of the card so it doesn't mess up centering */
+        .card .explicit-badge {
+            position: absolute;
+            top: 15px;
+            right: 15px;
+        }
+
+        /* Keep it inline for the list view since it's already left-aligned */
+        .list-item .explicit-badge {
+            display: inline-block;
+            vertical-align: middle;
+            margin-left: 10px;
         }
     </style>
 </head>
@@ -649,18 +710,25 @@
         <i class="fas fa-list" style="margin-right: 8px;"></i> Switch to Cheat Sheet Mode
     </button>
 
+    <!-- UPDATED CUTE SEARCH BAR -->
     <div class="search-container">
-        <input 
-            type="text" 
-            id="searchInput" 
-            placeholder="Search for a word, meaning, or vibe..."
-        >
-        <select id="categoryFilter">
-            <option value="All">All Categories</option>
-            <option value="Tactical">Tactical</option>
-            <option value="Insults">Insults</option>
-            <option value="Vibe">Vibe</option>
-        </select>
+        <div class="search-input-wrapper">
+            <i class="fas fa-search search-icon"></i>
+            <input 
+                type="text" 
+                id="searchInput" 
+                placeholder="Search for a word, meaning, or vibe..."
+            >
+        </div>
+        <div class="select-wrapper">
+            <select id="categoryFilter">
+                <option value="All">🌸 All Categories</option>
+                <option value="Tactical">⚔️ Tactical</option>
+                <option value="Insults">🤬 Insults</option>
+                <option value="Vibe">✨ Vibe</option>
+            </select>
+            <i class="fas fa-chevron-down select-icon"></i>
+        </div>
     </div>
 
     <div id="version-control">
@@ -700,8 +768,10 @@
         </div>
     </footer>
 
+    <!-- 1. Load data -->
     <script src="data.js"></script>
 
+    <!-- 2. Run engine -->
     <script>
         // ENGINE FOR DYNAMIC CARD RENDERING
         function generateDictionaryDOM(data = dictionaryData) {
@@ -719,13 +789,14 @@
             }
 
             data.forEach(item => {
-                // Check if its explicit and add the badge
+                // Check if it's explicit and add the badge
                 const explicitBadge = item.explicit ? '<span class="explicit-badge">NSFW</span>' : '';
 
-                // Build dynamic flashcard view strings
+                // Build dynamic flashcard view strings (Notice the badge is outside the h2 now!)
                 flashcardsHTML += `
                     <div class="card">
-                        <h2>${item.term} ${explicitBadge} <i class="fas fa-chevron-down expand-icon"></i></h2>
+                        ${explicitBadge}
+                        <h2>${item.term} <i class="fas fa-chevron-down expand-icon"></i></h2>
                         <div class="literal">Literal: ${item.literal}</div>
                         <div class="details">
                             <div class="section-title">Meaning</div>
@@ -768,7 +839,7 @@
             flashcardContainer.innerHTML = flashcardsHTML;
             cheatsheetContainer.innerHTML = cheatsheetHTML;
 
-            // Re bind click event listeners to the new dynamic items
+            // Re-bind click event listeners to the new dynamic items
             bindGlobalClickListeners();
         }
 
@@ -788,7 +859,7 @@
                 return matchesText && matchesCategory;
             });
 
-            // Re render the UI with only the matching items
+            // Re-render the UI with only the matching items
             generateDictionaryDOM(filteredData);
         }
 
