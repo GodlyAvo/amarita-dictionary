@@ -187,7 +187,7 @@
         #flashcard-view {
             display: grid;
             grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-            gap: 25px; /* OPTIMIZED: Increased breathing room */
+            gap: 25px; 
             width: 100%; 
             max-width: 1000px;
             align-items: start;
@@ -198,7 +198,7 @@
             border: 1px solid rgba(255, 85, 210, 0.15); 
             backdrop-filter: blur(10px);
             border-radius: 12px;
-            padding: 25px; /* OPTIMIZED: Increased inner padding */
+            padding: 25px; 
             text-align: left;
             transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
             display: flex;
@@ -457,13 +457,13 @@
         #cheatsheet-view {
             display: flex;
             flex-direction: column;
-            gap: 12px; /* Slightly increased */
+            gap: 12px; 
         }
 
         .list-item {
             background-color: #22123f;
             transition: 0.3s ease;
-            padding: 18px 25px; /* Increased padding */
+            padding: 18px 25px; 
             border-radius: 8px;
             display: grid;
             grid-template-columns: 220px 1fr;
@@ -519,7 +519,7 @@
         /* 10. MOBILE RESPONSIVENESS (OPTIMIZED) */
         @media (max-width: 600px) {
             body {
-                padding: 20px 15px; /* Less outer padding to maximize space */
+                padding: 20px 15px; 
             }
             .header-container {
                 flex-direction: column;
@@ -528,11 +528,11 @@
                 margin-bottom: 20px;
             }
             .logo {
-                height: 55px; /* Scaled down */
+                height: 55px; 
                 width: 55px; 
             }
             h1 {
-                font-size: 1.4em; /* Scaled down */
+                font-size: 1.4em; 
             }
             .list-item {
                 grid-template-columns: 1fr;
@@ -627,7 +627,7 @@
             background: rgba(26, 13, 46, 0.8);
             border: 2px solid #ff55d2;
             color: #efeff1;
-            padding: 14px 20px 14px 45px;
+            padding: 14px 45px 14px 45px; 
             border-radius: 30px; 
             font-family: 'Poppins', sans-serif;
             font-size: 0.95em;
@@ -641,6 +641,26 @@
             border-color: #5ce1e6;
             box-shadow: 0 5px 20px rgba(92, 225, 230, 0.4);
             background: rgba(26, 13, 46, 1);
+        }
+
+        /* NEW CLEAR ICON STYLES */
+        .clear-icon {
+            position: absolute;
+            right: 18px;
+            top: 50%;
+            transform: translateY(-50%);
+            color: #8c8c9a;
+            font-size: 1.1em;
+            cursor: pointer;
+            cursor: url('pointer.png') 8 8, pointer;
+            transition: all 0.2s ease;
+            display: none; 
+        }
+
+        .clear-icon:hover {
+            color: #ff4d4d;
+            transform: translateY(-50%) scale(1.1);
+            text-shadow: 0 0 8px rgba(255, 77, 77, 0.5);
         }
 
         .select-wrapper {
@@ -753,7 +773,6 @@
         </h1>
     </div>
     
-    <!-- MOVED SEARCH BAR TO THE TOP FOR FASTER ACCESS -->
     <div class="search-container">
         <div class="search-input-wrapper">
             <i class="fas fa-search search-icon"></i>
@@ -762,19 +781,19 @@
                 id="searchInput" 
                 placeholder="Search for a word, meaning, or vibe..."
             >
+            <i class="fas fa-times clear-icon" id="clearSearch"></i>
         </div>
         <div class="select-wrapper">
             <select id="categoryFilter">
-                <option value="All">All Categories</option>
-                <option value="Tactical">Tactical</option>
-                <option value="Insults">Insults</option>
-                <option value="Vibe">Vibe</option>
+                <option value="All">🌸 All Categories</option>
+                <option value="Tactical">⚔️ Tactical</option>
+                <option value="Insults">🤬 Insults</option>
+                <option value="Vibe">✨ Vibe</option>
             </select>
             <i class="fas fa-chevron-down select-icon"></i>
         </div>
     </div>
 
-    <!-- MOVED TOGGLE BUTTON BELOW SEARCH BAR -->
     <button class="toggle-btn" id="toggleBtn" onclick="toggleView()">
         <i class="fas fa-list" style="margin-right: 8px;"></i> Switch to Cheat Sheet Mode
     </button>
@@ -786,7 +805,6 @@
     <div id="flashcard-view"></div>
     <div id="cheatsheet-view" class="hidden"></div>
 
-    <!-- ADDED ID TO ANCHOR EMPTY STATE LINK -->
     <div id="suggestion-anchor"></div>
     <form id="suggestion-form" action="https://api.sheetmonkey.io/form/51DRKWQW38cSYMV9x6EWE8" method="post" style="display: flex; flex-direction: column; align-items: center; width: 100%; max-width: 450px; margin: 40px auto 20px auto; padding: 0 20px; box-sizing: border-box;">
         <p style="color: #8c8c9a; font-size: 0.85em; text-transform: uppercase; letter-spacing: 1px; margin-bottom: 10px; font-weight: bold; text-align: center; margin-top: 0;">
@@ -818,10 +836,8 @@
         </div>
     </footer>
 
-    <!-- 1. Load data -->
     <script src="data.js"></script>
 
-    <!-- 2. Run engine -->
     <script>
         // ENGINE FOR DYNAMIC CARD RENDERING
         function generateDictionaryDOM(data = dictionaryData) {
@@ -831,11 +847,12 @@
             let flashcardsHTML = '';
             let cheatsheetHTML = '';
 
-            // Handle empty search results 
+            // Handle empty search results (OPTIMIZED UI)
             if (data.length === 0) {
                 const emptyStateHTML = `
                     <div class="empty-state">
                         No terms found. Ni modo. <br>
+                        <a href="#suggestion-anchor">Click here to suggest it!</a>
                     </div>
                 `;
                 flashcardContainer.innerHTML = emptyStateHTML;
@@ -891,11 +908,11 @@
             flashcardContainer.innerHTML = flashcardsHTML;
             cheatsheetContainer.innerHTML = cheatsheetHTML;
 
-            // Re bind click event listeners
+            // Re-bind click event listeners
             bindGlobalClickListeners();
         }
 
-        // --- FILTER LOGIC ---
+        // --- FILTER LOGIC (WITH DEBOUNCE FIX) ---
         let debounceTimer;
         
         function filterDictionary() {
@@ -915,9 +932,16 @@
         }
 
         function handleSearchInput() {
-            // Clears the timer if user is still typing
+            const searchInput = document.getElementById('searchInput');
+            const clearBtn = document.getElementById('clearSearch');
+            
+            if (searchInput.value.length > 0) {
+                clearBtn.style.display = 'block';
+            } else {
+                clearBtn.style.display = 'none';
+            }
+
             clearTimeout(debounceTimer);
-            // Waits 150ms after user stops typing to render the new DOM
             debounceTimer = setTimeout(filterDictionary, 150); 
         }
 
@@ -1044,9 +1068,18 @@
             // Render all items dynamically out of data structure
             generateDictionaryDOM();
 
-            // Attach Search Bar Listeners 
+            // Attach Search Bar Listeners
             document.getElementById('searchInput').addEventListener('input', handleSearchInput);
             document.getElementById('categoryFilter').addEventListener('change', filterDictionary);
+
+            // Handle Clear Button Click
+            document.getElementById('clearSearch').addEventListener('click', () => {
+                const searchInput = document.getElementById('searchInput');
+                searchInput.value = ''; 
+                document.getElementById('clearSearch').style.display = 'none'; 
+                searchInput.focus(); 
+                filterDictionary(); 
+            });
 
             // Handle layout configuration state preferences
             const savedView = localStorage.getItem('amaritaViewPref');
