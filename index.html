@@ -14,7 +14,7 @@
     <style>
 
         :root {
-            /* Default: Amara Pink Theme */
+            /* Amarita Theme */
             --accent-color: #ff55d2;
             --accent-secondary: #5ce1e6;
             --button-gradient: linear-gradient(135deg, #ff55d2, #a970ff);
@@ -24,11 +24,11 @@
         
         /* CUSTOM TEXT SELECTION */
         ::selection {
-            background-color: #ff55d2; /* Amarita Pink */
-            color: #000000; /* Deep black text for contrast */
+            background-color: #ff55d2; 
+            color: #000000; 
         }
 
-        /* 1. Base styles for the text (DO NOT DELETE THIS) */
+        /* 1. Base styles for the text */
         #version-control {
             font-size: 0.75em;
             color: #666;
@@ -562,7 +562,7 @@
 
         /* Style the links and icons directly */
         footer .social-links a {
-            color: #5ce1e6 !important; /* Base cyan color */
+            color: #5ce1e6 !important; 
             transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275) !important;
             display: inline-block !important;
             text-decoration: none;
@@ -1143,7 +1143,7 @@
             // Reset any other playing audio before starting this one
             resetAllAudio();
 
-            // Force the card to stay open IMMEDIATELY (protects against missing audio files)
+            // Force the card to stay open IMMEDIATELY (even if theres missing audio fileS)
             card.classList.add('active'); 
             card.classList.add('active-play');
             document.body.classList.add('is-playing');
@@ -1272,7 +1272,7 @@
         // ESC KEY TO CLOSE CARDS
         document.addEventListener('keydown', function(event) {
             if (event.key === "Escape" && document.body.classList.contains('is-playing')) {
-                resetAllAudio(); // This runs your existing reset function!
+                resetAllAudio(); 
             }
         });
 
