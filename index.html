@@ -158,7 +158,7 @@
             font-weight: bold;
             border-radius: 8px;
             cursor: url('pointer.png') 8 8, pointer !important;
-            margin-bottom: 30px;
+            margin-bottom: 20px;
             transition: all 0.3s ease;
             text-transform: uppercase;
             position: sticky;
@@ -415,6 +415,7 @@
 
         body.is-playing .header-container,
         body.is-playing .toggle-btn,
+        body.is-playing .search-container,
         body.is-playing #version-control,
         body.is-playing footer,
         body.is-playing #suggestion-form { 
@@ -573,7 +574,57 @@
             filter: drop-shadow(0 0 8px rgba(255, 179, 71, 0.8)) !important;
             transition: all 0.3s ease;
         }
+
+        /* 12. SEARCH BAR AND EXPLICIT BADGE */
+        .search-container {
+            display: flex;
+            gap: 15px;
+            width: 100%;
+            max-width: 1000px;
+            margin-bottom: 30px;
+            flex-wrap: wrap;
+            justify-content: center;
+        }
+
+        .search-container input, .search-container select {
+            background: #1a0d2e;
+            border: 1px solid #ff55d2;
+            color: #efeff1;
+            padding: 12px 20px;
+            border-radius: 8px;
+            font-family: 'Poppins', sans-serif;
+            font-size: 0.95em;
+            outline: none;
+            box-shadow: 0 0 10px rgba(255, 85, 210, 0.1);
+            transition: all 0.3s ease;
+        }
         
+        .search-container input:focus, .search-container select:focus {
+            border-color: #5ce1e6;
+            box-shadow: 0 0 15px rgba(92, 225, 230, 0.4);
+        }
+
+        .search-container input {
+            flex: 1;
+            min-width: 250px;
+        }
+
+        .search-container select {
+            cursor: pointer;
+        }
+
+        .explicit-badge {
+            background-color: #ff4d4d;
+            color: #000;
+            font-size: 0.5em;
+            padding: 3px 6px;
+            border-radius: 4px;
+            margin-left: 10px;
+            vertical-align: middle;
+            font-weight: 900;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
     </style>
 </head>
 <body>
@@ -598,6 +649,20 @@
         <i class="fas fa-list" style="margin-right: 8px;"></i> Switch to Cheat Sheet Mode
     </button>
 
+    <div class="search-container">
+        <input 
+            type="text" 
+            id="searchInput" 
+            placeholder="Search for a word, meaning, or vibe..."
+        >
+        <select id="categoryFilter">
+            <option value="All">All Categories</option>
+            <option value="Tactical">Tactical</option>
+            <option value="Insults">Insults</option>
+            <option value="Vibe">Vibe</option>
+        </select>
+    </div>
+
     <div id="version-control">
         Last Updated: <span id="update-date">Loading...</span>
     </div>
@@ -618,23 +683,6 @@
             </button>
         </div>
     </form>
-
-    <div class="search-container">
-    <input 
-        type="text" 
-        id="searchInput" 
-        placeholder="Search for a word, meaning, or vibe..."
-    >
-    <select id="categoryFilter">
-        <option value="All">All Categories</option>
-        <option value="Tactical">Tactical</option>
-        <option value="Insults">Insults</option>
-        <option value="Vibe">Vibe</option>
-    </select>
-    </div>
-
-    <!-- This is where your javascript will inject the terms -->
-    <div id="dictionaryResults"></div>
     
     <footer style="margin-top: 50px; padding: 20px; text-align: center; border-top: 1px solid #361d63; width: 100%; max-width: 1000px;">
         <p class="mango-btn" style="color: #ffb347; font-size: 0.9em; margin-bottom: 15px; font-weight: bold; cursor: pointer;" onclick="playRandomMango()">
@@ -652,24 +700,32 @@
         </div>
     </footer>
 
-     <!-- 1. Load data -->
     <script src="data.js"></script>
 
-    <!-- 2. Run engine -->
     <script>
         // ENGINE FOR DYNAMIC CARD RENDERING
-        function generateDictionaryDOM() {
+        function generateDictionaryDOM(data = dictionaryData) {
             const flashcardContainer = document.getElementById('flashcard-view');
             const cheatsheetContainer = document.getElementById('cheatsheet-view');
             
             let flashcardsHTML = '';
             let cheatsheetHTML = '';
 
-            dictionaryData.forEach(item => {
+            // Handle empty search results
+            if (data.length === 0) {
+                flashcardContainer.innerHTML = '<p style="text-align:center; width:100%; color:#8c8c9a;">No terms found. Ni modo.</p>';
+                cheatsheetContainer.innerHTML = '<p style="text-align:center; width:100%; color:#8c8c9a;">No terms found. Ni modo.</p>';
+                return;
+            }
+
+            data.forEach(item => {
+                // Check if its explicit and add the badge
+                const explicitBadge = item.explicit ? '<span class="explicit-badge">NSFW</span>' : '';
+
                 // Build dynamic flashcard view strings
                 flashcardsHTML += `
                     <div class="card">
-                        <h2>${item.term} <i class="fas fa-chevron-down expand-icon"></i></h2>
+                        <h2>${item.term} ${explicitBadge} <i class="fas fa-chevron-down expand-icon"></i></h2>
                         <div class="literal">Literal: ${item.literal}</div>
                         <div class="details">
                             <div class="section-title">Meaning</div>
@@ -700,7 +756,7 @@
                 // Build dynamic cheat sheet view strings
                 cheatsheetHTML += `
                     <div class="list-item">
-                        <h3>${item.term}</h3>
+                        <h3>${item.term} ${explicitBadge}</h3>
                         <div class="list-content">
                             <p><span class="label">Meaning:</span> ${item.meaning}</p>
                             <span class="example-quote"><span class="label">Example:</span> "${item.quote}"</span>
@@ -712,8 +768,28 @@
             flashcardContainer.innerHTML = flashcardsHTML;
             cheatsheetContainer.innerHTML = cheatsheetHTML;
 
-            // Re-bind click event listeners to the new dynamic items
+            // Re bind click event listeners to the new dynamic items
             bindGlobalClickListeners();
+        }
+
+        // --- FILTER LOGIC ---
+        function filterDictionary() {
+            const searchText = document.getElementById('searchInput').value.toLowerCase();
+            const selectedCategory = document.getElementById('categoryFilter').value;
+
+            const filteredData = dictionaryData.filter(item => {
+                // Check if text matches term or meaning
+                const matchesText = item.term.toLowerCase().includes(searchText) || 
+                                    item.meaning.toLowerCase().includes(searchText);
+                
+                // Check category
+                const matchesCategory = selectedCategory === 'All' || item.category === selectedCategory;
+
+                return matchesText && matchesCategory;
+            });
+
+            // Re render the UI with only the matching items
+            generateDictionaryDOM(filteredData);
         }
 
         // 1. AUDIO AND FOCUS RESET FUNCTION
@@ -770,11 +846,9 @@
             card.classList.add('active');
             card.classList.add('active-play');
             document.body.classList.add('is-playing');
-
             audio.play().then(() => {
                 btn.classList.add('playing');
             }).catch(e => console.log("Playback blocked or file missing:", e));
-
             audio.onended = () => {
                 resetAllAudio();
                 card.classList.add('active'); 
@@ -789,7 +863,7 @@
             const clickedToggleButton = event.target.closest('.toggle-btn');
             
             if (!clickedInsideElement && !clickedToggleButton && document.body.classList.contains('is-playing')) {
-                 resetAllAudio();
+                resetAllAudio();
             }
         });
 
@@ -841,6 +915,10 @@
             // Render all items dynamically out of data structure
             generateDictionaryDOM();
 
+            // Attach Search Bar Listeners
+            document.getElementById('searchInput').addEventListener('input', filterDictionary);
+            document.getElementById('categoryFilter').addEventListener('change', filterDictionary);
+
             // Handle layout configuration state preferences
             const savedView = localStorage.getItem('amaritaViewPref');
             if (savedView === 'cheatsheet') {
@@ -890,7 +968,6 @@
 
         // MANGO MEDIA HANDLING LOGIC
         let playedClips = [];
-
         function playRandomMango() {
             const audio = document.getElementById('mango-audio');
             const mangoBtn = document.querySelector('.mango-btn'); 
@@ -913,7 +990,7 @@
             audio.src = randomClip;
             audio.play().catch(e => console.log("Mango playback failed:", e));
             playedClips.push(randomClip);
-
+            
             audio.onended = () => {
                 mangoBtn.classList.remove('animate-mango');
             };
@@ -956,69 +1033,6 @@
                 });
             });
         }
-
-        //Search Bar and Category Filter Logic
-        // Grab your elements
-        const searchInput = document.getElementById('searchInput');
-        const categoryFilter = document.getElementById('categoryFilter');
-        const resultsContainer = document.getElementById('dictionaryResults');
-
-        // Function to render the terms to the screen
-        function displayTerms(termsToDisplay) {
-            // Clear out the current results
-            resultsContainer.innerHTML = '';
-
-            if (termsToDisplay.length === 0) {
-                resultsContainer.innerHTML = '<p>No terms found. Ni modo.</p>';
-                return;
-            }
-
-            // Loop through and build the HTML for each term
-            termsToDisplay.forEach(item => {
-                // Check for the explicit flag to add a warning badge
-                const explicitBadge = item.explicit ? '<span class="explicit-badge">NSFW</span>' : '';
-
-                const termCard = `
-                    <div class="term-card">
-                        <h3>${item.term} ${explicitBadge}</h3>
-                        <p><strong>Literal:</strong> ${item.literal}</p>
-                        <p><strong>Meaning:</strong> ${item.meaning}</p>
-                        <p><strong>Category:</strong> ${item.category}</p>
-                        <p><em>"${item.quote}"</em></p>
-                    </div>
-                `;
-                resultsContainer.innerHTML += termCard;
-            });
-        }
-
-        // Function to handle the actual filtering
-        function filterDictionary() {
-            const searchText = searchInput.value.toLowerCase();
-            const selectedCategory = categoryFilter.value;
-
-            const filteredData = dictionaryData.filter(item => {
-                // 1. Check if the text matches the term OR the meaning
-                const matchesText = item.term.toLowerCase().includes(searchText) || 
-                                    item.meaning.toLowerCase().includes(searchText);
-                
-                // 2. Check if the category matches (or if 'All' is selected)
-                const matchesCategory = selectedCategory === 'All' || item.category === selectedCategory;
-
-                // The item must pass both tests to show up
-                return matchesText && matchesCategory;
-            });
-
-            // Send the filtered list to the display function
-            displayTerms(filteredData);
-        }
-
-        // Add event listeners so it updates live as you type or select
-        searchInput.addEventListener('input', filterDictionary);
-        categoryFilter.addEventListener('change', filterDictionary);
-
-        // Run this once on initial load to show all terms
-        displayTerms(dictionaryData);
-
     </script>
 </body>
 </html>
