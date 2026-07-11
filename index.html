@@ -1287,16 +1287,15 @@
         
         if (suggestionForm) {
             suggestionForm.addEventListener('submit', function(e) {
-                e.preventDefault(); // Prevents white redirect page
+                e.preventDefault(); 
 
                 const form = e.target;
                 const button = form.querySelector('button');
-                const originalText = button.innerText;
-                const originalBg = button.style.backgroundColor;
+                const originalText = button.innerText; 
 
                 // 1. Show loading state
                 button.innerText = 'SENDING...';
-                button.style.backgroundColor = '#5ce1e6'; // Turns cyan while sending
+                button.style.background = '#5ce1e6'; // Turns cyan while sending
 
                 // 2. Send the data silently
                 fetch(form.action, {
@@ -1307,23 +1306,24 @@
                     if(response.ok) {
                         // 3. Show success state and clear the box
                         button.innerText = 'SENT!';
-                        button.style.backgroundColor = '#2ecc71'; // Turns green on success
+                        button.style.background = '#2ecc71'; 
                         form.reset(); 
                     }
                 })
                 .catch(error => {
                     button.innerText = 'ERROR';
-                    button.style.backgroundColor = '#ff4d4d'; // Red on fail
+                    button.style.background = '#ff4d4d'; 
                 })
                 .finally(() => {
                     // 4. Revert the button back to normal after 3 seconds
                     setTimeout(() => {
                         button.innerText = originalText;
-                        button.style.backgroundColor = originalBg; 
+                        button.style.background = '#ff55d2'; 
                     }, 3000);
                 });
             });
         }
+
     </script>
 </body>
 </html>
