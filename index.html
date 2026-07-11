@@ -1287,38 +1287,37 @@
         
         if (suggestionForm) {
             suggestionForm.addEventListener('submit', function(e) {
-                e.preventDefault(); 
+                e.preventDefault();
 
-                const form = e.target;
-                const button = form.querySelector('button');
-                const originalText = button.innerText; 
+                const button = e.target.querySelector('button');
+                const originalText = button.innerText;
 
-                // 1. Show loading state
+                // 1. Loading State
                 button.innerText = 'SENDING...';
-                button.style.background = '#5ce1e6'; // Turns cyan while sending
+                button.style.background = '#5ce1e6'; 
 
-                // 2. Send the data silently
-                fetch(form.action, {
+                fetch(e.target.action, {
                     method: 'POST',
-                    body: new FormData(form),
+                    body: new FormData(e.target),
                 })
                 .then(response => {
                     if(response.ok) {
-                        // 3. Show success state and clear the box
-                        button.innerText = 'SENT!';
+                        // 2. Success State
+                        button.innerText = 'SENT! 🥭';
                         button.style.background = '#2ecc71'; 
-                        form.reset(); 
+                        e.target.reset(); 
                     }
                 })
-                .catch(error => {
+                .catch(() => {
                     button.innerText = 'ERROR';
-                    button.style.background = '#ff4d4d'; 
+                    button.style.background = '#ff4d4d';
                 })
                 .finally(() => {
-                    // 4. Revert the button back to normal after 3 seconds
+                    // 3. Reset State
                     setTimeout(() => {
                         button.innerText = originalText;
-                        button.style.background = '#ff55d2'; 
+                        button.style.background = ''; // This clears the override!
+                        button.style.boxShadow = '';  // This clears any lingering glow
                     }, 3000);
                 });
             });
