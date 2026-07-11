@@ -1093,8 +1093,10 @@
             
             if (flashcards.classList.contains('hidden')) {
                 button.innerHTML = '<i class="fas fa-th-large" style="margin-right: 8px;"></i> Switch to Flashcard Mode';
+                localStorage.setItem('amaritaViewPref', 'cheatsheet'); // Saves preference
             } else {
                 button.innerHTML = '<i class="fas fa-list" style="margin-right: 8px;"></i> Switch to Cheat Sheet Mode';
+                localStorage.setItem('amaritaViewPref', 'flashcard'); // Saves preference
             }
         }
 
@@ -1144,6 +1146,21 @@
             
             if (!clickedInsideElement && !clickedToggleButton && document.body.classList.contains('is-playing')) {
                 resetAllAudio();
+            }
+        });
+
+        // AUTO LOAD SAVED VIEW PREFERENCE
+        window.addEventListener('DOMContentLoaded', () => {
+            const savedView = localStorage.getItem('amaritaViewPref');
+            
+            if (savedView === 'cheatsheet') {
+                const flashcards = document.getElementById('flashcard-view');
+                const cheatsheet = document.getElementById('cheatsheet-view');
+                const button = document.getElementById('toggleBtn');
+                
+                flashcards.classList.add('hidden');
+                cheatsheet.classList.remove('hidden');
+                button.innerHTML = '<i class="fas fa-th-large" style="margin-right: 8px;"></i> Switch to Flashcard Mode';
             }
         });
 
