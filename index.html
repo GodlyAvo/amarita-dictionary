@@ -85,7 +85,7 @@
             align-items: center;
             justify-content: center;
             gap: 25px;
-            margin-bottom: 30px;
+            margin-bottom: 25px;
             width: 100%;
         }
 
@@ -154,15 +154,15 @@
             color: #ff55d2;
             border: 2px solid #ff55d2;
             padding: 10px 20px;
-            font-size: 16px;
+            font-size: 15px;
             font-weight: bold;
             border-radius: 8px;
             cursor: url('pointer.png') 8 8, pointer !important;
-            margin-bottom: 20px;
+            margin-bottom: 25px;
             transition: all 0.3s ease;
             text-transform: uppercase;
             position: sticky;
-            top: 20px; 
+            top: 15px; 
             z-index: 1000;
             box-shadow: 0 5px 15px rgba(0, 0, 0, 0.5);
             display: flex;
@@ -187,7 +187,7 @@
         #flashcard-view {
             display: grid;
             grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-            gap: 20px;
+            gap: 25px; /* OPTIMIZED: Increased breathing room */
             width: 100%; 
             max-width: 1000px;
             align-items: start;
@@ -198,7 +198,7 @@
             border: 1px solid rgba(255, 85, 210, 0.15); 
             backdrop-filter: blur(10px);
             border-radius: 12px;
-            padding: 20px;
+            padding: 25px; /* OPTIMIZED: Increased inner padding */
             text-align: left;
             transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
             display: flex;
@@ -207,7 +207,7 @@
             backface-visibility: hidden;
             -webkit-font-smoothing: antialiased;
             transform: translateZ(0);
-            position: relative; /* Added to position the NSFW badge correctly */
+            position: relative;
             cursor: url('pointer.png') 8 8, pointer; 
         }
 
@@ -457,16 +457,16 @@
         #cheatsheet-view {
             display: flex;
             flex-direction: column;
-            gap: 10px;
+            gap: 12px; /* Slightly increased */
         }
 
         .list-item {
             background-color: #22123f;
             transition: 0.3s ease;
-            padding: 15px 20px;
+            padding: 18px 25px; /* Increased padding */
             border-radius: 8px;
             display: grid;
-            grid-template-columns: 200px 1fr;
+            grid-template-columns: 220px 1fr;
             align-items: center;
             border: 1px solid rgba(255, 85, 210, 0.15); 
             border-left: 4px solid #ff55d2; 
@@ -516,15 +516,34 @@
             margin-right: 5px;
         }
 
-        /* 10. MOBILE RESPONSIVENESS  */
+        /* 10. MOBILE RESPONSIVENESS (OPTIMIZED) */
         @media (max-width: 600px) {
-            .list-item {
-                grid-template-columns: 1fr;
-                gap: 10px;
+            body {
+                padding: 20px 15px; /* Less outer padding to maximize space */
             }
             .header-container {
                 flex-direction: column;
                 text-align: center;
+                gap: 15px;
+                margin-bottom: 20px;
+            }
+            .logo {
+                height: 55px; /* Scaled down */
+                width: 55px; 
+            }
+            h1 {
+                font-size: 1.4em; /* Scaled down */
+            }
+            .list-item {
+                grid-template-columns: 1fr;
+                gap: 10px;
+                padding: 15px;
+            }
+            .search-container {
+                margin-bottom: 20px;
+            }
+            .search-input-wrapper {
+                min-width: 100%;
             }
         }
 
@@ -582,7 +601,7 @@
             gap: 15px;
             width: 100%;
             max-width: 800px;
-            margin-bottom: 35px;
+            margin-bottom: 20px;
             flex-wrap: wrap;
             justify-content: center;
         }
@@ -673,18 +692,46 @@
             box-shadow: 0 0 8px rgba(255, 77, 77, 0.5);
         }
 
-        /* Pin the badge to the corner of the card so it doesn't mess up centering */
         .card .explicit-badge {
             position: absolute;
             top: 15px;
             right: 15px;
         }
 
-        /* Keep it inline for the list view since it's already left-aligned */
         .list-item .explicit-badge {
             display: inline-block;
             vertical-align: middle;
             margin-left: 10px;
+        }
+        
+        /* Empty state styling */
+        .empty-state {
+            text-align: center;
+            width: 100%;
+            color: #8c8c9a;
+            font-size: 1.1em;
+            padding: 40px 0;
+            grid-column: 1 / -1;
+        }
+        
+        .empty-state a {
+            color: #000;
+            background-color: #ff55d2;
+            text-decoration: none;
+            font-weight: bold;
+            padding: 12px 24px;
+            border-radius: 8px;
+            display: inline-block;
+            margin-top: 15px;
+            transition: 0.3s;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+        
+        .empty-state a:hover {
+            background-color: #5ce1e6;
+            box-shadow: 0 0 15px rgba(92, 225, 230, 0.5);
+            transform: translateY(-2px);
         }
     </style>
 </head>
@@ -706,11 +753,7 @@
         </h1>
     </div>
     
-    <button class="toggle-btn" id="toggleBtn" onclick="toggleView()">
-        <i class="fas fa-list" style="margin-right: 8px;"></i> Switch to Cheat Sheet Mode
-    </button>
-
-    <!-- UPDATED CUTE SEARCH BAR -->
+    <!-- MOVED SEARCH BAR TO THE TOP FOR FASTER ACCESS -->
     <div class="search-container">
         <div class="search-input-wrapper">
             <i class="fas fa-search search-icon"></i>
@@ -722,14 +765,19 @@
         </div>
         <div class="select-wrapper">
             <select id="categoryFilter">
-                <option value="All">🌸 All Categories</option>
-                <option value="Tactical">⚔️ Tactical</option>
-                <option value="Insults">🤬 Insults</option>
-                <option value="Vibe">✨ Vibe</option>
+                <option value="All">All Categories</option>
+                <option value="Tactical">Tactical</option>
+                <option value="Insults">Insults</option>
+                <option value="Vibe">Vibe</option>
             </select>
             <i class="fas fa-chevron-down select-icon"></i>
         </div>
     </div>
+
+    <!-- MOVED TOGGLE BUTTON BELOW SEARCH BAR -->
+    <button class="toggle-btn" id="toggleBtn" onclick="toggleView()">
+        <i class="fas fa-list" style="margin-right: 8px;"></i> Switch to Cheat Sheet Mode
+    </button>
 
     <div id="version-control">
         Last Updated: <span id="update-date">Loading...</span>
@@ -738,6 +786,8 @@
     <div id="flashcard-view"></div>
     <div id="cheatsheet-view" class="hidden"></div>
 
+    <!-- ADDED ID TO ANCHOR EMPTY STATE LINK -->
+    <div id="suggestion-anchor"></div>
     <form id="suggestion-form" action="https://api.sheetmonkey.io/form/51DRKWQW38cSYMV9x6EWE8" method="post" style="display: flex; flex-direction: column; align-items: center; width: 100%; max-width: 450px; margin: 40px auto 20px auto; padding: 0 20px; box-sizing: border-box;">
         <p style="color: #8c8c9a; font-size: 0.85em; text-transform: uppercase; letter-spacing: 1px; margin-bottom: 10px; font-weight: bold; text-align: center; margin-top: 0;">
             Missing a word?
@@ -781,18 +831,22 @@
             let flashcardsHTML = '';
             let cheatsheetHTML = '';
 
-            // Handle empty search results
+            // Handle empty search results (OPTIMIZED UI)
             if (data.length === 0) {
-                flashcardContainer.innerHTML = '<p style="text-align:center; width:100%; color:#8c8c9a;">No terms found. Ni modo.</p>';
-                cheatsheetContainer.innerHTML = '<p style="text-align:center; width:100%; color:#8c8c9a;">No terms found. Ni modo.</p>';
+                const emptyStateHTML = `
+                    <div class="empty-state">
+                        No terms found. Ni modo. <br>
+                        <a href="#suggestion-anchor">Click here to suggest it!</a>
+                    </div>
+                `;
+                flashcardContainer.innerHTML = emptyStateHTML;
+                cheatsheetContainer.innerHTML = emptyStateHTML;
                 return;
             }
 
             data.forEach(item => {
-                // Check if it's explicit and add the badge
                 const explicitBadge = item.explicit ? '<span class="explicit-badge">NSFW</span>' : '';
 
-                // Build dynamic flashcard view strings (Notice the badge is outside the h2 now!)
                 flashcardsHTML += `
                     <div class="card">
                         ${explicitBadge}
@@ -824,7 +878,6 @@
                     </div>
                 `;
 
-                // Build dynamic cheat sheet view strings
                 cheatsheetHTML += `
                     <div class="list-item">
                         <h3>${item.term} ${explicitBadge}</h3>
@@ -839,28 +892,34 @@
             flashcardContainer.innerHTML = flashcardsHTML;
             cheatsheetContainer.innerHTML = cheatsheetHTML;
 
-            // Re-bind click event listeners to the new dynamic items
+            // Re-bind click event listeners
             bindGlobalClickListeners();
         }
 
-        // --- FILTER LOGIC ---
+        // --- FILTER LOGIC (WITH DEBOUNCE FIX) ---
+        let debounceTimer;
+        
         function filterDictionary() {
             const searchText = document.getElementById('searchInput').value.toLowerCase();
             const selectedCategory = document.getElementById('categoryFilter').value;
 
             const filteredData = dictionaryData.filter(item => {
-                // Check if text matches term or meaning
                 const matchesText = item.term.toLowerCase().includes(searchText) || 
                                     item.meaning.toLowerCase().includes(searchText);
                 
-                // Check category
                 const matchesCategory = selectedCategory === 'All' || item.category === selectedCategory;
 
                 return matchesText && matchesCategory;
             });
 
-            // Re-render the UI with only the matching items
             generateDictionaryDOM(filteredData);
+        }
+
+        function handleSearchInput() {
+            // Clears the timer if user is still typing, preventing UI lag
+            clearTimeout(debounceTimer);
+            // Waits 150ms after user stops typing to render the new DOM
+            debounceTimer = setTimeout(filterDictionary, 150); 
         }
 
         // 1. AUDIO AND FOCUS RESET FUNCTION
@@ -986,8 +1045,8 @@
             // Render all items dynamically out of data structure
             generateDictionaryDOM();
 
-            // Attach Search Bar Listeners
-            document.getElementById('searchInput').addEventListener('input', filterDictionary);
+            // Attach Search Bar Listeners (Using Debounce for input!)
+            document.getElementById('searchInput').addEventListener('input', handleSearchInput);
             document.getElementById('categoryFilter').addEventListener('change', filterDictionary);
 
             // Handle layout configuration state preferences
