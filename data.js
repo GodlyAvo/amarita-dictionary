@@ -93,7 +93,7 @@
                 literal: "Giddy-up.",
                 meaning: "Say less, bet, I'm down.",
                 context: "Someone in chat ask you if you want a chall or to run a specific loadout.",
-                quote: "Arre arre.",
+                quote: "Arre arre, ¿cual?.",
                 audio: "audio/arre.m4a"
             },
            {
