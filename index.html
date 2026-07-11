@@ -429,11 +429,14 @@
             pointer-events: none;
         }
 
-        /* SUGGESTION BUTTON HOVER EFFECT */
-        #suggestion-form button:hover {
-            background: #5ce1e6 !important; 
-            box-shadow: 0 0 15px rgba(92, 225, 230, 0.6);
-            transform: translateY(-2px);
+        /* Only apply hover/glow on desktop */
+        @media (hover: hover) and (pointer: fine) {
+            #suggestion-form button:hover {
+                background-color: #5ce1e6 !important;
+                color: #000000 !important;
+                box-shadow: 0 0 15px rgba(92, 225, 230, 0.6);
+                transform: translateY(-2px);
+            }
         }
         
         /* Makes it look pressed down when actively clicking */
@@ -565,16 +568,19 @@
             color: #ff55d2 !important; 
         }
         
-        /* Mango hover effect */
-        .mango-btn {
-            transition: all 0.3s ease;
-            display: inline-block;
-        }
+        @media (hover: hover) and (pointer: fine) {
+            /* Fix for Social Links */
+            footer .social-links a:hover {
+                transform: scale(1.5) !important;
+                color: #ff55d2 !important; 
+            }
 
-        .mango-btn:hover {
-            transform: scale(1.2); 
-            filter: drop-shadow(0 0 8px rgba(255, 179, 71, 0.8)); 
-            cursor: pointer;
+            /* Fix for Mango Button */
+            .mango-btn:hover {
+                transform: scale(1.2); 
+                filter: drop-shadow(0 0 8px rgba(255, 179, 71, 0.8)); 
+                cursor: pointer;
+            }
         }
 
     </style>
@@ -1312,11 +1318,10 @@
                     button.style.background = '#ff4d4d';
                 })
                 .finally(() => {
-                    // 3. Reset State
                     setTimeout(() => {
                         button.innerText = originalText;
-                        button.style.background = ''; // This clears the override!
-                        button.style.boxShadow = '';  // This clears any lingering glow
+                        button.style.background = '#ff55d2'; // Force it back to your Pink
+                        button.style.boxShadow = '';  
                     }, 3000);
                 });
             });
