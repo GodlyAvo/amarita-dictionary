@@ -279,18 +279,18 @@
             border-left: 3px solid #ff55d2;
             font-size: 0.9em;
             margin-bottom: 15px;
-            color: #b9b9c6; /* Soft silver to match the main text */
+            color: #b9b9c6; 
         }
 
         /* 3. Make the quote POP to the front layer */
         .example-quote {
-            color: #ffffff; /* Pure, bright white */
-            font-weight: 500; /* Bumps the thickness just a tiny bit */
+            color: #ffffff; 
+            font-weight: 500; 
             font-style: italic;
             display: block;
             margin-top: 12px;
             border-left: none; 
-            background: rgba(255, 85, 210, 0.08); /* A very faint Amara Pink background tint */
+            background: rgba(255, 85, 210, 0.08); 
             padding: 10px 12px;
             border-radius: 6px;
         }
@@ -402,7 +402,7 @@
             50% { transform: scale(1.2); opacity: 0.7; }
         }
 
-        /* 8. FOCUS MODE (DIMMING & BLUR) */
+        /* 8. FOCUS MODE (DIMMING AND BLUR) */
         .card, .list-item {
             background-color: #1a0d2e;
             cursor: url('pointer.png') 8 8, pointer;
@@ -414,17 +414,33 @@
             opacity: 0.25;
             filter: blur(5px) grayscale(40%);
             transition: all 0.3s ease;
+            pointer-events: none;
         }
 
-        /* Blur the header, toggle button, version text, and footer */
+        /* Blur the header, toggle button, version text, suggestion form, and footer */
         body.is-playing .header-container,
         body.is-playing .toggle-btn,
         body.is-playing #version-control,
-        body.is-playing footer {
-            opacity: 0.2; /* Extra dim so they melt into the background */
+        body.is-playing footer,
+        body.is-playing #suggestion-form { 
+            opacity: 0.2;
             filter: blur(5px) grayscale(50%);
             transition: all 0.3s ease;
-            pointer-events: none; /* Prevents clicking them while blurred */
+            pointer-events: none;
+        }
+
+        /* SUGGESTION BUTTON HOVER EFFECT */
+        #suggestion-form button:hover {
+            background-color: #5ce1e6 !important; 
+            color: #000000 !important;
+            box-shadow: 0 0 15px rgba(92, 225, 230, 0.6); 
+            transform: translateY(-2px); 
+        }
+        
+        /* Makes it look pressed down when actively clicking */
+        #suggestion-form button:active {
+            transform: translateY(1px);
+            box-shadow: 0 0 5px rgba(92, 225, 230, 0.4);
         }
 
         /* Base transition for the footer so it fades smoothly */
@@ -438,8 +454,11 @@
             opacity: 1;
             filter: blur(0px) grayscale(0%);
             transform: scale(1.03);
-            border-color: #5ce1e6; /* Swaps border to Cyan when active */
-            box-shadow: 0 10px 40px rgba(92, 225, 230, 0.4);
+            border-color: #5ce1e6; 
+            box-shadow: 
+                0 0 8px rgba(92, 225, 230, 0.8),   
+                0 0 20px rgba(92, 225, 230, 0.4),  
+                0 15px 30px rgba(92, 225, 230, 0.15); 
             z-index: 100;
         }
 
@@ -474,9 +493,10 @@
             border-left-color: #5ce1e6; /* Keeps the neon border lit while active */
         }
 
-        .list-item h3 {
-            margin: 0;
-            color: #ff55d2;
+        /* Changes the title color to Cyan when the row is active */
+        .list-item.active h3 {
+            color: #5ce1e6;
+            transition: color 0.3s ease;
         }
 
         .list-content p {
@@ -492,9 +512,11 @@
             font-weight: 400;
             font-style: italic;
             display: inline-block;
-            margin-top: 5px;
-            padding-left: 8px;
-            border-left: 2px solid #5ce1e6;
+            margin-top: 8px;
+            padding: 6px 12px; /* Adds breathing room inside the quote */
+            border-left: 3px solid #5ce1e6; /* Makes the accent line slightly thicker */
+            background: rgba(92, 225, 230, 0.08); /* Adds a very faint cyan background */
+            border-radius: 0 6px 6px 0; /* Rounds the right-side corners */
         }
 
         .label {
@@ -1008,6 +1030,20 @@
             </div>
         </div>
     </div>
+
+    <form id="suggestion-form" action="https://api.sheetmonkey.io/form/51DRKWQW38cSYMV9x6EWE8" method="post" style="display: flex; flex-direction: column; align-items: center; width: 100%; max-width: 450px; margin: 40px auto 20px auto; padding: 0 20px; box-sizing: border-box;">
+        <p style="color: #8c8c9a; font-size: 0.85em; text-transform: uppercase; letter-spacing: 1px; margin-bottom: 10px; font-weight: bold; text-align: center; margin-top: 0;">
+            Missing a word?
+        </p>
+        <div style="display: flex; width: 100%; gap: 10px; justify-content: center;">
+            <input type="text" name="Suggestion" placeholder="Type a word or phrase..." required 
+                style="flex: 1; background: #1a0d2e; border: 1px solid #ff55d2; color: #efeff1; padding: 12px 20px; border-radius: 8px; font-family: 'Poppins', sans-serif; font-size: 0.95em; outline: none; box-shadow: 0 0 10px rgba(255, 85, 210, 0.1); box-sizing: border-box; text-align: center;">
+            <button type="submit" 
+                style="background: #ff55d2; color: #000000; border: none; padding: 12px 25px; border-radius: 8px; font-family: 'Poppins', sans-serif; font-weight: bold; cursor: pointer; transition: 0.3s; text-transform: uppercase;">
+                Send
+            </button>
+        </div>
+    </form>
     
     <footer style="margin-top: 50px; padding: 20px; text-align: center; border-top: 1px solid #361d63; width: 100%; max-width: 1000px;">
         <p class="mango-btn" style="color: #ffb347; font-size: 0.9em; margin-bottom: 15px; font-weight: bold; cursor: pointer;" onclick="playRandomMango()">
@@ -1228,6 +1264,48 @@
             playedClips.push(randomClip);
         }
 
+        // BACKGROUND FORM SUBMISSION
+        const suggestionForm = document.getElementById('suggestion-form');
+        
+        if (suggestionForm) {
+            suggestionForm.addEventListener('submit', function(e) {
+                e.preventDefault(); // Prevents white redirect page
+
+                const form = e.target;
+                const button = form.querySelector('button');
+                const originalText = button.innerText;
+                const originalBg = button.style.backgroundColor;
+
+                // 1. Show loading state
+                button.innerText = 'SENDING...';
+                button.style.backgroundColor = '#5ce1e6'; // Turns cyan while sending
+
+                // 2. Send the data silently
+                fetch(form.action, {
+                    method: 'POST',
+                    body: new FormData(form),
+                })
+                .then(response => {
+                    if(response.ok) {
+                        // 3. Show success state and clear the box
+                        button.innerText = 'SENT!';
+                        button.style.backgroundColor = '#2ecc71'; // Turns green on success
+                        form.reset(); 
+                    }
+                })
+                .catch(error => {
+                    button.innerText = 'ERROR';
+                    button.style.backgroundColor = '#ff4d4d'; // Red on fail
+                })
+                .finally(() => {
+                    // 4. Revert the button back to normal after 3 seconds
+                    setTimeout(() => {
+                        button.innerText = originalText;
+                        button.style.backgroundColor = originalBg; 
+                    }, 3000);
+                });
+            });
+        }
     </script>
 </body>
 </html>
