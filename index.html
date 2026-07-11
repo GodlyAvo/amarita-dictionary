@@ -431,10 +431,9 @@
 
         /* SUGGESTION BUTTON HOVER EFFECT */
         #suggestion-form button:hover {
-            background-color: #5ce1e6 !important; 
-            color: #000000 !important;
-            box-shadow: 0 0 15px rgba(92, 225, 230, 0.6); 
-            transform: translateY(-2px); 
+            background: #5ce1e6 !important; 
+            box-shadow: 0 0 15px rgba(92, 225, 230, 0.6);
+            transform: translateY(-2px);
         }
         
         /* Makes it look pressed down when actively clicking */
@@ -1303,7 +1302,7 @@
                 .then(response => {
                     if(response.ok) {
                         // 2. Success State
-                        button.innerText = 'SENT! 🥭';
+                        button.innerText = 'SENT!';
                         button.style.background = '#2ecc71'; 
                         e.target.reset(); 
                     }
