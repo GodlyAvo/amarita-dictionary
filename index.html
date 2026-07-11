@@ -576,10 +576,11 @@
             }
         }
 
-        /* If the button has been clicked and is green, disable the cyan hover glow */
-        #suggestion-form button[style*="background-color: #2ecc71"],
-        #suggestion-form button[style*="background: #2ecc71"] {
-            pointer-events: none !important; 
+        /* Makes the button immune to hover/glow while green */
+        .btn-success {
+            pointer-events: none !important;
+            background-color: #2ecc71 !important;
+            box-shadow: none !important;
         }
 
         /* 2. Force it back to normal when tapped/clicked */
@@ -1323,9 +1324,9 @@
                 })
                 .then(response => {
                     if(response.ok) {
-                        // 2. Success State
-                        button.innerText = 'SENT!';
-                        button.style.background = '#2ecc71'; 
+                        // 2. Success State: Add the class instead of just setting background
+                        button.innerText = 'SENT! 🥭';
+                        button.classList.add('btn-success'); 
                         e.target.reset(); 
                     }
                 })
@@ -1336,11 +1337,13 @@
                 .finally(() => {
                     setTimeout(() => {
                         button.innerText = originalText;
-                        button.style.background = '#ff55d2'; // Force it back to your Pink
+                        button.classList.remove('btn-success'); // Cleanly remove the state
+                        button.style.background = '#ff55d2'; 
                         button.style.boxShadow = '';  
                     }, 3000);
                 });
             });
+        
         }
 
     </script>
