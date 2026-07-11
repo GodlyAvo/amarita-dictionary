@@ -568,19 +568,24 @@
             color: #ff55d2 !important; 
         }
         
+        /* Only animate on hover for mouse users */
         @media (hover: hover) and (pointer: fine) {
-            /* Fix for Social Links */
-            footer .social-links a:hover {
-                transform: scale(1.5) !important;
-                color: #ff55d2 !important; 
-            }
-
-            /* Fix for Mango Button */
             .mango-btn:hover {
                 transform: scale(1.2); 
                 filter: drop-shadow(0 0 8px rgba(255, 179, 71, 0.8)); 
-                cursor: pointer;
             }
+        }
+
+        /* 2. Force it back to normal when tapped/clicked */
+        .mango-btn:active {
+            transform: scale(1) !important;
+            filter: drop-shadow(0 0 0px rgba(255, 179, 71, 0)) !important;
+        }
+
+        .animate-mango {
+            transform: scale(1.2) !important;
+            filter: drop-shadow(0 0 8px rgba(255, 179, 71, 0.8)) !important;
+            transition: all 0.3s ease;
         }
 
     </style>
@@ -1262,6 +1267,7 @@
 
         function playRandomMango() {
             const audio = document.getElementById('mango-audio');
+            const mangoBtn = document.querySelector('.mango-btn'); // Select the button
             const clips = [
                 'audio/I DID IT.m4a',
                 'audio/LIFE CHANGING QUOTE.m4a',
@@ -1270,21 +1276,25 @@
                 'audio/WHAT THE FLUFFER AMARA.m4a'
             ];
 
-            // If all clips have played, reset the tracker
             if (playedClips.length === clips.length) {
                 playedClips = [];
             }
 
-            // Filter out already played clips
             let availableClips = clips.filter(clip => !playedClips.includes(clip));
-            
-            // Pick a random one from the available list
             const randomClip = availableClips[Math.floor(Math.random() * availableClips.length)];
             
-            // Play it and track it
+            // 1. Trigger the animation
+            mangoBtn.classList.add('animate-mango');
+            
+            // 2. Play the audio
             audio.src = randomClip;
             audio.play().catch(e => console.log("Mango playback failed:", e));
             playedClips.push(randomClip);
+
+            // 3. Remove the animation when the audio ends
+            audio.onended = () => {
+                mangoBtn.classList.remove('animate-mango');
+            };
         }
 
         // BACKGROUND FORM SUBMISSION
