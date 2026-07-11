@@ -618,6 +618,23 @@
             </button>
         </div>
     </form>
+
+    <div class="search-container">
+    <input 
+        type="text" 
+        id="searchInput" 
+        placeholder="Search for a word, meaning, or vibe..."
+    >
+    <select id="categoryFilter">
+        <option value="All">All Categories</option>
+        <option value="Tactical">Tactical</option>
+        <option value="Insults">Insults</option>
+        <option value="Vibe">Vibe</option>
+    </select>
+    </div>
+
+    <!-- This is where your javascript will inject the terms -->
+    <div id="dictionaryResults"></div>
     
     <footer style="margin-top: 50px; padding: 20px; text-align: center; border-top: 1px solid #361d63; width: 100%; max-width: 1000px;">
         <p class="mango-btn" style="color: #ffb347; font-size: 0.9em; margin-bottom: 15px; font-weight: bold; cursor: pointer;" onclick="playRandomMango()">
@@ -939,6 +956,69 @@
                 });
             });
         }
+
+        //Search Bar and Category Filter Logic
+        // Grab your elements
+        const searchInput = document.getElementById('searchInput');
+        const categoryFilter = document.getElementById('categoryFilter');
+        const resultsContainer = document.getElementById('dictionaryResults');
+
+        // Function to render the terms to the screen
+        function displayTerms(termsToDisplay) {
+            // Clear out the current results
+            resultsContainer.innerHTML = '';
+
+            if (termsToDisplay.length === 0) {
+                resultsContainer.innerHTML = '<p>No terms found. Ni modo.</p>';
+                return;
+            }
+
+            // Loop through and build the HTML for each term
+            termsToDisplay.forEach(item => {
+                // Check for the explicit flag to add a warning badge
+                const explicitBadge = item.explicit ? '<span class="explicit-badge">NSFW</span>' : '';
+
+                const termCard = `
+                    <div class="term-card">
+                        <h3>${item.term} ${explicitBadge}</h3>
+                        <p><strong>Literal:</strong> ${item.literal}</p>
+                        <p><strong>Meaning:</strong> ${item.meaning}</p>
+                        <p><strong>Category:</strong> ${item.category}</p>
+                        <p><em>"${item.quote}"</em></p>
+                    </div>
+                `;
+                resultsContainer.innerHTML += termCard;
+            });
+        }
+
+        // Function to handle the actual filtering
+        function filterDictionary() {
+            const searchText = searchInput.value.toLowerCase();
+            const selectedCategory = categoryFilter.value;
+
+            const filteredData = dictionaryData.filter(item => {
+                // 1. Check if the text matches the term OR the meaning
+                const matchesText = item.term.toLowerCase().includes(searchText) || 
+                                    item.meaning.toLowerCase().includes(searchText);
+                
+                // 2. Check if the category matches (or if 'All' is selected)
+                const matchesCategory = selectedCategory === 'All' || item.category === selectedCategory;
+
+                // The item must pass both tests to show up
+                return matchesText && matchesCategory;
+            });
+
+            // Send the filtered list to the display function
+            displayTerms(filteredData);
+        }
+
+        // Add event listeners so it updates live as you type or select
+        searchInput.addEventListener('input', filterDictionary);
+        categoryFilter.addEventListener('change', filterDictionary);
+
+        // Run this once on initial load to show all terms
+        displayTerms(dictionaryData);
+
     </script>
 </body>
 </html>
