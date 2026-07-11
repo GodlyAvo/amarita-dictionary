@@ -1,18 +1,17 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<link rel="apple-touch-icon" sizes="180x180" href="apple-touch-icon.png">
-<link rel="icon" type="image/png" sizes="32x32" href="favicon-32x32.png">
-<link rel="icon" type="image/png" sizes="16x16" href="favicon-16x16.png">
-<link rel="manifest" href="site.webmanifest">
-<link rel="icon" href="favicon.ico">
+    <link rel="apple-touch-icon" sizes="180x180" href="apple-touch-icon.png">
+    <link rel="icon" type="image/png" sizes="32x32" href="favicon-32x32.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="favicon-16x16.png">
+    <link rel="manifest" href="site.webmanifest">
+    <link rel="icon" href="favicon.ico">
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <meta name="theme-color" content="#000000">
     <title>Amarita Mexican Dictionary</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
     <style>
-
         :root {
             /* Amarita Theme */
             --accent-color: #ff55d2;
@@ -20,11 +19,10 @@
             --button-gradient: linear-gradient(135deg, #ff55d2, #a970ff);
         }
         @import url('https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,400;0,600;0,700;0,900&display=swap');
-
         
         /* CUSTOM TEXT SELECTION */
         ::selection {
-            background-color: #ff55d2; 
+            background-color: #ff55d2;
             color: #000000; 
         }
 
@@ -36,7 +34,7 @@
             text-transform: uppercase;
             letter-spacing: 1px;
             margin-bottom: 30px;
-            transition: all 0.3s ease; 
+            transition: all 0.3s ease;
         }
 
         /* 2. BASE STYLES AND SCROLLBAR */
@@ -45,20 +43,18 @@
             background-size: 200% 200%;
             animation: gradientShift 10s ease infinite;
             color: #efeff1; 
-            font-family: 'Poppins', sans-serif; /* UPGRADED FONT */
+            font-family: 'Poppins', sans-serif;
             margin: 0;
             padding: 40px;
             display: flex;
             flex-direction: column;
             align-items: center;
-            cursor: url('pointer.png') 8 8, auto; 
+            cursor: url('pointer.png') 8 8, auto;
         }
-
 
         footer {
             transition: all 0.3s ease;
         }
-
 
         a {
             cursor: url('pointer.png') 8 8, pointer;
@@ -136,25 +132,17 @@
 
         /* offline dot */
         .status-dot { 
-            height: 8px;
-            width: 8px; 
-            border-radius: 50%; 
-            margin-right: 6px; 
-            background-color: #333; 
-            transition: all 0.3s ease;
-        }
-
-        .status-dot { 
             height: 10px;
             width: 10px; 
             border-radius: 50%; 
             margin-right: 8px; 
             background-color: #808080; 
+            transition: all 0.3s ease;
         }
 
         .live-pulse { color: #ff4d4d !important; }
         .live-pulse .status-dot { 
-            background-color: #ff4d4d; 
+            background-color: #ff4d4d;
             box-shadow: 0 0 8px #ff4d4d;
             animation: pulseRed 1.5s infinite; 
         }
@@ -175,7 +163,7 @@
             text-transform: uppercase;
             position: sticky;
             top: 20px; 
-            z-index: 1000; 
+            z-index: 1000;
             box-shadow: 0 5px 15px rgba(0, 0, 0, 0.5);
             display: flex;
             align-items: center;
@@ -202,7 +190,7 @@
             gap: 20px;
             width: 100%; 
             max-width: 1000px;
-            align-items: start; 
+            align-items: start;
         }
 
         .card {
@@ -270,14 +258,13 @@
         }
 
         .card p {
-            color: #b9b9c6; 
+            color: #b9b9c6;
             margin: 0 0 10px 0;
             font-size: 0.95em;
             font-weight: 400;
             line-height: 1.4;
         }
 
-        /* 2. Soften the context description text */
         .stream-context {
             background-color: #170b29;
             padding: 12px 15px;
@@ -285,12 +272,11 @@
             border-left: 3px solid #ff55d2;
             font-size: 0.9em;
             margin-bottom: 15px;
-            color: #b9b9c6; 
+            color: #b9b9c6;
         }
 
-        /* 3. Make the quote POP to the front layer */
         .example-quote {
-            color: #ffffff; 
+            color: #ffffff;
             font-weight: 500; 
             font-style: italic;
             display: block;
@@ -414,16 +400,19 @@
             cursor: url('pointer.png') 8 8, pointer;
         }
 
-        /* Blur everything that is NOT the active card/row */
         body.is-playing .card:not(.active-play),
         body.is-playing .list-item:not(.active-play) {
             opacity: 0.25;
             filter: blur(5px) grayscale(40%);
             transition: all 0.3s ease;
-            pointer-events: none;
+            pointer-events: none !important;
         }
 
-        /* Blur the header, toggle button, version text, suggestion form, and footer */
+        body.is-playing .card.active-play,
+        body.is-playing .list-item.active-play {
+            pointer-events: auto !important;
+        }
+
         body.is-playing .header-container,
         body.is-playing .toggle-btn,
         body.is-playing #version-control,
@@ -435,7 +424,6 @@
             pointer-events: none;
         }
 
-        /* Only apply hover/glow on desktop */
         @media (hover: hover) and (pointer: fine) {
             #suggestion-form button:hover {
                 background-color: #5ce1e6 !important;
@@ -445,18 +433,11 @@
             }
         }
         
-        /* Makes it look pressed down when actively clicking */
         #suggestion-form button:active {
             transform: translateY(1px);
             box-shadow: 0 0 5px rgba(92, 225, 230, 0.4);
         }
 
-        /* Base transition for the footer so it fades smoothly */
-        footer {
-            transition: all 0.3s ease;
-        }
-
-        /* Keep the active item sharp, bright, and popped out */
         body.is-playing .card.active-play,
         body.is-playing .list-item.active-play {
             opacity: 1;
@@ -466,7 +447,7 @@
             box-shadow: 
                 0 0 8px rgba(92, 225, 230, 0.8),   
                 0 0 20px rgba(92, 225, 230, 0.4),  
-                0 15px 30px rgba(92, 225, 230, 0.15); 
+                0 15px 30px rgba(92, 225, 230, 0.15);
             z-index: 100;
         }
 
@@ -502,14 +483,13 @@
             border-left-color: #5ce1e6; 
         }
 
-        /* Changes the title color to Cyan when the row is active */
         .list-item.active h3 {
             color: #5ce1e6;
             transition: color 0.3s ease;
         }
 
         .list-content p {
-            color: #b9b9c6; 
+            color: #b9b9c6;
             margin: 0 0 10px 0;
             font-size: 0.95em;
             font-weight: 400;
@@ -524,7 +504,7 @@
             margin-top: 8px;
             padding: 6px 12px; 
             border-left: 3px solid #5ce1e6; 
-            background: rgba(92, 225, 230, 0.08); 
+            background: rgba(92, 225, 230, 0.08);
             border-radius: 0 6px 6px 0; 
         }
 
@@ -551,7 +531,6 @@
             -webkit-tap-highlight-color: transparent !important;
         }
 
-        /* Ensure the link container handles the layout */
         footer .social-links {
             display: flex;
             justify-content: center;
@@ -560,36 +539,30 @@
             margin-top: 20px;
         }
 
-        /* Style the links and icons directly */
         footer .social-links a {
-            color: #5ce1e6 !important; 
+            color: #5ce1e6 !important;
             transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275) !important;
             display: inline-block !important;
             text-decoration: none;
         }
 
-        /* Trigger the hover effect on the icon */
-        footer .social-links a:hover {
-            transform: scale(1.5) !important;
-            color: #ff55d2 !important; 
-        }
-        
-        /* Only animate on hover for mouse users */
         @media (hover: hover) and (pointer: fine) {
+            footer .social-links a:hover {
+                transform: scale(1.5) !important;
+                color: #ff55d2 !important; 
+            }
             .mango-btn:hover {
-                transform: scale(1.2); 
+                transform: scale(1.2);
                 filter: drop-shadow(0 0 8px rgba(255, 179, 71, 0.8)); 
             }
         }
 
-        /* Makes the button immune to hover/glow while green */
         .btn-success {
             pointer-events: none !important;
             background-color: #2ecc71 !important;
             box-shadow: none !important;
         }
 
-        /* 2. Force it back to normal when tapped/clicked */
         .mango-btn:active {
             transform: scale(1) !important;
             filter: drop-shadow(0 0 0px rgba(255, 179, 71, 0)) !important;
@@ -600,7 +573,11 @@
             filter: drop-shadow(0 0 8px rgba(255, 179, 71, 0.8)) !important;
             transition: all 0.3s ease;
         }
-
+        
+        /* Hiding the Version Control element temporarily */
+        #version-control {
+            display: none !important;
+        }
     </style>
 </head>
 <body>
@@ -629,431 +606,8 @@
         Last Updated: <span id="update-date">Loading...</span>
     </div>
         
-    <div id="flashcard-view">
-        <div class="card">
-            <h2>Hocicon <i class="fas fa-chevron-down expand-icon"></i></h2>
-            <div class="literal">Literal: Big snout.</div>
-            <div class="details">
-                <div class="section-title">Meaning</div>
-                <p>Loudmouth, trash talker, or someone who talks a massive amount of shit but cannot back it up.</p>
-                <div class="section-title">Stream Context</div>
-                <div class="stream-context">
-                    When someone is talking shit in proximity chat and you kill them.
-                    <span class="example-quote">"Tan hocicon y no la armas, a chingar a su madre pa la lobby."</span>
-                </div>
-                <button class="cute-play-btn" onclick="playClip(this)">
-                    <svg class="btn-icon" width="16" height="16" viewBox="0 0 24 24" fill="currentColor">
-                        <path d="M8 5v14l11-7z"/>
-                    </svg>
-                    <span class="wave-container">
-                        <span class="bar"></span>
-                        <span class="bar"></span>
-                        <span class="bar"></span>
-                        <span class="bar"></span>
-                    </span>
-                    <span class="text-play">PLAY AUDIO</span>
-                    <span class="text-playing">PLAYING...</span>
-                </button>
-                <audio preload="none"><source src="audio/hocicon.m4a" type="audio/mp4"></audio>
-            </div>
-        </div>
-
-        <div class="card">
-            <h2>Mamón <i class="fas fa-chevron-down expand-icon"></i></h2>
-            <div class="literal">Literal: Sucker.</div>
-            <div class="details">
-                <div class="section-title">Meaning</div>
-                <p>Arrogant, insufferable, a jerk, or someone who is trying way too hard.</p>
-                <div class="section-title">Stream Context</div>
-                <div class="stream-context">
-                    Perfect for when the lobby is ridiculously sweaty. If a mf is slide canceling 40 times, YY'n like crazy, and doing crazy movement just to get a basic kill, they are being a mamón.
-                    <span class="example-quote">"Ay, qué mamón eres."</span>
-                </div>
-                <button class="cute-play-btn" onclick="playClip(this)">
-                    <svg class="btn-icon" width="16" height="16" viewBox="0 0 24 24" fill="currentColor">
-                        <path d="M8 5v14l11-7z"/>
-                    </svg>
-                    <span class="wave-container">
-                        <span class="bar"></span>
-                        <span class="bar"></span>
-                        <span class="bar"></span>
-                        <span class="bar"></span>
-                    </span>
-                    <span class="text-play">PLAY AUDIO</span>
-                    <span class="text-playing">PLAYING...</span>
-                </button>
-                <audio preload="none"><source src="audio/mamon.m4a" type="audio/mp4"></audio>
-            </div>
-        </div>
-
-        <div class="card">
-            <h2>Puñetas <i class="fas fa-chevron-down expand-icon"></i></h2>
-            <div class="literal">Literal: Wanks.</div>
-            <div class="details">
-                <div class="section-title">Meaning</div>
-                <p>A complete idiot, a wanker, or someone who is absolutely useless. Describes someone making phenomenally stupid decisions.</p>
-                <div class="section-title">Stream Context</div>
-                <div class="stream-context">
-                    You see/watch someone do something really stupid and dumb.
-                    <span class="example-quote">"Estas bien puñetas wey."</span>
-                </div>
-                <button class="cute-play-btn" onclick="playClip(this)">
-                    <svg class="btn-icon" width="16" height="16" viewBox="0 0 24 24" fill="currentColor">
-                        <path d="M8 5v14l11-7z"/>
-                    </svg>
-                    <span class="wave-container">
-                        <span class="bar"></span>
-                        <span class="bar"></span>
-                        <span class="bar"></span>
-                        <span class="bar"></span>
-                    </span>
-                    <span class="text-play">PLAY AUDIO</span>
-                    <span class="text-playing">PLAYING...</span>
-                </button>
-                <audio preload="none"><source src="audio/punetas.m4a" type="audio/mp4"></audio>
-            </div>
-        </div>
-
-        <div class="card">
-            <h2>Me la pelas <i class="fas fa-chevron-down expand-icon"></i></h2>
-            <div class="literal">Literal: You peel it for me (a banana).</div>
-            <div class="details">
-                <div class="section-title">Meaning</div>
-                <p>"You can't touch me," "You are nothing compared to me," or "I am better than you."</p>
-                <div class="section-title">Stream Context</div>
-                <div class="stream-context">
-                    When a tryhard mf tries to ego chall u but you completely outgun him and leave him crawling on the floor.
-                    <span class="example-quote">"Me la pelaste wey."</span>
-                </div>
-                <button class="cute-play-btn" onclick="playClip(this)">
-                    <svg class="btn-icon" width="16" height="16" viewBox="0 0 24 24" fill="currentColor">
-                        <path d="M8 5v14l11-7z"/>
-                    </svg>
-                    <span class="wave-container">
-                        <span class="bar"></span>
-                        <span class="bar"></span>
-                        <span class="bar"></span>
-                        <span class="bar"></span>
-                    </span>
-                    <span class="text-play">PLAY AUDIO</span>
-                    <span class="text-playing">PLAYING...</span>
-                </button>
-                <audio preload="none"><source src="audio/melapelas.m4a" type="audio/mp4"></audio>
-            </div>
-        </div>
-
-        <div class="card">
-            <h2>Chamaco Miado <i class="fas fa-chevron-down expand-icon"></i></h2>
-            <div class="literal">Literal: Piss covered kid.</div>
-            <div class="details">
-                <div class="section-title">Meaning</div>
-                <p>A deeply disrespectful and dismissive way to call someone a brat, a "squeaker," or an immature child who hasn't earned the right to talk trash.</p>
-                <div class="section-title">Stream Context</div>
-                <div class="stream-context">
-                    When a little kid or a grown ass man with childish behavior starts screaming every profanity they know.
-                    <span class="example-quote">"Ya cállese, pinche chamaco miado."</span>
-                </div>
-                <button class="cute-play-btn" onclick="playClip(this)">
-                    <svg class="btn-icon" width="16" height="16" viewBox="0 0 24 24" fill="currentColor">
-                        <path d="M8 5v14l11-7z"/>
-                    </svg>
-                    <span class="wave-container">
-                        <span class="bar"></span>
-                        <span class="bar"></span>
-                        <span class="bar"></span>
-                        <span class="bar"></span>
-                    </span>
-                    <span class="text-play">PLAY AUDIO</span>
-                    <span class="text-playing">PLAYING...</span>
-                </button>
-                <audio preload="none"><source src="audio/chamaco.m4a" type="audio/mp4"></audio>
-            </div>
-        </div>
-
-        <div class="card">
-            <h2>Hambreado <i class="fas fa-chevron-down expand-icon"></i></h2>
-            <div class="literal">Literal: Starving or famished.</div>
-            <div class="details">
-                <div class="section-title">Meaning</div>
-                <p>Extremely thirsty for a kill/playing utterly desperately.</p>
-                <div class="section-title">Stream Context</div>
-                <div class="stream-context">
-                    Use this when an enemy player chases you across the entire map, ignoring other teams and the gas, just to get one single kill.
-                    <span class="example-quote">"No seas tan hambreado wey."</span>
-                </div>
-                <button class="cute-play-btn" onclick="playClip(this)">
-                    <svg class="btn-icon" width="16" height="16" viewBox="0 0 24 24" fill="currentColor">
-                        <path d="M8 5v14l11-7z"/>
-                    </svg>
-                    <span class="wave-container">
-                        <span class="bar"></span>
-                        <span class="bar"></span>
-                        <span class="bar"></span>
-                        <span class="bar"></span>
-                    </span>
-                    <span class="text-play">PLAY AUDIO</span>
-                    <span class="text-playing">PLAYING...</span>
-                </button>
-                <audio preload="none"><source src="audio/hambreado.m4a" type="audio/mp4"></audio>
-            </div>
-        </div>
-
-        <div class="card">
-            <h2>Llorón <i class="fas fa-chevron-down expand-icon"></i></h2>
-            <div class="literal">Literal: Crier.</div>
-            <div class="details">
-                <div class="section-title">Meaning</div>
-                <p>Crybaby or complainer.</p>
-                <div class="section-title">Stream Context</div>
-                <div class="stream-context">
-                    When you kill someone and immediately hear them screaming in death comms about aim assist, lag, or accusing her of hacking because their ego is bruised.
-                    <span class="example-quote">"No seas llorón."</span>
-                </div>
-                <button class="cute-play-btn" onclick="playClip(this)">
-                    <svg class="btn-icon" width="16" height="16" viewBox="0 0 24 24" fill="currentColor">
-                        <path d="M8 5v14l11-7z"/>
-                    </svg>
-                    <span class="wave-container">
-                        <span class="bar"></span>
-                        <span class="bar"></span>
-                        <span class="bar"></span>
-                        <span class="bar"></span>
-                    </span>
-                    <span class="text-play">PLAY AUDIO</span>
-                    <span class="text-playing">PLAYING...</span>
-                </button>
-                <audio preload="none"><source src="audio/lloron.m4a" type="audio/mp4"></audio>
-            </div>
-        </div>
-
-        <div class="card">
-            <h2>Espantaviejas <i class="fas fa-chevron-down expand-icon"></i></h2>
-            <div class="literal">Literal: Woman scarer.</div>
-            <div class="details">
-                <div class="section-title">Meaning</div>
-                <p>A guy whose behavior/personality repels women. Tryhards, incels, and random dudes who talk unprovoked trash the second they hear a girl in game chat.</p>
-                <div class="section-title">Stream Context</div>
-                <div class="stream-context">
-                    If a random guy hears your voice in proximity chat and instantly starts making kitchen jokes or acting weird.
-                    <span class="example-quote">"Mi compa el espantaviejas."</span>
-                </div>
-                <button class="cute-play-btn" onclick="playClip(this)">
-                    <svg class="btn-icon" width="16" height="16" viewBox="0 0 24 24" fill="currentColor">
-                        <path d="M8 5v14l11-7z"/>
-                    </svg>
-                    <span class="wave-container">
-                        <span class="bar"></span>
-                        <span class="bar"></span>
-                        <span class="bar"></span>
-                        <span class="bar"></span>
-                    </span>
-                    <span class="text-play">PLAY AUDIO</span>
-                    <span class="text-playing">PLAYING...</span>
-                </button>
-                <audio preload="none"><source src="audio/espantaviejas.m4a" type="audio/mp4"></audio>
-            </div>
-        </div>
-
-        <div class="card">
-            <h2>Culón <i class="fas fa-chevron-down expand-icon"></i></h2>
-            <div class="literal">Literal: Someone with a big ass.</div>
-            <div class="details">
-                <div class="section-title">Meaning</div>
-                <p>A massive coward or a pussy. Someone who talks a big game but completely backs down when the actual fight starts.</p>
-                <div class="section-title">Stream Context</div>
-                <div class="stream-context">
-                    Lets say an enemy shoots you from the back, you turn around and break him, then he starts running.
-                    <span class="example-quote">"Pa que corres, no seas culon."</span>
-                </div>
-                <button class="cute-play-btn" onclick="playClip(this)">
-                    <svg class="btn-icon" width="16" height="16" viewBox="0 0 24 24" fill="currentColor">
-                        <path d="M8 5v14l11-7z"/>
-                    </svg>
-                    <span class="wave-container">
-                        <span class="bar"></span>
-                        <span class="bar"></span>
-                        <span class="bar"></span>
-                        <span class="bar"></span>
-                    </span>
-                    <span class="text-play">PLAY AUDIO</span>
-                    <span class="text-playing">PLAYING...</span>
-                </button>
-                <audio preload="none"><source src="audio/culon.m4a" type="audio/mp4"></audio>
-            </div>
-        </div>
-
-        <div class="card">
-            <h2>Agüitado <i class="fas fa-chevron-down expand-icon"></i></h2>
-            <div class="literal">Literal: To get watery.</div>
-            <div class="details">
-                <div class="section-title">Meaning</div>
-                <p>Feeling down, completely defeated, bummed out, or losing your motivation after something bad happens.</p>
-                <div class="section-title">Stream Context</div>
-                <div class="stream-context">
-                    When you lose a 1v1 you know you should have won, or a teammate immediately gets fully killed off the drop and chat can tell the vibes are down.
-                    <span class="example-quote">"Ando bien agüitada." OR "No te agüites, wey."</span>
-                </div>
-                <button class="cute-play-btn" onclick="playClip(this)">
-                    <svg class="btn-icon" width="16" height="16" viewBox="0 0 24 24" fill="currentColor">
-                        <path d="M8 5v14l11-7z"/>
-                    </svg>
-                    <span class="wave-container">
-                        <span class="bar"></span>
-                        <span class="bar"></span>
-                        <span class="bar"></span>
-                        <span class="bar"></span>
-                    </span>
-                    <span class="text-play">PLAY AUDIO</span>
-                    <span class="text-playing">PLAYING...</span>
-                </button>
-                <audio preload="none"><source src="audio/aguitado.m4a" type="audio/mp4"></audio>
-            </div>
-        </div>
-
-        <div class="card">
-            <h2>Curada <i class="fas fa-chevron-down expand-icon"></i></h2>
-            <div class="literal">Literal: Cured.</div>
-            <div class="details">
-                <div class="section-title">Meaning</div>
-                <p>Cool, funny, or awesome.</p>
-                <div class="section-title">Stream Context</div>
-                <div class="stream-context">
-                    Lets say you watch a crazy clip or someone in chat says something genuinely funny.
-                    <span class="example-quote">"Qué curada está ese clip."</span>
-                </div>
-                <button class="cute-play-btn" onclick="playClip(this)">
-                    <svg class="btn-icon" width="16" height="16" viewBox="0 0 24 24" fill="currentColor">
-                        <path d="M8 5v14l11-7z"/>
-                    </svg>
-                    <span class="wave-container">
-                        <span class="bar"></span>
-                        <span class="bar"></span>
-                        <span class="bar"></span>
-                        <span class="bar"></span>
-                    </span>
-                    <span class="text-play">PLAY AUDIO</span>
-                    <span class="text-playing">PLAYING...</span>
-                </button>
-                <audio preload="none"><source src="audio/curada.m4a" type="audio/mp4"></audio>
-            </div>
-        </div>
-
-        <div class="card">
-            <h2>Arre <i class="fas fa-chevron-down expand-icon"></i></h2>
-            <div class="literal">Literal: Giddy-up.</div>
-            <div class="details">
-                <div class="section-title">Meaning</div>
-                <p>Say less, bet, I'm down.</p>
-                <div class="section-title">Stream Context</div>
-                <div class="stream-context">
-                    Someone in chat ask you if you want a chall or to run a specific loadout.
-                    <span class="example-quote">"Arre arre."</span>
-                </div>
-                <button class="cute-play-btn" onclick="playClip(this)">
-                    <svg class="btn-icon" width="16" height="16" viewBox="0 0 24 24" fill="currentColor">
-                        <path d="M8 5v14l11-7z"/>
-                    </svg>
-                    <span class="wave-container">
-                        <span class="bar"></span>
-                        <span class="bar"></span>
-                        <span class="bar"></span>
-                        <span class="bar"></span>
-                    </span>
-                    <span class="text-play">PLAY AUDIO</span>
-                    <span class="text-playing">PLAYING...</span>
-                </button>
-                <audio preload="none"><source src="audio/arre.m4a" type="audio/mp4"></audio>
-            </div>
-        </div>
-
-    </div>
-
-    <div id="cheatsheet-view" class="hidden">
-        <div class="list-item">
-            <h3>Hocicon</h3>
-            <div class="list-content">
-                <p><span class="label">Meaning:</span> Loudmouth, trash talker who can't back it up.</p>
-                <span class="example-quote"><span class="label">Example:</span> "Tan hocicon y no la armas, a chingar a su madre pa la lobby."</span>
-            </div>
-        </div>
-        <div class="list-item">
-            <h3>Mamón</h3>
-            <div class="list-content">
-                <p><span class="label">Meaning:</span> Arrogant, tryhard, insufferable jerk.</p>
-                <span class="example-quote"><span class="label">Example:</span> "Ay, qué mamón eres."</span>
-            </div>
-        </div>
-        <div class="list-item">
-            <h3>Puñetas</h3>
-            <div class="list-content">
-                <p><span class="label">Meaning:</span> Complete idiot making phenomenally stupid decisions.</p>
-                <span class="example-quote"><span class="label">Example:</span> "Estas bien puñetas wey."</span>
-            </div>
-        </div>
-        <div class="list-item">
-            <h3>Me la pelas</h3>
-            <div class="list-content">
-                <p><span class="label">Meaning:</span> "You can't touch me" / "I am better than you."</p>
-                <span class="example-quote"><span class="label">Example:</span> "Me la pelaste wey."</span>
-            </div>
-        </div>
-        <div class="list-item">
-            <h3>Chamaco Miado</h3>
-            <div class="list-content">
-                <p><span class="label">Meaning:</span> Annoying brat / squeaker talking trash.</p>
-                <span class="example-quote"><span class="label">Example:</span> "Ya cállese, pinche chamaco miado."</span>
-            </div>
-        </div>
-        <div class="list-item">
-            <h3>Hambreado</h3>
-            <div class="list-content">
-                <p><span class="label">Meaning:</span> Extremely thirsty for a kill / playing desperately.</p>
-                <span class="example-quote"><span class="label">Example:</span> "No seas tan hambreado wey."</span>
-            </div>
-        </div>
-        <div class="list-item">
-            <h3>Llorón</h3>
-            <div class="list-content">
-                <p><span class="label">Meaning:</span> Crybaby complaining in death comms.</p>
-                <span class="example-quote"><span class="label">Example:</span> "No seas llorón."</span>
-            </div>
-        </div>
-        <div class="list-item">
-            <h3>Espantaviejas</h3>
-            <div class="list-content">
-                <p><span class="label">Meaning:</span> Woman repeller / weirdos in game chat.</p>
-                <span class="example-quote"><span class="label">Example:</span> "Mi compa el espantaviejas."</span>
-            </div>
-        </div>
-        <div class="list-item">
-            <h3>Culón</h3>
-            <div class="list-content">
-                <p><span class="label">Meaning:</span> Massive coward who runs from a fight.</p>
-                <span class="example-quote"><span class="label">Example:</span> "Pa que corres, no seas culon."</span>
-            </div>
-        </div>
-        <div class="list-item">
-            <h3>Agüitado</h3>
-            <div class="list-content">
-                <p><span class="label">Meaning:</span> Feeling down, defeated, bummed out, or salty.</p>
-                <span class="example-quote"><span class="label">Example:</span> "Ando bien agüitada." OR "No te agüites, wey."</span>
-            </div>
-        </div>
-        <div class="list-item">
-            <h3>Curada</h3>
-            <div class="list-content">
-                <p><span class="label">Meaning:</span> Cool, funny, or awesome.</p>
-                <span class="example-quote"><span class="label">Example:</span> "Qué curada está ese clip."</span>
-            </div>
-        </div>
-        <div class="list-item">
-            <h3>Arre</h3>
-            <div class="list-content">
-                <p><span class="label">Meaning:</span> Say less, bet, I'm down.</p>
-                <span class="example-quote"><span class="label">Example:</span> "Arre arre"</span>
-            </div>
-        </div>
-    </div>
+    <div id="flashcard-view"></div>
+    <div id="cheatsheet-view" class="hidden"></div>
 
     <form id="suggestion-form" action="https://api.sheetmonkey.io/form/51DRKWQW38cSYMV9x6EWE8" method="post" style="display: flex; flex-direction: column; align-items: center; width: 100%; max-width: 450px; margin: 40px auto 20px auto; padding: 0 20px; box-sizing: border-box;">
         <p style="color: #8c8c9a; font-size: 0.85em; text-transform: uppercase; letter-spacing: 1px; margin-bottom: 10px; font-weight: bold; text-align: center; margin-top: 0;">
@@ -1085,7 +639,70 @@
         </div>
     </footer>
 
+     <!-- 1. Load data -->
+    <script src="data.js"></script>
+
+    <!-- 2. Run engine -->
     <script>
+        // ENGINE FOR DYNAMIC CARD RENDERING
+        function generateDictionaryDOM() {
+            const flashcardContainer = document.getElementById('flashcard-view');
+            const cheatsheetContainer = document.getElementById('cheatsheet-view');
+            
+            let flashcardsHTML = '';
+            let cheatsheetHTML = '';
+
+            dictionaryData.forEach(item => {
+                // Build dynamic flashcard view strings
+                flashcardsHTML += `
+                    <div class="card">
+                        <h2>${item.term} <i class="fas fa-chevron-down expand-icon"></i></h2>
+                        <div class="literal">Literal: ${item.literal}</div>
+                        <div class="details">
+                            <div class="section-title">Meaning</div>
+                            <p>${item.meaning}</p>
+                            <div class="section-title">Stream Context</div>
+                            <div class="stream-context">
+                                ${item.context}
+                                <span class="example-quote">"${item.quote}"</span>
+                            </div>
+                            <button class="cute-play-btn" onclick="playClip(this)">
+                                <svg class="btn-icon" width="16" height="16" viewBox="0 0 24 24" fill="currentColor">
+                                    <path d="M8 5v14l11-7z"/>
+                                </svg>
+                                <span class="wave-container">
+                                    <span class="bar"></span>
+                                    <span class="bar"></span>
+                                    <span class="bar"></span>
+                                    <span class="bar"></span>
+                                </span>
+                                <span class="text-play">PLAY AUDIO</span>
+                                <span class="text-playing">PLAYING...</span>
+                            </button>
+                            <audio preload="none"><source src="${item.audio}" type="audio/mp4"></audio>
+                        </div>
+                    </div>
+                `;
+
+                // Build dynamic cheat sheet view strings
+                cheatsheetHTML += `
+                    <div class="list-item">
+                        <h3>${item.term}</h3>
+                        <div class="list-content">
+                            <p><span class="label">Meaning:</span> ${item.meaning}</p>
+                            <span class="example-quote"><span class="label">Example:</span> "${item.quote}"</span>
+                        </div>
+                    </div>
+                `;
+            });
+
+            flashcardContainer.innerHTML = flashcardsHTML;
+            cheatsheetContainer.innerHTML = cheatsheetHTML;
+
+            // Re-bind click event listeners to the new dynamic items
+            bindGlobalClickListeners();
+        }
+
         // 1. AUDIO AND FOCUS RESET FUNCTION
         function resetAllAudio() {
             document.querySelectorAll('audio').forEach(a => {
@@ -1094,7 +711,6 @@
             });
             document.querySelectorAll('.cute-play-btn').forEach(b => b.classList.remove('playing'));
             
-            // Removes focus AND closes all cards to prevent desync
             document.querySelectorAll('.card, .list-item').forEach(c => {
                 c.classList.remove('active-play');
                 c.classList.remove('active'); 
@@ -1113,13 +729,12 @@
 
             flashcards.classList.toggle('hidden');
             cheatsheet.classList.toggle('hidden');
-            
             if (flashcards.classList.contains('hidden')) {
                 button.innerHTML = '<i class="fas fa-th-large" style="margin-right: 8px;"></i> Switch to Flashcard Mode';
-                localStorage.setItem('amaritaViewPref', 'cheatsheet'); // Saves preference
+                localStorage.setItem('amaritaViewPref', 'cheatsheet'); 
             } else {
                 button.innerHTML = '<i class="fas fa-list" style="margin-right: 8px;"></i> Switch to Cheat Sheet Mode';
-                localStorage.setItem('amaritaViewPref', 'flashcard'); // Saves preference
+                localStorage.setItem('amaritaViewPref', 'flashcard'); 
             }
         }
 
@@ -1130,30 +745,23 @@
 
             if (!audio) return;
 
-            // If the audio is already playing and we click to pause it
             if (!audio.paused) {
                 resetAllAudio();
-                // Keep the card open and highlighted even when paused
-                card.classList.add('active'); 
+                card.classList.add('active');
                 card.classList.add('active-play');
                 document.body.classList.add('is-playing');
                 return;
             }
 
-            // Reset any other playing audio before starting this one
             resetAllAudio();
-
-            // Force the card to stay open IMMEDIATELY (even if theres missing audio fileS)
-            card.classList.add('active'); 
+            card.classList.add('active');
             card.classList.add('active-play');
             document.body.classList.add('is-playing');
 
-            // Now attempt to play the audio
             audio.play().then(() => {
                 btn.classList.add('playing');
             }).catch(e => console.log("Playback blocked or file missing:", e));
 
-            // When the audio naturally finishes, reset the play button but keep the card open
             audio.onended = () => {
                 resetAllAudio();
                 card.classList.add('active'); 
@@ -1168,26 +776,11 @@
             const clickedToggleButton = event.target.closest('.toggle-btn');
             
             if (!clickedInsideElement && !clickedToggleButton && document.body.classList.contains('is-playing')) {
-                resetAllAudio();
+                 resetAllAudio();
             }
         });
 
-        // AUTO LOAD SAVED VIEW PREFERENCE
-        window.addEventListener('DOMContentLoaded', () => {
-            const savedView = localStorage.getItem('amaritaViewPref');
-            
-            if (savedView === 'cheatsheet') {
-                const flashcards = document.getElementById('flashcard-view');
-                const cheatsheet = document.getElementById('cheatsheet-view');
-                const button = document.getElementById('toggleBtn');
-                
-                flashcards.classList.add('hidden');
-                cheatsheet.classList.remove('hidden');
-                button.innerHTML = '<i class="fas fa-th-large" style="margin-right: 8px;"></i> Switch to Flashcard Mode';
-            }
-        });
-
-        // 5. TWITCH TREAMER LIVE STATUS TRACKER
+        // 5. TWITCH STREAMER LIVE STATUS TRACKER
         async function checkTwitchLive() {
             const username = 'okieamara';
             const container = document.getElementById('status-container');
@@ -1209,65 +802,71 @@
                 text.innerText = "Error";
             }
         }
-        
-        checkTwitchLive();
-        setInterval(checkTwitchLive, 60000);
 
-        // 6. CLICK TO FOCUS (CARDS AND CHEAT SHEET)
-        document.querySelectorAll('.card, .list-item').forEach(element => {
-            element.addEventListener('click', function(event) {
-                // If the play button is clicked, let playClip() handle it
-                if (event.target.closest('.cute-play-btn')) return;
-                
-                // Check if this card is ALREADY the active one before resetting
-                const isAlreadyActive = this.classList.contains('active-play');
-                
-                // Clear everything (closes all cards and removes dimming)
-                resetAllAudio();
-                
-                // If it wasnt already active, open and highlight it
-                if (!isAlreadyActive) {
-                    if (this.classList.contains('card')) {
-                        this.classList.add('active'); // Opens the accordion
+        // 6. CLICK TO FOCUS LOGIC SETUP DEFINITION
+        function bindGlobalClickListeners() {
+            document.querySelectorAll('.card, .list-item').forEach(element => {
+                element.addEventListener('click', function(event) {
+                    if (event.target.closest('.cute-play-btn')) return;
+                    
+                    const isAlreadyActive = this.classList.contains('active-play');
+                    resetAllAudio();
+       
+                    if (!isAlreadyActive) {
+                        if (this.classList.contains('card')) {
+                            this.classList.add('active'); 
+                        }
+                        this.classList.add('active-play'); 
+                        document.body.classList.add('is-playing');
                     }
-                    this.classList.add('active-play'); // Highlights the card
-                    document.body.classList.add('is-playing'); // Dims the background
-                }
+                });
             });
-        });
-
-        // AUTO FETCH RELATIVE UPDATE TIME
-        const updateSpan = document.getElementById('update-date');
-        if (updateSpan) {
-            const now = new Date();
-            const lastModified = new Date(document.lastModified);
-            
-            // Get the difference in milliseconds
-            const diffMs = now - lastModified;
-            
-            // Calculate minutes and hours
-            const diffMinutes = Math.floor(diffMs / (1000 * 60));
-            const diffHours = Math.floor(diffMs / (1000 * 60 * 60));
-            
-            let timeText = "";
-            
-            if (diffMinutes < 5) {
-                // Less than 5 minutes
-                timeText = "Just now";
-            } else if (diffMinutes < 60) {
-                // Between 5 and 59 minutes
-                timeText = `${diffMinutes} minutes ago`;
-            } else if (diffHours < 24) {
-                // Between 1 and 23 hours
-                timeText = diffHours === 1 ? "1 hour ago" : `${diffHours} hours ago`;
-            } else {
-                // 24 hours or more
-                const diffDays = Math.floor(diffHours / 24);
-                timeText = diffDays === 1 ? "1 day ago" : `${diffDays} days ago`;
-            }
-            
-            updateSpan.innerText = timeText;
         }
+
+        // INITIAL DEPLOYMENT EXECUTION
+        window.addEventListener('DOMContentLoaded', () => {
+            // Render all items dynamically out of data structure
+            generateDictionaryDOM();
+
+            // Handle layout configuration state preferences
+            const savedView = localStorage.getItem('amaritaViewPref');
+            if (savedView === 'cheatsheet') {
+                const flashcards = document.getElementById('flashcard-view');
+                const cheatsheet = document.getElementById('cheatsheet-view');
+                const button = document.getElementById('toggleBtn');
+                
+                flashcards.classList.add('hidden');
+                cheatsheet.classList.remove('hidden');
+                button.innerHTML = '<i class="fas fa-th-large" style="margin-right: 8px;"></i> Switch to Flashcard Mode';
+            }
+
+            // Run status trackers
+            checkTwitchLive();
+            setInterval(checkTwitchLive, 60000);
+
+            // Handle timestamp metadata metrics calculation logic
+            const updateSpan = document.getElementById('update-date');
+            if (updateSpan) {
+                const now = new Date();
+                const lastModified = new Date(document.lastModified);
+                const diffMs = now - lastModified;
+                const diffMinutes = Math.floor(diffMs / (1000 * 60));
+                const diffHours = Math.floor(diffMs / (1000 * 60 * 60));
+                
+                let timeText = "";
+                if (diffMinutes < 5) {
+                    timeText = "Just now";
+                } else if (diffMinutes < 60) {
+                    timeText = `${diffMinutes} minutes ago`;
+                } else if (diffHours < 24) {
+                    timeText = diffHours === 1 ? "1 hour ago" : `${diffHours} hours ago`;
+                } else {
+                    const diffDays = Math.floor(diffHours / 24);
+                    timeText = diffDays === 1 ? "1 day ago" : `${diffDays} days ago`;
+                }
+                updateSpan.innerText = timeText;
+            }
+        });
 
         // ESC KEY TO CLOSE CARDS
         document.addEventListener('keydown', function(event) {
@@ -1276,11 +875,12 @@
             }
         });
 
+        // MANGO MEDIA HANDLING LOGIC
         let playedClips = [];
 
         function playRandomMango() {
             const audio = document.getElementById('mango-audio');
-            const mangoBtn = document.querySelector('.mango-btn'); // Select the button
+            const mangoBtn = document.querySelector('.mango-btn'); 
             const clips = [
                 'audio/I DID IT.m4a',
                 'audio/LIFE CHANGING QUOTE.m4a',
@@ -1296,15 +896,11 @@
             let availableClips = clips.filter(clip => !playedClips.includes(clip));
             const randomClip = availableClips[Math.floor(Math.random() * availableClips.length)];
             
-            // 1. Trigger the animation
             mangoBtn.classList.add('animate-mango');
-            
-            // 2. Play the audio
             audio.src = randomClip;
             audio.play().catch(e => console.log("Mango playback failed:", e));
             playedClips.push(randomClip);
 
-            // 3. Remove the animation when the audio ends
             audio.onended = () => {
                 mangoBtn.classList.remove('animate-mango');
             };
@@ -1312,7 +908,6 @@
 
         // BACKGROUND FORM SUBMISSION
         const suggestionForm = document.getElementById('suggestion-form');
-        
         if (suggestionForm) {
             suggestionForm.addEventListener('submit', function(e) {
                 e.preventDefault();
@@ -1320,7 +915,6 @@
                 const button = e.target.querySelector('button');
                 const originalText = button.innerText;
 
-                // 1. Loading State
                 button.innerText = 'SENDING...';
                 button.style.background = '#5ce1e6'; 
 
@@ -1330,7 +924,6 @@
                 })
                 .then(response => {
                     if(response.ok) {
-                        // 2. Success State: Add the class instead of just setting background
                         button.innerText = 'SENT!';
                         button.classList.add('btn-success'); 
                         e.target.reset(); 
@@ -1343,15 +936,13 @@
                 .finally(() => {
                     setTimeout(() => {
                         button.innerText = originalText;
-                        button.classList.remove('btn-success'); // Cleanly remove the state
+                        button.classList.remove('btn-success'); 
                         button.style.background = '#ff55d2'; 
                         button.style.boxShadow = '';  
                     }, 3000);
                 });
             });
-        
         }
-
     </script>
 </body>
 </html>
