@@ -951,12 +951,23 @@
         
         // Initialize Firebase, Auth, Storage, and Database
         firebase.initializeApp(firebaseConfig);
-        const auth = firebase.auth(); 
+        const auth = firebase.auth();
         const storage = firebase.storage();
         const db = firebase.firestore();
 
-        // This replaces the old dictionaryData source
         let globalDictionaryData = []; 
+        let isAdmin = false; 
+
+        auth.onAuthStateChanged((user) => {
+            if (user) {
+                console.log("Welcome back, Admin!");
+                isAdmin = true;
+                // Unhide all admin buttons automatically
+                document.querySelectorAll('.admin-save').forEach(btn => btn.classList.remove('hidden'));
+            } else {
+                isAdmin = false;
+            }
+        });
 
         function startLiveDatabase() {
             db.collection('words').onSnapshot((snapshot) => {
@@ -971,7 +982,6 @@
 
 
         // --- ADMIN AND VOICE RECORDING SYSTEM ---
-        let isAdmin = false;
         let mediaRecorder;
         let audioChunks = [];
         let currentAudioBlob = null;
@@ -1321,9 +1331,10 @@
         // 3. PLAY AUDIO CLIP LOGIC
         function playClip(btn) {
             const card = btn.closest('.card');
-            const audio = card.querySelector('audio');
+            
+            const audio = btn.nextElementSibling;
 
-            if (!audio) return;
+            if (!audio || audio.tagName.toLowerCase() !== 'audio') return;
 
             if (!audio.paused) {
                 resetAllAudio();
@@ -1337,9 +1348,11 @@
             card.classList.add('active');
             card.classList.add('active-play');
             document.body.classList.add('is-playing');
+            
             audio.play().then(() => {
                 btn.classList.add('playing');
             }).catch(e => console.log("Playback blocked or file missing:", e));
+            
             audio.onended = () => {
                 resetAllAudio();
                 card.classList.add('active'); 
