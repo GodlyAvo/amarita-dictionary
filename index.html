@@ -1075,7 +1075,7 @@
             currentAudioBlob = null;
         }
 
-        function uploadAdminAudioToFirebase(btn, term) {
+        async function uploadAdminAudioToFirebase(btn, term) {
             if (!currentAudioBlob) return;
             
             const originalText = btn.innerHTML;
@@ -1083,41 +1083,28 @@
             btn.style.pointerEvents = "none";
             
             const docId = term.toLowerCase().replace(/[^a-z0-9]/g, '');
-            // Renames file so it doesnt overwrite anything in Storage
             const fileName = `audio/${docId}_amarita_custom`; 
             
             const storageRef = storage.ref(fileName);
-            // Attach the exact iPhone safe metadata
             const metadata = { contentType: currentAudioBlob.type };
             const uploadTask = storageRef.put(currentAudioBlob, metadata);
             
-            uploadTask.on('state_changed', 
-                (snapshot) => {
-                    const progress = (snapshot.bytesTransferred / snapshot.totalBytes) * 100;
-                    btn.innerHTML = `<i class="fas fa-spinner fa-spin"></i> ${Math.round(progress)}%`;
-                }, 
+            uploadTask.on('state_changed', null, 
                 (error) => {
-                    console.error("Firebase Upload Error:", error);
                     btn.innerHTML = '<i class="fas fa-times"></i> Error';
                     btn.style.backgroundColor = '#ff4d4d';
                 }, 
                 () => {
                     uploadTask.snapshot.ref.getDownloadURL().then(async (downloadURL) => {
-                        // save it to a new field called 'amaritaAudio' 
+                        // Update database only
                         await db.collection('words').doc(docId).update({
                             amaritaAudio: downloadURL
                         });
                         
-                        btn.innerHTML = '<i class="fas fa-check"></i> Live!';
+                        btn.innerHTML = '<i class="fas fa-check"></i> Uploaded & Live!';
                         btn.style.backgroundColor = '#2ecc71';
-                        btn.style.color = '#000';
                         
-                        setTimeout(() => {
-                            btn.innerHTML = originalText;
-                            btn.style.pointerEvents = "auto";
-                            btn.style.backgroundColor = '';
-                            btn.style.color = '';
-                        }, 3000);
+
                     });
                 }
             );
@@ -1170,7 +1157,7 @@
                         <span class="text-play">PLAY AUDIO</span>
                         <span class="text-playing">PLAYING...</span>
                     </button>
-                    <audio preload="none" playsinline><source src="${item.audio}"></audio>
+                    <audio preload="metadata" playsinline><source src="${item.audio}"></audio>
                 `;
 
                 let adminDeleteHTML = '';
