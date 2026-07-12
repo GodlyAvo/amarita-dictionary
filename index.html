@@ -26,7 +26,6 @@
             color: #000000; 
         }
 
-        /* 1. Base styles for the text */
         #version-control {
             font-size: 0.75em;
             color: #666;
@@ -37,7 +36,7 @@
             transition: all 0.3s ease;
         }
 
-        /* 2. BASE STYLES AND SCROLLBAR */
+        /* BASE STYLES AND SCROLLBAR */
         body {
             background-color: #000000;
             background-size: 200% 200%;
@@ -78,7 +77,7 @@
             background: #ff55d2;
         }
 
-        /* 3. HEADER AND TWITCH STATUS */
+        /* HEADER AND TWITCH STATUS */
         .header-container {
             transition: all 0.3s ease;
             display: flex;
@@ -117,6 +116,7 @@
             text-transform: uppercase;
             letter-spacing: 2px;
             font-style: italic; 
+            cursor: pointer;
         }
 
         #status-container { 
@@ -146,7 +146,7 @@
             animation: pulseRed 1.5s infinite; 
         }
 
-        /* 4. MAIN TOGGLE BUTTON */
+        /* MAIN TOGGLE BUTTON */
         .toggle-btn {
             background: rgba(23, 11, 41, 0.8);
             backdrop-filter: blur(5px);
@@ -177,7 +177,7 @@
             transform: translateY(-2px);
         }
 
-        /* 5. FLASHCARD GRID AND TYPOGRAPHY */
+        /* FLASHCARD GRID AND TYPOGRAPHY */
         .container {
             width: 100%;
             max-width: 1000px;
@@ -248,7 +248,7 @@
         }
 
         .section-title {
-            color: #efeff1; 
+            color: #efeff1;
             font-size: 0.85em;
             text-transform: uppercase;
             letter-spacing: 1px;
@@ -258,7 +258,7 @@
         }
 
         .card p {
-            color: #ffffff; 
+            color: #ffffff;
             margin: 0 0 10px 0;
             font-size: 0.95em;
             font-weight: 400;
@@ -292,12 +292,12 @@
         }
 
         audio.recorded-audio-player {
-            display: block; 
+            display: block;
             margin-bottom: 10px;
             border-radius: 30px;
         }
 
-        /* 6. CLICK TO REVEAL ACCORDION LOGIC */
+        /* CLICK TO REVEAL ACCORDION LOGIC */
         .details {
             max-height: 0;
             overflow: hidden;
@@ -306,12 +306,12 @@
         }
 
         .card.active .details {
-            max-height: 800px; /* Increased to accommodate recording UI */
+            max-height: 950px;
             opacity: 1;
             transition: max-height 0.6s ease-in, opacity 0.5s ease 0.1s;
         }
 
-        /* 7. PLAY BUTTON AND ANIMATIONS  */
+        /* PLAY BUTTON AND ANIMATIONS  */
         .cute-play-btn {
             background-color: transparent;
             color: #ff55d2;
@@ -433,7 +433,7 @@
             50% { box-shadow: 0 0 15px rgba(255, 77, 77, 0.9), inset 0 0 10px rgba(255, 77, 77, 0.3); }
         }
 
-        /* 8. FOCUS MODE (DIMMING AND BLUR) */
+        /* FOCUS MODE (DIMMING AND BLUR) */
         .card, .list-item {
             background-color: #1a0d2e;
             cursor: url('pointer.png') 8 8, pointer;
@@ -491,11 +491,13 @@
             z-index: 100;
         }
 
-        /* 9. CHEAT SHEET VIEW */
+        /* CHEAT SHEET VIEW */
         #cheatsheet-view {
             display: flex;
             flex-direction: column;
             gap: 12px; 
+            width: 100%;
+            max-width: 1000px;
         }
 
         .list-item {
@@ -529,7 +531,7 @@
         }
 
         .list-content p {
-            color: #ffffff; 
+            color: #ffffff;
             margin: 0 0 10px 0;
             font-size: 0.95em;
             font-weight: 400;
@@ -554,10 +556,10 @@
             margin-right: 5px;
         }
 
-        /* 10. MOBILE RESPONSIVENESS */
+        /* MOBILE RESPONSIVENESS */
         @media (max-width: 600px) {
             body {
-                padding: 20px 15px; 
+                padding: 20px 15px;
             }
             .header-container {
                 flex-direction: column;
@@ -566,11 +568,11 @@
                 margin-bottom: 20px;
             }
             .logo {
-                height: 55px; 
+                height: 55px;
                 width: 55px; 
             }
             h1 {
-                font-size: 1.4em; 
+                font-size: 1.4em;
             }
             .list-item {
                 grid-template-columns: 1fr;
@@ -585,7 +587,6 @@
             }
         }
 
-        /* 11. STOOPID AHH MOBILE BUG FIXES */
         * {
             -webkit-tap-highlight-color: transparent !important;
         }
@@ -633,7 +634,7 @@
             transition: all 0.3s ease;
         }
 
-        /* 12. SEARCH BAR AND EXPLICIT BADGES */
+        /* SEARCH BAR AND EXPLICIT BADGES */
         .search-container {
             display: flex;
             gap: 15px;
@@ -666,7 +667,7 @@
             border: 2px solid #ff55d2;
             color: #efeff1;
             padding: 14px 45px 14px 45px; 
-            border-radius: 30px; 
+            border-radius: 30px;
             font-family: 'Poppins', sans-serif;
             font-size: 0.95em;
             outline: none;
@@ -681,7 +682,6 @@
             background: rgba(26, 13, 46, 1);
         }
 
-        /* ICON STYLES */
         .clear-icon {
             position: absolute;
             right: 18px;
@@ -713,7 +713,7 @@
             border: 2px solid #ff55d2;
             color: #efeff1;
             padding: 14px 40px 14px 20px;
-            border-radius: 30px; 
+            border-radius: 30px;
             font-family: 'Poppins', sans-serif;
             font-size: 0.95em;
             font-weight: 600;
@@ -762,7 +762,6 @@
             margin-left: 10px;
         }
         
-        /* Empty state styling */
         .empty-state {
             text-align: center;
             width: 100%;
@@ -792,7 +791,6 @@
             transform: translateY(-2px);
         }
 
-        /* 13. RECORDING SYSTEM STYLES */
         .recording-section {
             margin-top: 15px;
             padding-top: 15px;
@@ -865,8 +863,7 @@
                 <span id="status-text">Offline</span>
             </div>
         </div>
-        <!-- Admin mode -->
-        <h1 ondblclick="adminLogin()">AMARITA 
+        <h1 onclick="handleTitleClick()">AMARITA 
             <span style="color: #2ecc71;">M</span><span style="color: #2ecc71;">E</span><span style="color: #ffffff;">X</span><span style="color: #ffffff;">I</span><span style="color: #ffffff;">C</span><span style="color: #ff4d4d;">A</span><span style="color: #ff4d4d;">N</span> 
             DICTIONARY
         </h1>
@@ -931,8 +928,6 @@
         </div>
     </footer>
 
-
-    <!-- FIREBASE SDKS -->
     <script src="https://www.gstatic.com/firebasejs/10.8.0/firebase-app-compat.js"></script>
     <script src="https://www.gstatic.com/firebasejs/10.8.0/firebase-auth-compat.js"></script> 
     <script src="https://www.gstatic.com/firebasejs/10.8.0/firebase-storage-compat.js"></script>
@@ -949,61 +944,190 @@
             appId: "1:516306775046:web:52c62d0b61dbafe71fe787"
         };
         
-        // Initialize Firebase, Auth, Storage, and Database
         firebase.initializeApp(firebaseConfig);
         const auth = firebase.auth();
         const storage = firebase.storage();
         const db = firebase.firestore();
 
         let globalDictionaryData = []; 
-        let isAdmin = false; 
+        let isAdmin = false;
+        let isInitialLoad = true;
+        let titleClickTimeout = null;
 
         auth.onAuthStateChanged((user) => {
             if (user) {
                 console.log("Welcome back, Admin!");
                 isAdmin = true;
-                // Unhide all admin buttons automatically
                 document.querySelectorAll('.admin-save').forEach(btn => btn.classList.remove('hidden'));
             } else {
                 isAdmin = false;
             }
         });
 
+        //REAL TIME DATABASE ENGINE 
         function startLiveDatabase() {
             db.collection('words').onSnapshot((snapshot) => {
-                globalDictionaryData = []; 
-                snapshot.forEach((doc) => {
-                    globalDictionaryData.push(doc.data());
+                let updatesOccurred = false;
+
+                snapshot.docChanges().forEach((change) => {
+                    const updatedData = change.doc.data();
+                    const index = globalDictionaryData.findIndex(d => d.term === updatedData.term);
+                    
+                    if (change.type === "added" || change.type === "modified") {
+                        if (index !== -1) {
+                            globalDictionaryData[index] = updatedData;
+                        } else {
+                            globalDictionaryData.push(updatedData);
+                        }
+                        
+                        if (!isInitialLoad) {
+                            renderSpecificCard(updatedData);
+                            updatesOccurred = true;
+                        }
+                    } else if (change.type === "removed") {
+                        if (index !== -1) globalDictionaryData.splice(index, 1);
+                        updatesOccurred = true;
+                    }
                 });
-                resetAllAudio();
-                filterDictionary(); 
+
+                if (isInitialLoad) {
+                    isInitialLoad = false;
+                    filterDictionary();
+                } else if (updatesOccurred && document.getElementById('cheatsheet-view').classList.contains('hidden') === false) {
+                    filterDictionary();
+                }
             });
         }
 
+        function renderSpecificCard(data) {
+            const cardId = data.term.toLowerCase().replace(/[^a-z0-9]/g, '');
+            const oldCard = document.querySelector(`.card[data-term="${cardId}"]`);
+            if (oldCard) {
+                const wasOpen = oldCard.classList.contains('active');
+                const wasPlaying = oldCard.classList.contains('active-play');
+                
+                // Swap of inner HTML elements to guarantee persistent card rendering configurations
+                oldCard.innerHTML = buildCardInnerHTML(data);
+                
+                if (wasOpen) oldCard.classList.add('active');
+                if (wasPlaying) oldCard.classList.add('active-play');
+                
+                // Re bind the local container click listener for focus management
+                bindCardClickListener(oldCard);
+            }
+        }
+
+        // Helper function that builds structural content metrics
+        function buildCardInnerHTML(item) {
+            const explicitBadge = item.explicit ? '<span class="explicit-badge">NSFW</span>' : '';
+            
+            let audioButtonsHTML = `
+                <div class="audio-btn-wrapper" style="display:flex; flex-direction:column; gap:5px; width:100%; align-items:center;">
+                    <button class="cute-play-btn" onclick="playClip(this)">
+                        <svg class="btn-icon" width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M8 5v14l11-7z"/></svg>
+                        <span class="wave-container"><span class="bar"></span><span class="bar"></span><span class="bar"></span><span class="bar"></span></span>
+                        <span class="text-play">PLAY AUDIO</span>
+                        <span class="text-playing">PLAYING...</span>
+                    </button>
+                    <audio preload="metadata" playsinline><source src="${item.audio}"></audio>
+                </div>
+            `;
+
+            let adminDeleteHTML = '';
+
+            if (item.amaritaAudio) {
+                audioButtonsHTML += `
+                    <div class="audio-btn-wrapper" style="display:flex; flex-direction:column; gap:5px; width:100%; align-items:center;">
+                        <button class="cute-play-btn amarita-audio" onclick="playClip(this)">
+                            <svg class="btn-icon" width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M8 5v14l11-7z"/></svg>
+                            <span class="wave-container"><span class="bar"></span><span class="bar"></span><span class="bar"></span><span class="bar"></span></span>
+                            <span class="text-play">AMARITA PRONUNCIATION</span>
+                            <span class="text-playing">PLAYING...</span>
+                        </button>
+                        <audio preload="metadata" playsinline><source src="${item.amaritaAudio}"></audio>
+                    </div>
+                `;
+                
+                adminDeleteHTML = `
+                    <button class="action-btn delete admin-save ${isAdmin ? '' : 'hidden'}" onclick="deleteAdminAudioFromFirebase(this, '${item.term}')" style="margin-top: 10px; width: 100%; justify-content: center;">
+                        <i class="fas fa-trash-alt"></i> Admin: Delete Custom Audio
+                    </button>
+                `;
+            }
+
+            return `
+                ${explicitBadge}
+                <h2>${item.term} <i class="fas fa-chevron-down expand-icon"></i></h2>
+                <div class="literal">Literal: ${item.literal}</div>
+                <div class="details">
+                    <div class="section-title">Meaning</div>
+                    <p>${item.meaning}</p>
+                    <div class="section-title">Stream Context</div>
+                    <div class="stream-context">
+                        ${item.context}
+                        <span class="example-quote">"${item.quote}"</span>
+                    </div>
+                    
+                    ${audioButtonsHTML}
+                    ${adminDeleteHTML}
+                    
+                    <div class="recording-section">
+                        <button class="record-btn" onclick="startRecording(this, '${item.term}')">
+                            <i class="fas fa-microphone"></i> Practice Pronunciation
+                        </button>
+                        <button class="stop-btn hidden" onclick="stopRecording(this)">
+                            <i class="fas fa-stop"></i> Stop Recording
+                        </button>
+                        
+                        <div class="playback-ui hidden">
+                            <audio class="recorded-audio-player" controls playsinline></audio>
+                            <div class="record-controls-row">
+                                <button class="action-btn" onclick="resetRecording(this)">
+                                    <i class="fas fa-redo"></i> Record Again
+                                </button>
+                                <button class="action-btn delete" onclick="deleteRecording(this)">
+                                    <i class="fas fa-trash"></i> Cancel
+                                </button>
+                                <button class="action-btn admin-save ${isAdmin ? '' : 'hidden'}" onclick="uploadAdminAudioToFirebase(this, '${item.term}')">
+                                    <i class="fas fa-cloud-upload-alt"></i> Admin: Save Audio
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            `;
+        }
 
         // --- ADMIN AND VOICE RECORDING SYSTEM ---
         let mediaRecorder;
         let audioChunks = [];
         let currentAudioBlob = null;
 
+        function handleTitleClick() {
+            if (titleClickTimeout === null) {
+                titleClickTimeout = setTimeout(() => {
+                    titleClickTimeout = null;
+                }, 300000);
+            } else {
+                clearTimeout(titleClickTimeout);
+                titleClickTimeout = null;
+                adminLogin();
+            }
+        }
+
         function adminLogin() {
             if (isAdmin) {
                 alert("Admin mode is already active!");
                 return;
             }
-            
             const password = prompt("Enter Amarita Admin Password:");
-            if (!password) return; // Cancels if they hit cancel or leave it blank
+            if (!password) return; 
 
-            // The email is public, but the password never touches the code
-            const adminEmail = "admin@amarita.com"; 
-
-            // Securely send the credentials to Google's servers
+            const adminEmail = "admin@amarita.com";
             auth.signInWithEmailAndPassword(adminEmail, password)
                 .then((userCredential) => {
                     isAdmin = true;
                     alert("Admin Access Granted! Secure connection established.");
-                    // Reveal the hidden buttons
                     document.querySelectorAll('.admin-save').forEach(btn => btn.classList.remove('hidden'));
                 })
                 .catch((error) => {
@@ -1018,18 +1142,15 @@
             
             try {
                 const stream = await navigator.mediaDevices.getUserMedia({ audio: true });
-                
-                // Dynamically pick the format the browser actually supports
                 const options = { mimeType: MediaRecorder.isTypeSupported('audio/webm') ? 'audio/webm' : 'audio/mp4' };
                 mediaRecorder = new MediaRecorder(stream, options);
                 audioChunks = [];
-
+                
                 mediaRecorder.ondataavailable = event => {
                     audioChunks.push(event.data);
                 };
 
                 mediaRecorder.onstop = () => {
-                    // Save exactly as the recorded format so Apple doesn't block it
                     currentAudioBlob = new Blob(audioChunks, { type: mediaRecorder.mimeType });
                     const audioUrl = URL.createObjectURL(currentAudioBlob);
                     
@@ -1039,7 +1160,6 @@
                     
                     stopBtn.classList.add('hidden');
                     playbackUI.classList.remove('hidden');
-
                     if (isAdmin) {
                         recordingSection.querySelector('.admin-save').classList.remove('hidden');
                     }
@@ -1048,7 +1168,6 @@
                 mediaRecorder.start();
                 btn.classList.add('hidden');
                 stopBtn.classList.remove('hidden');
-
             } catch (err) {
                 alert("Microphone access denied.");
                 console.error("Mic error:", err);
@@ -1077,9 +1196,8 @@
 
         async function uploadAdminAudioToFirebase(btn, term) {
             if (!currentAudioBlob) return;
-            
             const originalText = btn.innerHTML;
-            btn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Uploading...';
+            btn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> ...';
             btn.style.pointerEvents = "none";
             
             const docId = term.toLowerCase().replace(/[^a-z0-9]/g, '');
@@ -1096,27 +1214,26 @@
                 }, 
                 () => {
                     uploadTask.snapshot.ref.getDownloadURL().then(async (downloadURL) => {
-                        // Update database only
                         await db.collection('words').doc(docId).update({
                             amaritaAudio: downloadURL
                         });
-                        
-                        btn.innerHTML = '<i class="fas fa-check"></i> Uploaded & Live!';
+                        btn.innerHTML = '<i class="fas fa-check"></i> Live!';
                         btn.style.backgroundColor = '#2ecc71';
                         
-
+                        setTimeout(() => {
+                            btn.innerHTML = originalText;
+                            btn.style.pointerEvents = "auto";
+                            btn.style.backgroundColor = '';
+                        }, 2000);
                     });
                 }
             );
         }
 
         async function deleteAdminAudioFromFirebase(btn, term) {
-            // Quick warning prompt if its accidentally clicked
             if(!confirm("Are you sure you want to delete Amara's custom pronunciation for this word?")) return;
-            
             const docId = term.toLowerCase().replace(/[^a-z0-9]/g, '');
             try {
-                // Wipes her custom audio from the database
                 await db.collection('words').doc(docId).update({
                     amaritaAudio: firebase.firestore.FieldValue.delete()
                 });
@@ -1127,14 +1244,14 @@
             }
         }
 
-        // ENGINE FOR DYNAMIC CARD RENDERING 
+        // STATIC INTERACTION BINDERS 
         function generateDictionaryDOM(data = globalDictionaryData) {
             const flashcardContainer = document.getElementById('flashcard-view');
             const cheatsheetContainer = document.getElementById('cheatsheet-view');
             
             let flashcardsHTML = '';
             let cheatsheetHTML = '';
-
+            
             if (data.length === 0) {
                 const emptyStateHTML = `
                     <div class="empty-state">
@@ -1146,91 +1263,14 @@
                 return;
             }
 
-           data.forEach(item => {
+            data.forEach(item => {
                 const explicitBadge = item.explicit ? '<span class="explicit-badge">NSFW</span>' : '';
-                
-                // 1. The standard default audio button (Always renders)
-                let audioButtonsHTML = `
-                    <button class="cute-play-btn" onclick="playClip(this)">
-                        <svg class="btn-icon" width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M8 5v14l11-7z"/></svg>
-                        <span class="wave-container"><span class="bar"></span><span class="bar"></span><span class="bar"></span><span class="bar"></span></span>
-                        <span class="text-play">PLAY AUDIO</span>
-                        <span class="text-playing">PLAYING...</span>
-                    </button>
-                    <audio preload="metadata" playsinline><source src="${item.audio}"></audio>
-                `;
+                const cardId = item.term.toLowerCase().replace(/[^a-z0-9]/g, '');
 
-                let adminDeleteHTML = '';
-
-                // 2. The ustom Amarita audio button (Only renders if she uploaded one)
-                if (item.amaritaAudio) {
-                    audioButtonsHTML += `
-                        <button class="cute-play-btn amarita-audio" onclick="playClip(this)">
-                            <svg class="btn-icon" width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M8 5v14l11-7z"/></svg>
-                            <span class="wave-container"><span class="bar"></span><span class="bar"></span><span class="bar"></span><span class="bar"></span></span>
-                            <span class="text-play">AMARITA PRONUNCIATION</span>
-                            <span class="text-playing">PLAYING...</span>
-                        </button>
-                        <audio preload="none" playsinline><source src="${item.amaritaAudio}"></audio>
-                    `;
-                    
-                    // Creates the Admin Delete button for specific custom recording
-                    adminDeleteHTML = `
-                        <button class="action-btn delete admin-save ${isAdmin ? '' : 'hidden'}" onclick="deleteAdminAudioFromFirebase(this, '${item.term}')" style="margin-top: 10px; width: 100%; justify-content: center;">
-                            <i class="fas fa-trash-alt"></i> Admin: Delete Custom Audio
-                        </button>
-                    `;
-                }
-
-                flashcardsHTML += `
-                    <div class="card">
-                        ${explicitBadge}
-                        <h2>${item.term} <i class="fas fa-chevron-down expand-icon"></i></h2>
-                        <div class="literal">Literal: ${item.literal}</div>
-                        <div class="details">
-                            <div class="section-title">Meaning</div>
-                            <p>${item.meaning}</p>
-                            <div class="section-title">Stream Context</div>
-                            <div class="stream-context">
-                                ${item.context}
-                                <span class="example-quote">"${item.quote}"</span>
-                            </div>
-                            
-                            <!-- Injects however many buttons exist -->
-                            ${audioButtonsHTML}
-                            
-                            <!-- Injects the delete option if she is logged in and custom audio exists -->
-                            ${adminDeleteHTML}
-                            
-                            <div class="recording-section">
-                                <button class="record-btn" onclick="startRecording(this, '${item.term}')">
-                                    <i class="fas fa-microphone"></i> Practice Pronunciation
-                                </button>
-                                <button class="stop-btn hidden" onclick="stopRecording(this)">
-                                    <i class="fas fa-stop"></i> Stop Recording
-                                </button>
-                                
-                                <div class="playback-ui hidden">
-                                    <audio class="recorded-audio-player" controls playsinline></audio>
-                                    <div class="record-controls-row">
-                                        <button class="action-btn" onclick="resetRecording(this)">
-                                            <i class="fas fa-redo"></i> Record Again
-                                        </button>
-                                        <button class="action-btn delete" onclick="deleteRecording(this)">
-                                            <i class="fas fa-trash"></i> Cancel
-                                        </button>
-                                        <button class="action-btn admin-save ${isAdmin ? '' : 'hidden'}" onclick="uploadAdminAudioToFirebase(this, '${item.term}')">
-                                            <i class="fas fa-cloud-upload-alt"></i> Admin: Save Audio
-                                        </button>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                `;
+                flashcardsHTML += `<div class="card" data-term="${cardId}">${buildCardInnerHTML(item)}</div>`;
 
                 cheatsheetHTML += `
-                    <div class="list-item">
+                    <div class="list-item" data-term="${cardId}">
                         <h3>${item.term} ${explicitBadge}</h3>
                         <div class="list-content">
                             <p><span class="label">Meaning:</span> ${item.meaning}</p>
@@ -1242,27 +1282,21 @@
 
             flashcardContainer.innerHTML = flashcardsHTML;
             cheatsheetContainer.innerHTML = cheatsheetHTML;
-
             bindGlobalClickListeners();
         }
 
         // --- FILTER LOGIC ---
         let debounceTimer;
-        
         function filterDictionary() {
             const searchText = document.getElementById('searchInput').value.toLowerCase();
             const selectedCategory = document.getElementById('categoryFilter').value;
 
-            // Updated to filter the new cloud data state array
             const filteredData = globalDictionaryData.filter(item => {
                 const matchesText = item.term.toLowerCase().includes(searchText) || 
                                     item.meaning.toLowerCase().includes(searchText);
-                
                 const matchesCategory = selectedCategory === 'All' || item.category === selectedCategory;
-
                 return matchesText && matchesCategory;
             });
-
             generateDictionaryDOM(filteredData);
         }
 
@@ -1277,10 +1311,9 @@
             }
 
             clearTimeout(debounceTimer);
-            debounceTimer = setTimeout(filterDictionary, 150); 
+            debounceTimer = setTimeout(filterDictionary, 150);
         }
 
-        // 1. AUDIO AND FOCUS RESET FUNCTION
         function resetAllAudio() {
             document.querySelectorAll('audio').forEach(a => {
                 a.pause();
@@ -1295,7 +1328,6 @@
             document.body.classList.remove('is-playing');
         }
 
-        // 2. TOGGLE CHEAT SHEET / FLASHCARD VIEW
         function toggleView() {
             resetAllAudio();
             const flashcards = document.getElementById('flashcard-view');
@@ -1315,59 +1347,51 @@
             }
         }
 
-        // 3. PLAY AUDIO CLIP LOGIC
+        // DUAL PLAYBACK CAPTURE LOGIC
         function playClip(btn) {
             const card = btn.closest('.card');
-            
-            const audio = btn.nextElementSibling;
+            const audioWrapper = btn.closest('.audio-btn-wrapper');
+            const audio = audioWrapper ? audioWrapper.querySelector('audio') : null;
 
-            if (!audio || audio.tagName.toLowerCase() !== 'audio') return;
+            if (!audio) return;
 
             if (!audio.paused) {
                 resetAllAudio();
-                card.classList.add('active');
-                card.classList.add('active-play');
+                card.classList.add('active', 'active-play');
                 document.body.classList.add('is-playing');
                 return;
             }
 
             resetAllAudio();
-            card.classList.add('active');
-            card.classList.add('active-play');
+            card.classList.add('active', 'active-play');
             document.body.classList.add('is-playing');
             
             audio.play().then(() => {
                 btn.classList.add('playing');
-            }).catch(e => console.log("Playback blocked or file missing:", e));
+            }).catch(e => console.log("Playback error:", e));
             
             audio.onended = () => {
                 resetAllAudio();
-                card.classList.add('active'); 
-                card.classList.add('active-play');
+                card.classList.add('active', 'active-play');
                 document.body.classList.add('is-playing');
             };
         }
 
-        // 4. CLICK OUTSIDE TO RESET FOCUS
         document.addEventListener('click', function(event) {
             const clickedInsideElement = event.target.closest('.card, .list-item');
             const clickedToggleButton = event.target.closest('.toggle-btn');
-            
             if (!clickedInsideElement && !clickedToggleButton && document.body.classList.contains('is-playing')) {
-                resetAllAudio();
+                 resetAllAudio();
             }
         });
 
-        // 5. TWITCH STREAMER LIVE STATUS TRACKER
         async function checkTwitchLive() {
             const username = 'okieamara';
             const container = document.getElementById('status-container');
             const text = document.getElementById('status-text');
-            
             try {
                 const response = await fetch(`https://decapi.me/twitch/uptime/${username}`);
                 const data = await response.text();
-
                 if (data.includes("offline")) {
                     container.classList.remove("live-pulse");
                     text.innerText = "Offline";
@@ -1381,46 +1405,49 @@
             }
         }
 
-        // 6. CLICK TO FOCUS LOGIC SETUP DEFINITION
-        function bindGlobalClickListeners() {
-            document.querySelectorAll('.card, .list-item').forEach(element => {
-                element.addEventListener('click', function(event) {
-                    if (event.target.closest('.cute-play-btn') || event.target.closest('.recording-section')) return;
-                    
-                    const isAlreadyActive = this.classList.contains('active-play');
-                    resetAllAudio();
-       
-                    if (!isAlreadyActive) {
-                        if (this.classList.contains('card')) {
-                            this.classList.add('active'); 
-                        }
-                        this.classList.add('active-play'); 
-                        document.body.classList.add('is-playing');
+        function bindCardClickListener(element) {
+            element.addEventListener('click', function(event) {
+                if (event.target.closest('.cute-play-btn') || event.target.closest('.recording-section')) return;
+                
+                const isAlreadyActive = this.classList.contains('active-play');
+                resetAllAudio();
+   
+                if (!isAlreadyActive) {
+                    if (this.classList.contains('card')) {
+                        this.classList.add('active'); 
                     }
-                });
+                    this.classList.add('active-play'); 
+                    document.body.classList.add('is-playing');
+                }
             });
         }
 
-        // INITIAL DEPLOYMENT EXECUTION
+        function bindGlobalClickListeners() {
+            document.querySelectorAll('.card, .list-item').forEach(element => {
+                bindCardClickListener(element);
+            });
+        }
+
         window.addEventListener('DOMContentLoaded', () => {
+            // Unlocks modern context metrics rules across mobile browsers dynamically on primary user interactions
+            window.addEventListener('click', () => {
+                const audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+                if (audioCtx.state === 'suspended') audioCtx.resume();
+            }, { once: true });
             
-            // Starts pulling data directly from Firebase
             startLiveDatabase();
 
-            // Attach Search Bar Listeners
             document.getElementById('searchInput').addEventListener('input', handleSearchInput);
             document.getElementById('categoryFilter').addEventListener('change', filterDictionary);
 
-            // Handle Clear Button Click
             document.getElementById('clearSearch').addEventListener('click', () => {
                 const searchInput = document.getElementById('searchInput');
                 searchInput.value = ''; 
-                document.getElementById('clearSearch').style.display = 'none'; 
+                document.getElementById('clearSearch').style.display = 'none';
                 searchInput.focus(); 
                 filterDictionary(); 
             });
 
-            // Handle layout configuration state preferences
             const savedView = localStorage.getItem('amaritaViewPref');
             if (savedView === 'cheatsheet') {
                 const flashcards = document.getElementById('flashcard-view');
@@ -1432,19 +1459,16 @@
                 button.innerHTML = '<i class="fas fa-th-large" style="margin-right: 8px;"></i> Switch to Flashcard Mode';
             }
 
-            // Run status trackers
             checkTwitchLive();
             setInterval(checkTwitchLive, 60000);
         });
 
-        // ESC KEY TO CLOSE CARDS
         document.addEventListener('keydown', function(event) {
             if (event.key === "Escape" && document.body.classList.contains('is-playing')) {
                 resetAllAudio(); 
             }
         });
 
-        // MANGO MEDIA HANDLING LOGIC
         let playedClips = [];
         function playRandomMango() {
             const audio = document.getElementById('mango-audio');
@@ -1457,9 +1481,7 @@
                 'audio/WHAT THE FLUFFER AMARA.m4a'
             ];
 
-            if (playedClips.length === clips.length) {
-                playedClips = [];
-            }
+            if (playedClips.length === clips.length) playedClips = [];
 
             let availableClips = clips.filter(clip => !playedClips.includes(clip));
             const randomClip = availableClips[Math.floor(Math.random() * availableClips.length)];
@@ -1468,21 +1490,17 @@
             audio.src = randomClip;
             audio.play().catch(e => console.log("Mango playback failed:", e));
             playedClips.push(randomClip);
-            
             audio.onended = () => {
                 mangoBtn.classList.remove('animate-mango');
             };
         }
 
-        // BACKGROUND FORM SUBMISSION
         const suggestionForm = document.getElementById('suggestion-form');
         if (suggestionForm) {
             suggestionForm.addEventListener('submit', function(e) {
                 e.preventDefault();
-
                 const button = e.target.querySelector('button');
                 const originalText = button.innerText;
-
                 button.innerText = 'SENDING...';
                 button.style.background = '#5ce1e6'; 
 
