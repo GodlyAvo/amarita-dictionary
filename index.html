@@ -291,6 +291,12 @@
             display: none;
         }
 
+        audio.recorded-audio-player {
+            display: block; 
+            margin-bottom: 10px;
+            border-radius: 30px;
+        }
+
         /* 6. CLICK TO REVEAL ACCORDION LOGIC */
         .details {
             max-height: 0;
@@ -392,6 +398,11 @@
         @keyframes pulseRed {
             0%, 100% { transform: scale(1); opacity: 1; }
             50% { transform: scale(1.2); opacity: 0.7; }
+        }
+
+        @keyframes pulseStop {
+            0%, 100% { box-shadow: 0 0 5px rgba(255, 77, 77, 0.4); }
+            50% { box-shadow: 0 0 15px rgba(255, 77, 77, 0.9), inset 0 0 10px rgba(255, 77, 77, 0.3); }
         }
 
         /* 8. FOCUS MODE (DIMMING AND BLUR) */
@@ -783,7 +794,7 @@
         .record-btn { border-color: #5ce1e6; color: #5ce1e6; }
         .record-btn:hover { background-color: #5ce1e6; color: #000; box-shadow: 0 0 10px rgba(92, 225, 230, 0.5); }
         
-        .stop-btn { border-color: #ff4d4d; color: #ff4d4d; animation: pulseRed 1.5s infinite; }
+        .stop-btn { border-color: #ff4d4d; color: #ff4d4d; animation: pulseStop 1.5s infinite; }
         .stop-btn:hover { background-color: #ff4d4d; color: #000; }
 
         .playback-ui {
@@ -940,6 +951,9 @@
         let currentAudioBlob = null;
 
         function adminLogin() {
+            // Stops the browser from opening the Twitch link on a double click
+            if (window.event) window.event.preventDefault(); 
+            
             if (isAdmin) {
                 alert("Admin mode is already active!");
                 return;
