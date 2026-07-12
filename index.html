@@ -901,8 +901,6 @@
     <script src="https://www.gstatic.com/firebasejs/10.8.0/firebase-storage-compat.js"></script>
     <script src="https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore-compat.js"></script>
 
-    <!-- KEEP THIS SCRIPT UNTIL YOU RUN migrateDataToFirebase() IN THE CONSOLE -->
-    <script src="data.js"></script>
 
     <script>
         // --- FIREBASE INITIALIZATION ---
@@ -934,17 +932,6 @@
             });
         }
 
-        // ONE TIME MIGRATION SCRIPT 
-        // Run this once in the browser console to push your data.js contents to the cloud
-        window.migrateDataToFirebase = async function() {
-            console.log("Starting database migration...");
-            for (const item of dictionaryData) { 
-                const docId = item.term.toLowerCase().replace(/[^a-z0-9]/g, '');
-                await db.collection('words').doc(docId).set(item);
-                console.log(`✅ Uploaded: ${item.term}`);
-            }
-            console.log("Migration complete! You can now delete data.js.");
-        };
 
         // --- ADMIN AND VOICE RECORDING SYSTEM ---
         let isAdmin = false;
