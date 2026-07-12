@@ -830,15 +830,15 @@
     <div class="header-container">
         <div class="logo-status-wrapper">
             <a href="https://www.twitch.tv/okieamara" target="_blank">
-                <!-- Double click event appended to your original logo image -->
-                <img src="272ee8b7-9518-4037-916c-ef6d75fb28fc-profile_image-70x70.png" alt="Amarita Logo" class="logo" ondblclick="adminLogin()">
+                <img src="272ee8b7-9518-4037-916c-ef6d75fb28fc-profile_image-70x70.png" alt="Amarita Logo" class="logo">
             </a>
             <div id="status-container">
                 <span id="twitch-status" class="status-dot"></span>
                 <span id="status-text">Offline</span>
             </div>
         </div>
-        <h1>AMARITA 
+        <!-- Admin mode -->
+        <h1 ondblclick="adminLogin()">AMARITA 
             <span style="color: #2ecc71;">M</span><span style="color: #2ecc71;">E</span><span style="color: #ffffff;">X</span><span style="color: #ffffff;">I</span><span style="color: #ffffff;">C</span><span style="color: #ff4d4d;">A</span><span style="color: #ff4d4d;">N</span> 
             DICTIONARY
         </h1>
@@ -868,11 +868,7 @@
     <button class="toggle-btn" id="toggleBtn" onclick="toggleView()">
         <i class="fas fa-list" style="margin-right: 8px;"></i> Switch to Cheat Sheet Mode
     </button>
-
-    <div id="version-control">
-        Last Updated: <span id="update-date">Loading...</span>
-    </div>
-        
+       
     <div id="flashcard-view"></div>
     <div id="cheatsheet-view" class="hidden"></div>
 
@@ -907,11 +903,12 @@
         </div>
     </footer>
 
+
     <!-- FIREBASE SDKS -->
     <script src="https://www.gstatic.com/firebasejs/10.8.0/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/10.8.0/firebase-auth-compat.js"></script> 
     <script src="https://www.gstatic.com/firebasejs/10.8.0/firebase-storage-compat.js"></script>
     <script src="https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore-compat.js"></script>
-
 
     <script>
         // --- FIREBASE INITIALIZATION ---
@@ -924,8 +921,9 @@
             appId: "1:516306775046:web:52c62d0b61dbafe71fe787"
         };
         
-        // Initialize Firebase, Storage, and Database
+        // Initialize Firebase, Auth, Storage, and Database
         firebase.initializeApp(firebaseConfig);
+        const auth = firebase.auth(); 
         const storage = firebase.storage();
         const db = firebase.firestore();
 
@@ -951,21 +949,29 @@
         let currentAudioBlob = null;
 
         function adminLogin() {
-            // Stops the browser from opening the Twitch link on a double click
-            if (window.event) window.event.preventDefault(); 
-            
             if (isAdmin) {
                 alert("Admin mode is already active!");
                 return;
             }
+            
             const password = prompt("Enter Amarita Admin Password:");
-            if (password === "okie" || password === "pedrito") {
-                isAdmin = true;
-                alert("Admin Access Granted! You can now save official voice recordings.");
-                document.querySelectorAll('.admin-save').forEach(btn => btn.classList.remove('hidden'));
-            } else if (password !== null) {
-                alert("Incorrect password.");
-            }
+            if (!password) return; // Cancels if they hit cancel or leave it blank
+
+            // The email is public, but the password never touches the code
+            const adminEmail = "admin@amarita.com"; 
+
+            // Securely send the credentials to Google's servers
+            auth.signInWithEmailAndPassword(adminEmail, password)
+                .then((userCredential) => {
+                    isAdmin = true;
+                    alert("Admin Access Granted! Secure connection established.");
+                    // Reveal the hidden buttons
+                    document.querySelectorAll('.admin-save').forEach(btn => btn.classList.remove('hidden'));
+                })
+                .catch((error) => {
+                    console.error("Login failed:", error.message);
+                    alert("Incorrect password.");
+                });
         }
 
         async function startRecording(btn, term) {
@@ -1125,7 +1131,7 @@
                                 <span class="text-play">PLAY AUDIO</span>
                                 <span class="text-playing">PLAYING...</span>
                             </button>
-                            <audio preload="none"><source src="${item.audio}" type="audio/mp4"></audio>
+                            <audio preload="none"><source src="${item.audio}"></audio>
                             
                             <!-- RECORDING UI APPENDED HERE -->
                             <div class="recording-section">
@@ -1358,29 +1364,6 @@
             // Run status trackers
             checkTwitchLive();
             setInterval(checkTwitchLive, 60000);
-
-            // Handle timestamp metadata metrics calculation logic
-            const updateSpan = document.getElementById('update-date');
-            if (updateSpan) {
-                const now = new Date();
-                const lastModified = new Date(document.lastModified);
-                const diffMs = now - lastModified;
-                const diffMinutes = Math.floor(diffMs / (1000 * 60));
-                const diffHours = Math.floor(diffMs / (1000 * 60 * 60));
-                
-                let timeText = "";
-                if (diffMinutes < 5) {
-                    timeText = "Just now";
-                } else if (diffMinutes < 60) {
-                    timeText = `${diffMinutes} minutes ago`;
-                } else if (diffHours < 24) {
-                    timeText = diffHours === 1 ? "1 hour ago" : `${diffHours} hours ago`;
-                } else {
-                    const diffDays = Math.floor(diffHours / 24);
-                    timeText = diffDays === 1 ? "1 day ago" : `${diffDays} days ago`;
-                }
-                updateSpan.innerText = timeText;
-            }
         });
 
         // ESC KEY TO CLOSE CARDS
