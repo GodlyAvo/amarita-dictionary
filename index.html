@@ -1001,23 +1001,26 @@
 
         function renderSpecificCard(data) {
             const cardId = data.term.toLowerCase().replace(/[^a-z0-9]/g, '');
-            const oldCard = document.querySelector(`.card[data-term="${cardId}"]`);
+            let oldCard = document.querySelector(`.card[data-term="${cardId}"]`);
             if (oldCard) {
                 const wasOpen = oldCard.classList.contains('active');
                 const wasPlaying = oldCard.classList.contains('active-play');
                 
-                // Swap of inner HTML elements to guarantee persistent card rendering configurations
-                oldCard.innerHTML = buildCardInnerHTML(data);
+                // Clone the card element to cleanly wipe out all old stacked event listeners
+                const newCard = oldCard.cloneNode(false);
+                oldCard.parentNode.replaceChild(newCard, oldCard);
                 
-                if (wasOpen) oldCard.classList.add('active');
-                if (wasPlaying) oldCard.classList.add('active-play');
+                // Swap of internal HTML structures
+                newCard.innerHTML = buildCardInnerHTML(data);
                 
-                // Re bind the local container click listener for focus management
-                bindCardClickListener(oldCard);
+                if (wasOpen) newCard.classList.add('active');
+                if (wasPlaying) newCard.classList.add('active-play');
+                
+                // Re bind just one clean listener
+                bindCardClickListener(newCard);
             }
         }
 
-        // Helper function that builds structural content metrics
         function buildCardInnerHTML(item) {
             const explicitBadge = item.explicit ? '<span class="explicit-badge">NSFW</span>' : '';
             
@@ -1029,7 +1032,7 @@
                         <span class="text-play">PLAY AUDIO</span>
                         <span class="text-playing">PLAYING...</span>
                     </button>
-                    <audio preload="metadata" playsinline><source src="${item.audio}"></audio>
+                    <audio src="${item.audio}" preload="metadata" playsinline></audio>
                 </div>
             `;
 
@@ -1044,7 +1047,7 @@
                             <span class="text-play">AMARITA PRONUNCIATION</span>
                             <span class="text-playing">PLAYING...</span>
                         </button>
-                        <audio preload="metadata" playsinline><source src="${item.amaritaAudio}"></audio>
+                        <audio src="${item.amaritaAudio}" preload="metadata" playsinline></audio>
                     </div>
                 `;
                 
@@ -1231,16 +1234,17 @@
         }
 
         async function deleteAdminAudioFromFirebase(btn, term) {
+            // Confirm prompt is fine because it happens before the database action
             if(!confirm("Are you sure you want to delete Amara's custom pronunciation for this word?")) return;
+            
             const docId = term.toLowerCase().replace(/[^a-z0-9]/g, '');
             try {
+                // Wipes custom audio fields dynamically
                 await db.collection('words').doc(docId).update({
                     amaritaAudio: firebase.firestore.FieldValue.delete()
-                });
-                alert("Custom audio deleted!");
+                });             
             } catch (err) {
                 console.error("Error deleting:", err);
-                alert("Error deleting audio from database.");
             }
         }
 
