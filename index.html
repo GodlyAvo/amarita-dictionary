@@ -1411,7 +1411,10 @@
 
         function bindCardClickListener(element) {
             element.addEventListener('click', function(event) {
-                if (event.target.closest('.cute-play-btn') || event.target.closest('.recording-section')) return;
+                
+                if (event.target.closest('.cute-play-btn') || 
+                    event.target.closest('.recording-section') || 
+                    event.target.closest('.admin-save')) return;
                 
                 const isAlreadyActive = this.classList.contains('active-play');
                 resetAllAudio();
