@@ -334,6 +334,34 @@
             gap: 8px; 
         }
 
+        /* CUSTOM AMARITA AUDIO BUTTON */
+        .cute-play-btn.amarita-audio {
+            border-color: #ffb347;
+            color: #ffb347;
+        }
+        .cute-play-btn.amarita-audio:not(.playing):hover {
+            background-color: #ffb347;
+            color: #000;
+            box-shadow: 0 0 15px rgba(255, 179, 71, 0.4);
+        }
+        .cute-play-btn.amarita-audio.playing {
+            background-color: #ffb347;
+            color: #000;
+            border-color: #ffb347;
+            animation: mango-pulse 0.8s infinite alternate ease-in-out;
+        }
+        .cute-play-btn.amarita-audio .bar {
+            background-color: #ffb347;
+        }
+        .cute-play-btn.amarita-audio.playing .bar {
+            background-color: #000;
+        }
+
+        @keyframes mango-pulse {
+            0% { box-shadow: 0 0 10px rgba(255, 179, 71, 0.4); }
+            100% { box-shadow: 0 0 15px rgba(255, 179, 71, 0.9), 0 0 20px rgba(255, 179, 71, 0.4); }
+        }
+
         .cute-play-btn:not(.playing):hover {
             background-color: #ff55d2;
             color: #0f071a; 
@@ -987,8 +1015,9 @@
                     audioChunks.push(event.data);
                 };
 
+                // 
                 mediaRecorder.onstop = () => {
-                    currentAudioBlob = new Blob(audioChunks, { type: 'audio/webm' });
+                    currentAudioBlob = new Blob(audioChunks, { type: 'audio/webm;codecs=opus' });
                     const audioUrl = URL.createObjectURL(currentAudioBlob);
                     
                     const playbackUI = recordingSection.querySelector('.playback-ui');
@@ -1040,12 +1069,15 @@
             btn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Uploading...';
             btn.style.pointerEvents = "none";
             
-            const cleanTerm = term.replace(/[^a-z0-9]/gi, '_').toLowerCase();
-            const fileName = `audio/${cleanTerm}_audio.webm`;
-            const docId = cleanTerm; 
+            // Generate the exact same ID used in the database migration
+            const docId = term.toLowerCase().replace(/[^a-z0-9]/g, '');
+            const fileName = `audio/${docId}_audio.webm`; 
             
             const storageRef = storage.ref(fileName);
-            const uploadTask = storageRef.put(currentAudioBlob);
+            
+            // Attach explicit metadata so iPhones know how to play the file
+            const metadata = { contentType: 'audio/webm;codecs=opus' };
+            const uploadTask = storageRef.put(currentAudioBlob, metadata);
             
             uploadTask.on('state_changed', 
                 (snapshot) => {
@@ -1061,7 +1093,7 @@
                     uploadTask.snapshot.ref.getDownloadURL().then(async (downloadURL) => {
                         console.log('File successfully uploaded to:', downloadURL);
                         
-                        // Updates the Firestore Database linking the new URL directly to the term 
+                        // Because docId matches perfectly now, this will no longer fail!
                         await db.collection('words').doc(docId).update({
                             audio: downloadURL
                         });
@@ -1104,6 +1136,11 @@
 
             data.forEach(item => {
                 const explicitBadge = item.explicit ? '<span class="explicit-badge">NSFW</span>' : '';
+                
+                // Detect if Amara recorded this audio
+                const isAmaritaAudio = item.audio && item.audio.includes('firebasestorage');
+                const playBtnText = isAmaritaAudio ? 'AMARITA PRONUNCIATION' : 'PLAY AUDIO';
+                const playBtnClass = isAmaritaAudio ? 'cute-play-btn amarita-audio' : 'cute-play-btn';
 
                 flashcardsHTML += `
                     <div class="card">
@@ -1118,7 +1155,9 @@
                                 ${item.context}
                                 <span class="example-quote">"${item.quote}"</span>
                             </div>
-                            <button class="cute-play-btn" onclick="playClip(this)">
+                            
+                            <!-- Updated dynamic button -->
+                            <button class="${playBtnClass}" onclick="playClip(this)">
                                 <svg class="btn-icon" width="16" height="16" viewBox="0 0 24 24" fill="currentColor">
                                     <path d="M8 5v14l11-7z"/>
                                 </svg>
@@ -1128,12 +1167,13 @@
                                     <span class="bar"></span>
                                     <span class="bar"></span>
                                 </span>
-                                <span class="text-play">PLAY AUDIO</span>
+                                <span class="text-play">${playBtnText}</span>
                                 <span class="text-playing">PLAYING...</span>
                             </button>
-                            <audio preload="none"><source src="${item.audio}"></audio>
                             
-                            <!-- RECORDING UI APPENDED HERE -->
+                            <!-- Added playsinline for iPhone compatibility -->
+                            <audio preload="none" playsinline><source src="${item.audio}"></audio>
+                            
                             <div class="recording-section">
                                 <button class="record-btn" onclick="startRecording(this, '${item.term}')">
                                     <i class="fas fa-microphone"></i> Practice Pronunciation
@@ -1143,7 +1183,7 @@
                                 </button>
                                 
                                 <div class="playback-ui hidden">
-                                    <audio class="recorded-audio-player" controls></audio>
+                                    <audio class="recorded-audio-player" controls playsinline></audio>
                                     <div class="record-controls-row">
                                         <button class="action-btn" onclick="resetRecording(this)">
                                             <i class="fas fa-redo"></i> Record Again
