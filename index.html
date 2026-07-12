@@ -907,7 +907,6 @@
     <script>
         // --- FIREBASE INITIALIZATION ---
         const firebaseConfig = {
-            // PASTE YOUR ENTIRE CONFIG OBJECT HERE FROM FIREBASE!
             apiKey: "AIzaSyCacS6ICWfmwGoJCJkaBcUinvsd0lYMYx0",
             authDomain: "amarita-dictionary.firebaseapp.com",
             projectId: "amarita-dictionary",
@@ -924,7 +923,6 @@
         // This replaces the old dictionaryData source
         let globalDictionaryData = []; 
 
-        // THIS IS THE MAGIC: It listens to the database in real time
         function startLiveDatabase() {
             db.collection('words').onSnapshot((snapshot) => {
                 globalDictionaryData = []; 
