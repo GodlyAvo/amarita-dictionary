@@ -964,7 +964,7 @@
                 snapshot.forEach((doc) => {
                     globalDictionaryData.push(doc.data());
                 });
-                // Instantly re render the screen with the new data
+                resetAllAudio();
                 filterDictionary(); 
             });
         }
@@ -1008,16 +1008,19 @@
             
             try {
                 const stream = await navigator.mediaDevices.getUserMedia({ audio: true });
-                mediaRecorder = new MediaRecorder(stream);
+                
+                // Dynamically pick the format the browser actually supports
+                const options = { mimeType: MediaRecorder.isTypeSupported('audio/webm') ? 'audio/webm' : 'audio/mp4' };
+                mediaRecorder = new MediaRecorder(stream, options);
                 audioChunks = [];
 
                 mediaRecorder.ondataavailable = event => {
                     audioChunks.push(event.data);
                 };
 
-                // 
                 mediaRecorder.onstop = () => {
-                    currentAudioBlob = new Blob(audioChunks, { type: 'audio/webm;codecs=opus' });
+                    // Save exactly as the recorded format so Apple doesn't block it
+                    currentAudioBlob = new Blob(audioChunks, { type: mediaRecorder.mimeType });
                     const audioUrl = URL.createObjectURL(currentAudioBlob);
                     
                     const playbackUI = recordingSection.querySelector('.playback-ui');
@@ -1037,7 +1040,7 @@
                 stopBtn.classList.remove('hidden');
 
             } catch (err) {
-                alert("Microphone access denied. Please allow mic permissions in your browser to practice!");
+                alert("Microphone access denied.");
                 console.error("Mic error:", err);
             }
         }
@@ -1069,20 +1072,19 @@
             btn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Uploading...';
             btn.style.pointerEvents = "none";
             
-            // Generate the exact same ID used in the database migration
             const docId = term.toLowerCase().replace(/[^a-z0-9]/g, '');
-            const fileName = `audio/${docId}_audio.webm`; 
+            // Renames file so it doesnt overwrite anything in Storage
+            const fileName = `audio/${docId}_amarita_custom`; 
             
             const storageRef = storage.ref(fileName);
-            
-            // Attach explicit metadata so iPhones know how to play the file
-            const metadata = { contentType: 'audio/webm;codecs=opus' };
+            // Attach the exact iPhone safe metadata
+            const metadata = { contentType: currentAudioBlob.type };
             const uploadTask = storageRef.put(currentAudioBlob, metadata);
             
             uploadTask.on('state_changed', 
                 (snapshot) => {
                     const progress = (snapshot.bytesTransferred / snapshot.totalBytes) * 100;
-                    btn.innerHTML = `<i class="fas fa-spinner fa-spin"></i> Uploading: ${Math.round(progress)}%`;
+                    btn.innerHTML = `<i class="fas fa-spinner fa-spin"></i> ${Math.round(progress)}%`;
                 }, 
                 (error) => {
                     console.error("Firebase Upload Error:", error);
@@ -1091,31 +1093,44 @@
                 }, 
                 () => {
                     uploadTask.snapshot.ref.getDownloadURL().then(async (downloadURL) => {
-                        console.log('File successfully uploaded to:', downloadURL);
-                        
-                        // Because docId matches perfectly now, this will no longer fail!
+                        // save it to a new field called 'amaritaAudio' 
                         await db.collection('words').doc(docId).update({
-                            audio: downloadURL
+                            amaritaAudio: downloadURL
                         });
                         
-                        btn.innerHTML = '<i class="fas fa-check"></i> Uploaded & Live!';
+                        btn.innerHTML = '<i class="fas fa-check"></i> Live!';
                         btn.style.backgroundColor = '#2ecc71';
                         btn.style.color = '#000';
-                        btn.style.borderColor = '#2ecc71';
                         
                         setTimeout(() => {
                             btn.innerHTML = originalText;
                             btn.style.pointerEvents = "auto";
                             btn.style.backgroundColor = '';
                             btn.style.color = '';
-                            btn.style.borderColor = '';
                         }, 3000);
                     });
                 }
             );
         }
 
-        // ENGINE FOR DYNAMIC CARD RENDERING (Adjusted to load from globalDictionaryData)
+        async function deleteAdminAudioFromFirebase(btn, term) {
+            // Quick warning prompt if its accidentally clicked
+            if(!confirm("Are you sure you want to delete Amara's custom pronunciation for this word?")) return;
+            
+            const docId = term.toLowerCase().replace(/[^a-z0-9]/g, '');
+            try {
+                // Wipes her custom audio from the database
+                await db.collection('words').doc(docId).update({
+                    amaritaAudio: firebase.firestore.FieldValue.delete()
+                });
+                alert("Custom audio deleted!");
+            } catch (err) {
+                console.error("Error deleting:", err);
+                alert("Error deleting audio from database.");
+            }
+        }
+
+        // ENGINE FOR DYNAMIC CARD RENDERING 
         function generateDictionaryDOM(data = globalDictionaryData) {
             const flashcardContainer = document.getElementById('flashcard-view');
             const cheatsheetContainer = document.getElementById('cheatsheet-view');
@@ -1134,13 +1149,41 @@
                 return;
             }
 
-            data.forEach(item => {
+           data.forEach(item => {
                 const explicitBadge = item.explicit ? '<span class="explicit-badge">NSFW</span>' : '';
                 
-                // Detect if Amara recorded this audio
-                const isAmaritaAudio = item.audio && item.audio.includes('firebasestorage');
-                const playBtnText = isAmaritaAudio ? 'AMARITA PRONUNCIATION' : 'PLAY AUDIO';
-                const playBtnClass = isAmaritaAudio ? 'cute-play-btn amarita-audio' : 'cute-play-btn';
+                // 1. The standard default audio button (Always renders)
+                let audioButtonsHTML = `
+                    <button class="cute-play-btn" onclick="playClip(this)">
+                        <svg class="btn-icon" width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M8 5v14l11-7z"/></svg>
+                        <span class="wave-container"><span class="bar"></span><span class="bar"></span><span class="bar"></span><span class="bar"></span></span>
+                        <span class="text-play">PLAY AUDIO</span>
+                        <span class="text-playing">PLAYING...</span>
+                    </button>
+                    <audio preload="none" playsinline><source src="${item.audio}"></audio>
+                `;
+
+                let adminDeleteHTML = '';
+
+                // 2. The ustom Amarita audio button (Only renders if she uploaded one)
+                if (item.amaritaAudio) {
+                    audioButtonsHTML += `
+                        <button class="cute-play-btn amarita-audio" onclick="playClip(this)">
+                            <svg class="btn-icon" width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M8 5v14l11-7z"/></svg>
+                            <span class="wave-container"><span class="bar"></span><span class="bar"></span><span class="bar"></span><span class="bar"></span></span>
+                            <span class="text-play">AMARITA PRONUNCIATION</span>
+                            <span class="text-playing">PLAYING...</span>
+                        </button>
+                        <audio preload="none" playsinline><source src="${item.amaritaAudio}"></audio>
+                    `;
+                    
+                    // Creates the Admin Delete button for specific custom recording
+                    adminDeleteHTML = `
+                        <button class="action-btn delete admin-save ${isAdmin ? '' : 'hidden'}" onclick="deleteAdminAudioFromFirebase(this, '${item.term}')" style="margin-top: 10px; width: 100%; justify-content: center;">
+                            <i class="fas fa-trash-alt"></i> Admin: Delete Custom Audio
+                        </button>
+                    `;
+                }
 
                 flashcardsHTML += `
                     <div class="card">
@@ -1156,23 +1199,11 @@
                                 <span class="example-quote">"${item.quote}"</span>
                             </div>
                             
-                            <!-- Updated dynamic button -->
-                            <button class="${playBtnClass}" onclick="playClip(this)">
-                                <svg class="btn-icon" width="16" height="16" viewBox="0 0 24 24" fill="currentColor">
-                                    <path d="M8 5v14l11-7z"/>
-                                </svg>
-                                <span class="wave-container">
-                                    <span class="bar"></span>
-                                    <span class="bar"></span>
-                                    <span class="bar"></span>
-                                    <span class="bar"></span>
-                                </span>
-                                <span class="text-play">${playBtnText}</span>
-                                <span class="text-playing">PLAYING...</span>
-                            </button>
+                            <!-- Injects however many buttons exist -->
+                            ${audioButtonsHTML}
                             
-                            <!-- Added playsinline for iPhone compatibility -->
-                            <audio preload="none" playsinline><source src="${item.audio}"></audio>
+                            <!-- Injects the delete option if she is logged in and custom audio exists -->
+                            ${adminDeleteHTML}
                             
                             <div class="recording-section">
                                 <button class="record-btn" onclick="startRecording(this, '${item.term}')">
@@ -1189,9 +1220,9 @@
                                             <i class="fas fa-redo"></i> Record Again
                                         </button>
                                         <button class="action-btn delete" onclick="deleteRecording(this)">
-                                            <i class="fas fa-trash"></i> Delete
+                                            <i class="fas fa-trash"></i> Cancel
                                         </button>
-                                        <button class="action-btn admin-save hidden" onclick="uploadAdminAudioToFirebase(this, '${item.term}')">
+                                        <button class="action-btn admin-save ${isAdmin ? '' : 'hidden'}" onclick="uploadAdminAudioToFirebase(this, '${item.term}')">
                                             <i class="fas fa-cloud-upload-alt"></i> Admin: Save Audio
                                         </button>
                                     </div>
