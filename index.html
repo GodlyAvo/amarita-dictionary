@@ -130,7 +130,6 @@
             margin-top: 5px;
         }
 
-        /* offline dot */
         .status-dot { 
             height: 10px;
             width: 10px; 
@@ -301,7 +300,7 @@
         }
 
         .card.active .details {
-            max-height: 600px;
+            max-height: 800px; /* Increased to accommodate recording UI */
             opacity: 1;
             transition: max-height 0.6s ease-in, opacity 0.5s ease 0.1s;
         }
@@ -491,7 +490,7 @@
         }
 
         .list-content p {
-            color: #ffffff; /* BRIGHTENED from #b9b9c6 */
+            color: #ffffff; 
             margin: 0 0 10px 0;
             font-size: 0.95em;
             font-weight: 400;
@@ -753,6 +752,66 @@
             box-shadow: 0 0 15px rgba(92, 225, 230, 0.5);
             transform: translateY(-2px);
         }
+
+        /* 13. RECORDING SYSTEM STYLES */
+        .recording-section {
+            margin-top: 15px;
+            padding-top: 15px;
+            border-top: 1px dashed rgba(255, 85, 210, 0.3);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .record-btn, .stop-btn, .action-btn {
+            background-color: #1a0d2e;
+            color: #efeff1;
+            border: 1px solid #5ce1e6;
+            padding: 8px 15px;
+            font-size: 0.85em;
+            font-family: 'Poppins', sans-serif;
+            border-radius: 20px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            font-weight: 600;
+        }
+
+        .record-btn { border-color: #5ce1e6; color: #5ce1e6; }
+        .record-btn:hover { background-color: #5ce1e6; color: #000; box-shadow: 0 0 10px rgba(92, 225, 230, 0.5); }
+        
+        .stop-btn { border-color: #ff4d4d; color: #ff4d4d; animation: pulseRed 1.5s infinite; }
+        .stop-btn:hover { background-color: #ff4d4d; color: #000; }
+
+        .playback-ui {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 10px;
+            width: 100%;
+        }
+
+        .recorded-audio-player {
+            width: 100%;
+            height: 30px;
+            outline: none;
+        }
+
+        .record-controls-row {
+            display: flex;
+            gap: 10px;
+            justify-content: center;
+            flex-wrap: wrap;
+        }
+
+        .action-btn.delete { border-color: #ff4d4d; color: #ff4d4d; }
+        .action-btn.delete:hover { background-color: #ff4d4d; color: #000; }
+
+        .action-btn.admin-save { border-color: #ff55d2; color: #ff55d2; font-weight: bold; }
+        .action-btn.admin-save:hover { background-color: #ff55d2; color: #000; box-shadow: 0 0 10px rgba(255, 85, 210, 0.5); }
     </style>
 </head>
 <body>
@@ -760,7 +819,8 @@
     <div class="header-container">
         <div class="logo-status-wrapper">
             <a href="https://www.twitch.tv/okieamara" target="_blank">
-                <img src="272ee8b7-9518-4037-916c-ef6d75fb28fc-profile_image-70x70.png" alt="Amarita Logo" class="logo">
+                <!-- Double click event appended to your original logo image -->
+                <img src="272ee8b7-9518-4037-916c-ef6d75fb28fc-profile_image-70x70.png" alt="Amarita Logo" class="logo" ondblclick="adminLogin()">
             </a>
             <div id="status-container">
                 <span id="twitch-status" class="status-dot"></span>
@@ -836,18 +896,196 @@
         </div>
     </footer>
 
+    <!-- FIREBASE SDKS -->
+    <script src="https://www.gstatic.com/firebasejs/10.8.0/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/10.8.0/firebase-storage-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore-compat.js"></script>
+
+    <!-- KEEP THIS SCRIPT UNTIL YOU RUN migrateDataToFirebase() IN THE CONSOLE -->
     <script src="data.js"></script>
 
     <script>
-        // ENGINE FOR DYNAMIC CARD RENDERING
-        function generateDictionaryDOM(data = dictionaryData) {
+        // --- FIREBASE INITIALIZATION ---
+        const firebaseConfig = {
+            // PASTE YOUR ENTIRE CONFIG OBJECT HERE FROM FIREBASE!
+            apiKey: "AIzaSyCacS6ICWfmwGoJCJkaBcUinvsd0lYMYx0",
+            authDomain: "amarita-dictionary.firebaseapp.com",
+            projectId: "amarita-dictionary",
+            storageBucket: "amarita-dictionary.firebasestorage.app",
+            messagingSenderId: "516306775046",
+            appId: "1:516306775046:web:52c62d0b61dbafe71fe787"
+        };
+        
+        // Initialize Firebase, Storage, and Database
+        firebase.initializeApp(firebaseConfig);
+        const storage = firebase.storage();
+        const db = firebase.firestore();
+
+        // This replaces the old dictionaryData source
+        let globalDictionaryData = []; 
+
+        // THIS IS THE MAGIC: It listens to the database in real time
+        function startLiveDatabase() {
+            db.collection('words').onSnapshot((snapshot) => {
+                globalDictionaryData = []; 
+                snapshot.forEach((doc) => {
+                    globalDictionaryData.push(doc.data());
+                });
+                // Instantly re render the screen with the new data
+                filterDictionary(); 
+            });
+        }
+
+        // ONE TIME MIGRATION SCRIPT 
+        // Run this once in the browser console to push your data.js contents to the cloud
+        window.migrateDataToFirebase = async function() {
+            console.log("Starting database migration...");
+            for (const item of dictionaryData) { 
+                const docId = item.term.toLowerCase().replace(/[^a-z0-9]/g, '');
+                await db.collection('words').doc(docId).set(item);
+                console.log(`✅ Uploaded: ${item.term}`);
+            }
+            console.log("Migration complete! You can now delete data.js.");
+        };
+
+        // --- ADMIN AND VOICE RECORDING SYSTEM ---
+        let isAdmin = false;
+        let mediaRecorder;
+        let audioChunks = [];
+        let currentAudioBlob = null;
+
+        function adminLogin() {
+            if (isAdmin) {
+                alert("Admin mode is already active!");
+                return;
+            }
+            const password = prompt("Enter Amarita Admin Password:");
+            if (password === "okie" || password === "pedrito") {
+                isAdmin = true;
+                alert("Admin Access Granted! You can now save official voice recordings.");
+                document.querySelectorAll('.admin-save').forEach(btn => btn.classList.remove('hidden'));
+            } else if (password !== null) {
+                alert("Incorrect password.");
+            }
+        }
+
+        async function startRecording(btn, term) {
+            const recordingSection = btn.closest('.recording-section');
+            const stopBtn = recordingSection.querySelector('.stop-btn');
+            
+            try {
+                const stream = await navigator.mediaDevices.getUserMedia({ audio: true });
+                mediaRecorder = new MediaRecorder(stream);
+                audioChunks = [];
+
+                mediaRecorder.ondataavailable = event => {
+                    audioChunks.push(event.data);
+                };
+
+                mediaRecorder.onstop = () => {
+                    currentAudioBlob = new Blob(audioChunks, { type: 'audio/webm' });
+                    const audioUrl = URL.createObjectURL(currentAudioBlob);
+                    
+                    const playbackUI = recordingSection.querySelector('.playback-ui');
+                    const audioPlayer = recordingSection.querySelector('.recorded-audio-player');
+                    audioPlayer.src = audioUrl;
+                    
+                    stopBtn.classList.add('hidden');
+                    playbackUI.classList.remove('hidden');
+
+                    if (isAdmin) {
+                        recordingSection.querySelector('.admin-save').classList.remove('hidden');
+                    }
+                };
+
+                mediaRecorder.start();
+                btn.classList.add('hidden');
+                stopBtn.classList.remove('hidden');
+
+            } catch (err) {
+                alert("Microphone access denied. Please allow mic permissions in your browser to practice!");
+                console.error("Mic error:", err);
+            }
+        }
+
+        function stopRecording(btn) {
+            if (mediaRecorder && mediaRecorder.state === "recording") {
+                mediaRecorder.stop();
+                mediaRecorder.stream.getTracks().forEach(track => track.stop()); 
+            }
+        }
+
+        function resetRecording(btn) {
+            deleteRecording(btn);
+            btn.closest('.recording-section').querySelector('.record-btn').click();
+        }
+
+        function deleteRecording(btn) {
+            const recordingSection = btn.closest('.recording-section');
+            recordingSection.querySelector('.playback-ui').classList.add('hidden');
+            recordingSection.querySelector('.record-btn').classList.remove('hidden');
+            recordingSection.querySelector('.recorded-audio-player').src = "";
+            currentAudioBlob = null;
+        }
+
+        function uploadAdminAudioToFirebase(btn, term) {
+            if (!currentAudioBlob) return;
+            
+            const originalText = btn.innerHTML;
+            btn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Uploading...';
+            btn.style.pointerEvents = "none";
+            
+            const cleanTerm = term.replace(/[^a-z0-9]/gi, '_').toLowerCase();
+            const fileName = `audio/${cleanTerm}_audio.webm`;
+            const docId = cleanTerm; 
+            
+            const storageRef = storage.ref(fileName);
+            const uploadTask = storageRef.put(currentAudioBlob);
+            
+            uploadTask.on('state_changed', 
+                (snapshot) => {
+                    const progress = (snapshot.bytesTransferred / snapshot.totalBytes) * 100;
+                    btn.innerHTML = `<i class="fas fa-spinner fa-spin"></i> Uploading: ${Math.round(progress)}%`;
+                }, 
+                (error) => {
+                    console.error("Firebase Upload Error:", error);
+                    btn.innerHTML = '<i class="fas fa-times"></i> Error';
+                    btn.style.backgroundColor = '#ff4d4d';
+                }, 
+                () => {
+                    uploadTask.snapshot.ref.getDownloadURL().then(async (downloadURL) => {
+                        console.log('File successfully uploaded to:', downloadURL);
+                        
+                        // Updates the Firestore Database linking the new URL directly to the term 
+                        await db.collection('words').doc(docId).update({
+                            audio: downloadURL
+                        });
+                        
+                        btn.innerHTML = '<i class="fas fa-check"></i> Uploaded & Live!';
+                        btn.style.backgroundColor = '#2ecc71';
+                        btn.style.color = '#000';
+                        btn.style.borderColor = '#2ecc71';
+                        
+                        setTimeout(() => {
+                            btn.innerHTML = originalText;
+                            btn.style.pointerEvents = "auto";
+                            btn.style.backgroundColor = '';
+                            btn.style.color = '';
+                            btn.style.borderColor = '';
+                        }, 3000);
+                    });
+                }
+            );
+        }
+
+        // ENGINE FOR DYNAMIC CARD RENDERING (Adjusted to load from globalDictionaryData)
+        function generateDictionaryDOM(data = globalDictionaryData) {
             const flashcardContainer = document.getElementById('flashcard-view');
             const cheatsheetContainer = document.getElementById('cheatsheet-view');
             
             let flashcardsHTML = '';
             let cheatsheetHTML = '';
 
-            // Handle empty search results 
             if (data.length === 0) {
                 const emptyStateHTML = `
                     <div class="empty-state">
@@ -889,6 +1127,31 @@
                                 <span class="text-playing">PLAYING...</span>
                             </button>
                             <audio preload="none"><source src="${item.audio}" type="audio/mp4"></audio>
+                            
+                            <!-- RECORDING UI APPENDED HERE -->
+                            <div class="recording-section">
+                                <button class="record-btn" onclick="startRecording(this, '${item.term}')">
+                                    <i class="fas fa-microphone"></i> Practice Pronunciation
+                                </button>
+                                <button class="stop-btn hidden" onclick="stopRecording(this)">
+                                    <i class="fas fa-stop"></i> Stop Recording
+                                </button>
+                                
+                                <div class="playback-ui hidden">
+                                    <audio class="recorded-audio-player" controls></audio>
+                                    <div class="record-controls-row">
+                                        <button class="action-btn" onclick="resetRecording(this)">
+                                            <i class="fas fa-redo"></i> Record Again
+                                        </button>
+                                        <button class="action-btn delete" onclick="deleteRecording(this)">
+                                            <i class="fas fa-trash"></i> Delete
+                                        </button>
+                                        <button class="action-btn admin-save hidden" onclick="uploadAdminAudioToFirebase(this, '${item.term}')">
+                                            <i class="fas fa-cloud-upload-alt"></i> Admin: Save Audio
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
                         </div>
                     </div>
                 `;
@@ -907,7 +1170,6 @@
             flashcardContainer.innerHTML = flashcardsHTML;
             cheatsheetContainer.innerHTML = cheatsheetHTML;
 
-            // Re bind click event listeners
             bindGlobalClickListeners();
         }
 
@@ -918,7 +1180,8 @@
             const searchText = document.getElementById('searchInput').value.toLowerCase();
             const selectedCategory = document.getElementById('categoryFilter').value;
 
-            const filteredData = dictionaryData.filter(item => {
+            // Updated to filter the new cloud data state array
+            const filteredData = globalDictionaryData.filter(item => {
                 const matchesText = item.term.toLowerCase().includes(searchText) || 
                                     item.meaning.toLowerCase().includes(searchText);
                 
@@ -1046,7 +1309,7 @@
         function bindGlobalClickListeners() {
             document.querySelectorAll('.card, .list-item').forEach(element => {
                 element.addEventListener('click', function(event) {
-                    if (event.target.closest('.cute-play-btn')) return;
+                    if (event.target.closest('.cute-play-btn') || event.target.closest('.recording-section')) return;
                     
                     const isAlreadyActive = this.classList.contains('active-play');
                     resetAllAudio();
@@ -1064,8 +1327,9 @@
 
         // INITIAL DEPLOYMENT EXECUTION
         window.addEventListener('DOMContentLoaded', () => {
-            // Render all items dynamically out of data structure
-            generateDictionaryDOM();
+            
+            // Starts pulling data directly from Firebase
+            startLiveDatabase();
 
             // Attach Search Bar Listeners
             document.getElementById('searchInput').addEventListener('input', handleSearchInput);
