@@ -1,26 +1,30 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
+    <meta charset="UTF-8">
+    <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
+    <meta http-equiv="Pragma" content="no-cache">
+    <meta http-equiv="Expires" content="0">
+    
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <meta name="theme-color" content="#000000">
+    
     <link rel="apple-touch-icon" sizes="180x180" href="apple-touch-icon.png">
     <link rel="icon" type="image/png" sizes="32x32" href="favicon-32x32.png">
     <link rel="icon" type="image/png" sizes="16x16" href="favicon-16x16.png">
     <link rel="manifest" href="site.webmanifest">
     <link rel="icon" href="favicon.ico">
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <meta name="theme-color" content="#000000">
+    
     <title>Amarita Mexican Dictionary</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
     <style>
         :root {
-            /* Amarita Theme */
             --accent-color: #ff55d2;
             --accent-secondary: #5ce1e6;
             --button-gradient: linear-gradient(135deg, #ff55d2, #a970ff);
         }
         @import url('https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,400;0,600;0,700;0,900&display=swap');
         
-        /* CUSTOM TEXT SELECTION */
         ::selection {
             background-color: #ff55d2;
             color: #000000; 
@@ -36,7 +40,6 @@
             transition: all 0.3s ease;
         }
 
-        /* BASE STYLES AND SCROLLBAR */
         body {
             background-color: #000000;
             background-size: 200% 200%;
@@ -51,33 +54,20 @@
             cursor: url('pointer.png') 8 8, auto;
         }
 
-        footer {
-            transition: all 0.3s ease;
+        footer { transition: all 0.3s ease; }
+        a { cursor: url('pointer.png') 8 8, pointer; }
+        .hidden { display: none !important; }
+
+        ::-webkit-scrollbar { width: 10px; }
+        ::-webkit-scrollbar-track { background: #0a0410; }
+        ::-webkit-scrollbar-thumb { background: #a970ff; border-radius: 10px; }
+        ::-webkit-scrollbar-thumb:hover { background: #ff55d2; }
+
+        /* INSTANT TAP REGISTRATION */
+        button, .card, .list-item, .toggle-btn, h1, .mango-btn, .action-btn {
+            touch-action: manipulation;
         }
 
-        a {
-            cursor: url('pointer.png') 8 8, pointer;
-        }
-
-        .hidden {
-            display: none !important;
-        }
-
-        ::-webkit-scrollbar {
-            width: 10px;
-        }
-        ::-webkit-scrollbar-track {
-            background: #0a0410;
-        }
-        ::-webkit-scrollbar-thumb {
-            background: #a970ff;
-            border-radius: 10px;
-        }
-        ::-webkit-scrollbar-thumb:hover {
-            background: #ff55d2;
-        }
-
-        /* HEADER AND TWITCH STATUS */
         .header-container {
             transition: all 0.3s ease;
             display: flex;
@@ -103,11 +93,6 @@
             border: 3px solid #ff55d2; 
             box-shadow: 0 0 10px rgba(255, 85, 210, 0.5); 
             transition: 0.3s;
-        }
-
-        .logo:hover {
-            box-shadow: 0 0 20px rgba(255, 85, 210, 0.9);
-            transform: scale(1.05);
         }
 
         h1 {
@@ -146,12 +131,6 @@
             animation: pulseRed 1.5s infinite; 
         }
 
-        /* INSTA TAP REGISTRATION */
-        button, .card, .list-item, .toggle-btn, h1, .mango-btn, .action-btn {
-            touch-action: manipulation;
-        }
-
-        /* MAIN TOGGLE BUTTON */
         .toggle-btn {
             background: rgba(23, 11, 41, 0.8);
             backdrop-filter: blur(5px);
@@ -174,15 +153,6 @@
             justify-content: center;
         }
 
-        .toggle-btn:hover {
-            background: linear-gradient(135deg, #ff55d2, #a970ff);
-            color: #000000;
-            border-color: transparent;
-            box-shadow: 0 0 20px rgba(169, 112, 255, 0.5);
-            transform: translateY(-2px);
-        }
-
-        /* FLASHCARD GRID AND TYPOGRAPHY */
         .container {
             width: 100%;
             max-width: 1000px;
@@ -197,6 +167,7 @@
             align-items: start;
         }
 
+        /* HARDWARE ACCELERATED CARD */
         .card {
             background-color: #22123f;
             border: 1px solid rgba(255, 85, 210, 0.15); 
@@ -205,6 +176,7 @@
             padding: 25px; 
             text-align: left;
             
+            /* Targeted transitions instead of "all" */
             transition: transform 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275), box-shadow 0.3s ease, border-color 0.3s ease;
             
             display: flex;
@@ -217,19 +189,13 @@
             will-change: transform, box-shadow;
             
             position: relative;
-            cursor: url('pointer.png') 8 8, pointer; 
+            cursor: url('pointer.png') 8 8, pointer;
         }
 
-        /* Mobile browsers dont render hidden cards */
+        /* Stops off screen elements from hogging mobile GPU */
         #flashcard-view .card {
             content-visibility: auto;
             contain-intrinsic-size: 200px; 
-        }
-
-        .card:hover {
-            border-color: #ff55d2;
-            transform: translateY(-5px);
-            box-shadow: 0 10px 30px rgba(255, 85, 210, 0.3);
         }
 
         .card h2 {
@@ -303,23 +269,20 @@
             border-radius: 6px;
         }
 
-        audio {
-            display: none;
-        }
-
+        audio { display: none; }
         audio.recorded-audio-player {
             display: block;
             margin-bottom: 10px;
             border-radius: 30px;
         }
 
-        /* CLICK TO REVEAL ACCORDION LOGIC */
+        /* HARDWARE ACCELERATED ACCORDION */
         .details {
             max-height: 0;
             overflow: hidden;
             opacity: 0;
             transition: max-height 0.4s cubic-bezier(0, 1, 0, 1), opacity 0.3s ease;
-            will-change: max-height, opacity; 
+            will-change: max-height, opacity;
         }
 
         .card.active .details {
@@ -328,7 +291,6 @@
             transition: max-height 0.6s ease-in, opacity 0.5s ease 0.1s;
         }
 
-        /* PLAY BUTTON AND ANIMATIONS  */
         .cute-play-btn {
             background-color: transparent;
             color: #ff55d2;
@@ -351,41 +313,17 @@
             gap: 8px; 
         }
 
-        /* CUSTOM AMARITA AUDIO BUTTON */
         .cute-play-btn.amarita-audio {
             border-color: #ffb347;
             color: #ffb347;
         }
-        .cute-play-btn.amarita-audio:not(.playing):hover {
-                background-color: #ffb347;
-                color: #000;
-                box-shadow: 0 0 15px rgba(255, 179, 71, 0.4);
-            }
-        .cute-play-btn:not(.playing):hover {
-                background-color: #ff55d2;
-                color: #0f071a; 
-                border-color: #ff55d2;
-                box-shadow: 0 0 15px rgba(255, 85, 210, 0.4);
-                transform: translateY(-2px);
-            }
-        .cute-play-btn.amarita-audio .bar {
-            background-color: #ffb347;
-        }
-        .cute-play-btn.amarita-audio.playing .bar {
-            background-color: #000;
-        }
+        
+        .cute-play-btn.amarita-audio .bar { background-color: #ffb347; }
+        .cute-play-btn.amarita-audio.playing .bar { background-color: #000; }
 
         @keyframes mango-pulse {
             0% { box-shadow: 0 0 10px rgba(255, 179, 71, 0.4); }
             100% { box-shadow: 0 0 15px rgba(255, 179, 71, 0.9), 0 0 20px rgba(255, 179, 71, 0.4); }
-        }
-
-        .cute-play-btn:not(.playing):hover {
-            background-color: #ff55d2;
-            color: #0f071a; 
-            border-color: #ff55d2;
-            box-shadow: 0 0 15px rgba(255, 85, 210, 0.4);
-            transform: translateY(-2px);
         }
 
         .cute-play-btn.playing {
@@ -414,7 +352,6 @@
         .cute-play-btn.playing .bar { background-color: #000000; }
         .cute-play-btn.playing .btn-icon, .cute-play-btn.playing .text-play { display: none; }
         .cute-play-btn .text-playing { display: none; }
-        
         .cute-play-btn.playing .text-playing { display: inline; }
         .cute-play-btn.playing .wave-container { display: inline-flex; }
 
@@ -451,7 +388,6 @@
             50% { box-shadow: 0 0 15px rgba(255, 77, 77, 0.9), inset 0 0 10px rgba(255, 77, 77, 0.3); }
         }
 
-        /* FOCUS MODE (DIMMING AND BLUR) */
         .card, .list-item {
             background-color: #1a0d2e;
             cursor: url('pointer.png') 8 8, pointer;
@@ -480,19 +416,6 @@
             filter: blur(5px) grayscale(50%);
             transition: all 0.3s ease;
             pointer-events: none;
-        }
-
-        @media (hover: hover) and (pointer: fine) {
-            .card:hover {
-                border-color: #ff55d2;
-                transform: translateY(-5px);
-                box-shadow: 0 10px 30px rgba(255, 85, 210, 0.3);
-            }
-        }
-        
-        #suggestion-form button:active {
-            transform: translateY(1px);
-            box-shadow: 0 0 5px rgba(92, 225, 230, 0.4);
         }
 
         body.is-playing .card.active-play,
@@ -530,22 +453,13 @@
             gap: 20px;
         }
 
-        .list-item:hover {
-                background-color: #2a164d;
-                border-left-color: #5ce1e6;
-                transform: translateX(8px);
-            }
-
         .list-item.active {
             z-index: 100;
             position: relative; 
             border-left-color: #5ce1e6; 
         }
 
-        .list-item.active h3 {
-            color: #5ce1e6;
-            transition: color 0.3s ease;
-        }
+        .list-item.active h3 { color: #5ce1e6; transition: color 0.3s ease; }
 
         .list-content p {
             color: #ffffff;
@@ -573,15 +487,66 @@
             margin-right: 5px;
         }
 
+        /* PROTECT HOVER STATES FROM MOBILE DEVICES */
+        @media (hover: hover) and (pointer: fine) {
+            .card:hover {
+                border-color: #ff55d2;
+                transform: translateY(-5px);
+                box-shadow: 0 10px 30px rgba(255, 85, 210, 0.3);
+            }
+            .list-item:hover {
+                background-color: #2a164d;
+                border-left-color: #5ce1e6;
+                transform: translateX(8px);
+            }
+            .cute-play-btn.amarita-audio:not(.playing):hover {
+                background-color: #ffb347;
+                color: #000;
+                box-shadow: 0 0 15px rgba(255, 179, 71, 0.4);
+            }
+            .cute-play-btn:not(.playing):hover {
+                background-color: #ff55d2;
+                color: #0f071a; 
+                border-color: #ff55d2;
+                box-shadow: 0 0 15px rgba(255, 85, 210, 0.4);
+                transform: translateY(-2px);
+            }
+            .toggle-btn:hover {
+                background: linear-gradient(135deg, #ff55d2, #a970ff);
+                color: #000000;
+                border-color: transparent;
+                box-shadow: 0 0 20px rgba(169, 112, 255, 0.5);
+                transform: translateY(-2px);
+            }
+            footer .social-links a:hover {
+                transform: scale(1.5) !important;
+                color: #ff55d2 !important; 
+            }
+            .mango-btn:hover {
+                transform: scale(1.2);
+                filter: drop-shadow(0 0 8px rgba(255, 179, 71, 0.8)); 
+            }
+        }
+
         /* 10. MOBILE RESPONSIVENESS */
         @media (max-width: 600px) {
             body {
-                padding: 20px 15px;
+                padding: 15px 10px;
             }
-            /* Removes the expensive glass blur on mobile cards */
+            
             .card {
                 backdrop-filter: none;
                 background-color: rgba(34, 18, 63, 0.98); 
+                box-shadow: none !important; 
+                border: 1px solid rgba(255, 85, 210, 0.4);
+                -webkit-transform: translate3d(0,0,0);
+            }
+
+            .search-input-wrapper input, 
+            .select-wrapper select, 
+            .toggle-btn, 
+            .cute-play-btn {
+                box-shadow: none !important;
             }
             
             /* Remove heavy background blur when a card is being played/open */
@@ -601,29 +566,19 @@
                 gap: 15px;
                 margin-bottom: 20px;
             }
-            .logo {
-                height: 55px;
-                width: 55px; 
-            }
-            h1 {
-                font-size: 1.4em;
-            }
+            .logo { height: 55px; width: 55px; }
+            h1 { font-size: 1.4em; }
+            
             .list-item {
                 grid-template-columns: 1fr;
                 gap: 10px;
                 padding: 15px;
             }
-            .search-container {
-                margin-bottom: 20px;
-            }
-            .search-input-wrapper {
-                min-width: 100%;
-            }
+            .search-container { margin-bottom: 20px; }
+            .search-input-wrapper { min-width: 100%; }
         }
 
-        * {
-            -webkit-tap-highlight-color: transparent !important;
-        }
+        * { -webkit-tap-highlight-color: transparent !important; }
 
         footer .social-links {
             display: flex;
@@ -638,17 +593,6 @@
             transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275) !important;
             display: inline-block !important;
             text-decoration: none;
-        }
-
-        @media (hover: hover) and (pointer: fine) {
-            footer .social-links a:hover {
-                transform: scale(1.5) !important;
-                color: #ff55d2 !important; 
-            }
-            .mango-btn:hover {
-                transform: scale(1.2);
-                filter: drop-shadow(0 0 8px rgba(255, 179, 71, 0.8)); 
-            }
         }
 
         .btn-success {
@@ -735,10 +679,7 @@
             text-shadow: 0 0 8px rgba(255, 77, 77, 0.5);
         }
 
-        .select-wrapper {
-            position: relative;
-            min-width: 180px;
-        }
+        .select-wrapper { position: relative; min-width: 180px; }
 
         .select-wrapper select {
             width: 100%;
@@ -784,17 +725,8 @@
             box-shadow: 0 0 8px rgba(255, 77, 77, 0.5);
         }
 
-        .card .explicit-badge {
-            position: absolute;
-            top: 15px;
-            right: 15px;
-        }
-
-        .list-item .explicit-badge {
-            display: inline-block;
-            vertical-align: middle;
-            margin-left: 10px;
-        }
+        .card .explicit-badge { position: absolute; top: 15px; right: 15px; }
+        .list-item .explicit-badge { display: inline-block; vertical-align: middle; margin-left: 10px; }
         
         .empty-state {
             text-align: center;
@@ -857,26 +789,9 @@
         .stop-btn { border-color: #ff4d4d; color: #ff4d4d; animation: pulseStop 1.5s infinite; }
         .stop-btn:hover { background-color: #ff4d4d; color: #000; }
 
-        .playback-ui {
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            gap: 10px;
-            width: 100%;
-        }
-
-        .recorded-audio-player {
-            width: 100%;
-            height: 30px;
-            outline: none;
-        }
-
-        .record-controls-row {
-            display: flex;
-            gap: 10px;
-            justify-content: center;
-            flex-wrap: wrap;
-        }
+        .playback-ui { display: flex; flex-direction: column; align-items: center; gap: 10px; width: 100%; }
+        .recorded-audio-player { width: 100%; height: 30px; outline: none; }
+        .record-controls-row { display: flex; gap: 10px; justify-content: center; flex-wrap: wrap; }
 
         .action-btn.delete { border-color: #ff4d4d; color: #ff4d4d; }
         .action-btn.delete:hover { background-color: #ff4d4d; color: #000; }
@@ -906,11 +821,7 @@
     <div class="search-container">
         <div class="search-input-wrapper">
             <i class="fas fa-search search-icon"></i>
-            <input 
-                type="text" 
-                id="searchInput" 
-                placeholder="Search for a word, meaning, or vibe..."
-            >
+            <input type="text" id="searchInput" placeholder="Search for a word, meaning, or vibe...">
             <i class="fas fa-times clear-icon" id="clearSearch"></i>
         </div>
         <div class="select-wrapper">
@@ -977,13 +888,12 @@
             messagingSenderId: "516306775046",
             appId: "1:516306775046:web:52c62d0b61dbafe71fe787"
         };
-        
         firebase.initializeApp(firebaseConfig);
         const auth = firebase.auth();
         const storage = firebase.storage();
         const db = firebase.firestore();
 
-        let globalDictionaryData = []; 
+        let globalDictionaryData = [];
         let isAdmin = false;
         let isInitialLoad = true;
         let titleClickTimeout = null;
@@ -998,7 +908,7 @@
             }
         });
 
-        //REAL TIME DATABASE ENGINE 
+        // REAL TIME DATABASE ENGINE 
         function startLiveDatabase() {
             db.collection('words').onSnapshot((snapshot) => {
                 let updatesOccurred = false;
@@ -1040,17 +950,13 @@
                 const wasOpen = oldCard.classList.contains('active');
                 const wasPlaying = oldCard.classList.contains('active-play');
                 
-                // Clone the card element to cleanly wipe out all old stacked event listeners
                 const newCard = oldCard.cloneNode(false);
                 oldCard.parentNode.replaceChild(newCard, oldCard);
                 
-                // Swap of internal HTML structures
                 newCard.innerHTML = buildCardInnerHTML(data);
-                
                 if (wasOpen) newCard.classList.add('active');
                 if (wasPlaying) newCard.classList.add('active-play');
                 
-                // Re bind just one clean listener
                 bindCardClickListener(newCard);
             }
         }
@@ -1058,6 +964,7 @@
         function buildCardInnerHTML(item) {
             const explicitBadge = item.explicit ? '<span class="explicit-badge">NSFW</span>' : '';
             
+            // FIX: preload="none" saves massive network bandwidth on mobile
             let audioButtonsHTML = `
                 <div class="audio-btn-wrapper" style="display:flex; flex-direction:column; gap:5px; width:100%; align-items:center;">
                     <button class="cute-play-btn" onclick="playClip(this)">
@@ -1066,10 +973,9 @@
                         <span class="text-play">PLAY AUDIO</span>
                         <span class="text-playing">PLAYING...</span>
                     </button>
-                    <audio src="${item.audio}" preload="metadata" playsinline></audio>
+                    <audio src="${item.audio}" preload="none" playsinline></audio>
                 </div>
             `;
-
             let adminDeleteHTML = '';
 
             if (item.amaritaAudio) {
@@ -1081,7 +987,7 @@
                             <span class="text-play">AMARITA PRONUNCIATION</span>
                             <span class="text-playing">PLAYING...</span>
                         </button>
-                        <audio src="${item.amaritaAudio}" preload="metadata" playsinline></audio>
+                        <audio src="${item.amaritaAudio}" preload="none" playsinline></audio>
                     </div>
                 `;
                 
@@ -1267,9 +1173,8 @@
             );
         }
 
-            async function deleteAdminAudioFromFirebase(btn, term) {
+        async function deleteAdminAudioFromFirebase(btn, term) {
             if(!confirm("Are you sure you want to delete Amara's custom pronunciation?")) return;
-            
             const docId = term.toLowerCase().replace(/[^a-z0-9]/g, '');
             try {
                 btn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Deleting...';
@@ -1279,8 +1184,7 @@
                 // Wipes custom audio from the database
                 await db.collection('words').doc(docId).update({
                     amaritaAudio: firebase.firestore.FieldValue.delete()
-                });              
-
+                });
             } catch (err) {
                 console.error("Error deleting:", err);
                 btn.innerHTML = '<i class="fas fa-times"></i> Error';
@@ -1382,6 +1286,7 @@
 
             flashcards.classList.toggle('hidden');
             cheatsheet.classList.toggle('hidden');
+            
             if (flashcards.classList.contains('hidden')) {
                 button.innerHTML = '<i class="fas fa-th-large" style="margin-right: 8px;"></i> Switch to Flashcard Mode';
                 localStorage.setItem('amaritaViewPref', 'cheatsheet'); 
@@ -1398,7 +1303,7 @@
             const audio = audioWrapper ? audioWrapper.querySelector('audio') : null;
 
             if (!audio) return;
-
+            
             if (!audio.paused) {
                 resetAllAudio();
                 card.classList.add('active', 'active-play');
@@ -1451,7 +1356,6 @@
 
         function bindCardClickListener(element) {
             element.addEventListener('click', function(event) {
-                
                 if (event.target.closest('.cute-play-btn') || 
                     event.target.closest('.recording-section') || 
                     event.target.closest('.admin-save')) return;
@@ -1491,7 +1395,7 @@
                 const searchInput = document.getElementById('searchInput');
                 searchInput.value = ''; 
                 document.getElementById('clearSearch').style.display = 'none';
-                searchInput.focus(); 
+                searchInput.focus();
                 filterDictionary(); 
             });
 
@@ -1509,13 +1413,13 @@
             checkTwitchLive();
             setInterval(checkTwitchLive, 60000);
         });
-
+        
         document.addEventListener('keydown', function(event) {
             if (event.key === "Escape" && document.body.classList.contains('is-playing')) {
                 resetAllAudio(); 
             }
         });
-
+        
         let playedClips = [];
         function playRandomMango() {
             const audio = document.getElementById('mango-audio');
