@@ -186,6 +186,7 @@
             -webkit-font-smoothing: antialiased;
             transform: translateZ(0);
             
+            /* Forces GPU to prepare the animations */
             will-change: transform, box-shadow;
             
             position: relative;
@@ -528,12 +529,13 @@
             }
         }
 
-        /* 10. MOBILE RESPONSIVENESS */
+        /* 10. MOBILE RESPONSIVENESS  */
         @media (max-width: 600px) {
             body {
                 padding: 15px 10px;
             }
             
+            /* Kill the blur and shadows on mobile cards */
             .card {
                 backdrop-filter: none;
                 background-color: rgba(34, 18, 63, 0.98); 
@@ -542,6 +544,7 @@
                 -webkit-transform: translate3d(0,0,0);
             }
 
+            /* Kill shadows on inputs and buttons for better rendering */
             .search-input-wrapper input, 
             .select-wrapper select, 
             .toggle-btn, 
@@ -950,9 +953,11 @@
                 const wasOpen = oldCard.classList.contains('active');
                 const wasPlaying = oldCard.classList.contains('active-play');
                 
+                // Clone the card element to cleanly wipe out all old stacked event listeners
                 const newCard = oldCard.cloneNode(false);
                 oldCard.parentNode.replaceChild(newCard, oldCard);
                 
+                // Swap of internal HTML structures
                 newCard.innerHTML = buildCardInnerHTML(data);
                 if (wasOpen) newCard.classList.add('active');
                 if (wasPlaying) newCard.classList.add('active-play');
@@ -963,8 +968,6 @@
 
         function buildCardInnerHTML(item) {
             const explicitBadge = item.explicit ? '<span class="explicit-badge">NSFW</span>' : '';
-            
-            // FIX: preload="none" saves massive network bandwidth on mobile
             let audioButtonsHTML = `
                 <div class="audio-btn-wrapper" style="display:flex; flex-direction:column; gap:5px; width:100%; align-items:center;">
                     <button class="cute-play-btn" onclick="playClip(this)">
@@ -1380,7 +1383,6 @@
         }
 
         window.addEventListener('DOMContentLoaded', () => {
-            // Unlocks modern context metrics rules across mobile browsers dynamically on primary user interactions
             window.addEventListener('click', () => {
                 const audioCtx = new (window.AudioContext || window.webkitAudioContext)();
                 if (audioCtx.state === 'suspended') audioCtx.resume();
