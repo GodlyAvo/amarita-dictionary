@@ -146,6 +146,11 @@
             animation: pulseRed 1.5s infinite; 
         }
 
+        /* INSTA TAP REGISTRATION */
+        button, .card, .list-item, .toggle-btn, h1, .mango-btn, .action-btn {
+            touch-action: manipulation;
+        }
+
         /* MAIN TOGGLE BUTTON */
         .toggle-btn {
             background: rgba(23, 11, 41, 0.8);
@@ -303,6 +308,7 @@
             overflow: hidden;
             opacity: 0;
             transition: max-height 0.4s cubic-bezier(0, 1, 0, 1), opacity 0.3s ease;
+            will-change: max-height, opacity; 
         }
 
         .card.active .details {
@@ -556,11 +562,28 @@
             margin-right: 5px;
         }
 
-        /* MOBILE RESPONSIVENESS */
+        /* 10. MOBILE RESPONSIVENESS */
         @media (max-width: 600px) {
             body {
                 padding: 20px 15px;
             }
+            /* Removes the expensive glass blur on mobile cards */
+            .card {
+                backdrop-filter: none;
+                background-color: rgba(34, 18, 63, 0.98); 
+            }
+            
+            /* Remove heavy background blur when a card is being played/open */
+            body.is-playing .card:not(.active-play),
+            body.is-playing .list-item:not(.active-play),
+            body.is-playing .header-container,
+            body.is-playing .toggle-btn,
+            body.is-playing .search-container,
+            body.is-playing footer {
+                filter: none; 
+                opacity: 0.25; 
+            }
+
             .header-container {
                 flex-direction: column;
                 text-align: center;
